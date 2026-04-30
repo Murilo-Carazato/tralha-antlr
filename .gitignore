@@ -1,3 +1,16 @@
-# https://dart.dev/guides/libraries/private-files
-# Created by `dart pub`
+# Arquivos e pastas do Dart
 .dart_tool/
+.packages
+build/
+
+# IDE e Editores
+.vscode/
+.idea/
+*.iml
+
+# Binários e executáveis
+*.jar
+antlr.jar
+
+# SO
+.DS_Store
