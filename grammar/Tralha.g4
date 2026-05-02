@@ -5,22 +5,76 @@ options {
 }
 
 // ----- PARSER RULES -----
-programa : comando* EOF ;
+programa : (import_decl | class_decl | comando)* EOF ;
+
+import_decl : 'trazPraca' qualified_id ';'? ;
+
+qualified_id : ID ('.' ID)* ;
+
+class_decl 
+    : modificadores? 'TREM' ID (mamata_clause)? (bota_clause)? '{' membro* '}' 
+    ;
+
+mamata_clause : 'mamata' ID ;
+bota_clause : 'bota' ID (',' ID)* ;
+
+membro
+    : modificadores? (metodo_decl | campo_decl | construtor_decl)
+    | metodo_decl
+    | campo_decl
+    | construtor_decl
+    ;
+
+campo_decl
+    : tipo ID ('receba' expressao)? ';'?
+    ;
+
+metodo_decl
+    : tipo? ID '(' parametros? ')' (bloco | ';')
+    | tipo? ID '(' parametros? ')' // Abstract method without block or semicolon
+    ;
+
+construtor_decl
+    : ID '(' parametros? ')' bloco
+    ;
+
+parametros
+    : parametro (',' parametro)*
+    ;
+
+parametro
+    : tipo ID
+    ;
+
+modificadores
+    : modificador+
+    ;
+
+modificador
+    : 'todo'
+    | 'sou'
+    | 'nepotismo'
+    | 'baiano'
+    | 'teimoso'
+    | 'cravado'
+    | 'politico'
+    | 'override'
+    ;
 
 bloco : '{' comando* '}' ;
 
 comando 
-    : declaracao ';'
-    | atribuicao ';'
-    | chamada_metodo ';'
+    : declaracao ';'?
+    | atribuicao ';'?
+    | chamada_metodo ';'?
     | condicional
     | repeticao
     | excessao
-    | comando_io ';'
-    | 'chega' ';'
-    | 'pula' ';'
-    | 'manda' expressao? ';'
-    | 'taca' expressao ';'
+    | comando_io ';'?
+    | 'chega' ';'?
+    | 'pula' ';'?
+    | 'manda' expressao? ';'?
+    | 'taca' expressao ';'?
     | bloco
     ;
 
@@ -29,17 +83,23 @@ declaracao
     ;
 
 atribuicao
-    : (ID | acesso) 'receba' expressao
-    | (ID | acesso) ('++' | '--')
-    | ('++' | '--') (ID | acesso)
+    : lvalue 'receba' expressao
+    | lvalue ('++' | '--')
+    | ('++' | '--') lvalue
+    ;
+
+lvalue
+    : ID
+    | acesso
+    | 'nessaBomba' '.' ID
     ;
 
 acesso
-    : ID ('.' ID | '[' expressao ']')+
+    : (ID | 'nessaBomba' | 'deuErro') ('.' ID | '[' expressao ']')+
     ;
 
 chamada_metodo
-    : (ID | acesso) '(' lista_expressoes? ')'
+    : (ID | acesso | 'nessaBomba' | 'deuErro' | primary) '(' lista_expressoes? ')'
     ;
 
 lista_expressoes
@@ -63,7 +123,7 @@ padrao
 
 repeticao
     : 'ateDarCerto' '(' expressao ')' comando
-    | 'vaiNaFe' bloco 'ateDarCerto' '(' expressao ')' ';'
+    | 'vaiNaFe' bloco 'ateDarCerto' '(' expressao ')' ';'?
     | 'vaiVolta' '(' declaracao? ';' expressao? ';' atribuicao? ')' comando
     | 'vaiVolta' '(' tipo ID 'laEle' expressao ')' comando
     ;
@@ -77,7 +137,10 @@ comando_io
     ;
 
 expressao
-    : '(' expressao ')'
+    : primary
+    | expressao '.' ID
+    | expressao '[' expressao ']'
+    | expressao '(' lista_expressoes? ')'
     | ('+'|'-'|'!') expressao
     | expressao ('*'|'/'|'%') expressao
     | expressao ('+'|'-') expressao
@@ -85,14 +148,24 @@ expressao
     | expressao ('=='|'!=') expressao
     | expressao '&&' expressao
     | expressao '||' expressao
-    | termo
     ;
 
-termo
+primary
     : ID
-    | chamada_metodo
-    | acesso
-    | STRING_LITERAL
+    | 'nessaBomba'
+    | 'deuErro'
+    | 'meteUm' ID '(' lista_expressoes? ')'
+    | array_literal
+    | literal
+    | '(' expressao ')'
+    ;
+
+array_literal
+    : '[' lista_expressoes? ']'
+    ;
+
+literal
+    : STRING_LITERAL
     | INT_LITERAL
     | FLOAT_LITERAL
     | DOUBLE_LITERAL
@@ -103,6 +176,10 @@ termo
     ;
 
 tipo
+    : tipo_base ('[' ']')*
+    ;
+
+tipo_base
     : 'naoFracionado'
     | 'fracionado'
     | 'fracionadao'
@@ -112,14 +189,14 @@ tipo
     | 'rouba'
     | 'mutante'
     | 'adivinha'
-    | ID // Permite classes customizadas
+    | ID 
     ;
 
 // ----- LEXER RULES -----
 
 // Numeros (Literais)
-FLOAT_LITERAL : [0-9]+ '.' [0-9]+ 'f' | [0-9]+ 'f' ;
-DOUBLE_LITERAL : [0-9]+ '.' [0-9]+ ;
+FLOAT_LITERAL : [0-9]+ ('.' [0-9]+)? 'f' ;
+DOUBLE_LITERAL : [0-9]+ ('.' [0-9]+)? ;
 INT_LITERAL : [0-9]+ ;
 
 STRING_LITERAL : '"' ~( '"' | '\\' )* '"' ;

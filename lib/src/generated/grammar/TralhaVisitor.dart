@@ -15,6 +15,71 @@ abstract class TralhaVisitor<T> extends ParseTreeVisitor<T> {
   /// Return the visitor result.
   T? visitPrograma(ProgramaContext ctx);
 
+  /// Visit a parse tree produced by [TralhaParser.import_decl].
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T? visitImport_decl(Import_declContext ctx);
+
+  /// Visit a parse tree produced by [TralhaParser.qualified_id].
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T? visitQualified_id(Qualified_idContext ctx);
+
+  /// Visit a parse tree produced by [TralhaParser.class_decl].
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T? visitClass_decl(Class_declContext ctx);
+
+  /// Visit a parse tree produced by [TralhaParser.mamata_clause].
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T? visitMamata_clause(Mamata_clauseContext ctx);
+
+  /// Visit a parse tree produced by [TralhaParser.bota_clause].
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T? visitBota_clause(Bota_clauseContext ctx);
+
+  /// Visit a parse tree produced by [TralhaParser.membro].
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T? visitMembro(MembroContext ctx);
+
+  /// Visit a parse tree produced by [TralhaParser.campo_decl].
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T? visitCampo_decl(Campo_declContext ctx);
+
+  /// Visit a parse tree produced by [TralhaParser.metodo_decl].
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T? visitMetodo_decl(Metodo_declContext ctx);
+
+  /// Visit a parse tree produced by [TralhaParser.construtor_decl].
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T? visitConstrutor_decl(Construtor_declContext ctx);
+
+  /// Visit a parse tree produced by [TralhaParser.parametros].
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T? visitParametros(ParametrosContext ctx);
+
+  /// Visit a parse tree produced by [TralhaParser.parametro].
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T? visitParametro(ParametroContext ctx);
+
+  /// Visit a parse tree produced by [TralhaParser.modificadores].
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T? visitModificadores(ModificadoresContext ctx);
+
+  /// Visit a parse tree produced by [TralhaParser.modificador].
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T? visitModificador(ModificadorContext ctx);
+
   /// Visit a parse tree produced by [TralhaParser.bloco].
   /// [ctx] the parse tree.
   /// Return the visitor result.
@@ -34,6 +99,11 @@ abstract class TralhaVisitor<T> extends ParseTreeVisitor<T> {
   /// [ctx] the parse tree.
   /// Return the visitor result.
   T? visitAtribuicao(AtribuicaoContext ctx);
+
+  /// Visit a parse tree produced by [TralhaParser.lvalue].
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T? visitLvalue(LvalueContext ctx);
 
   /// Visit a parse tree produced by [TralhaParser.acesso].
   /// [ctx] the parse tree.
@@ -85,13 +155,28 @@ abstract class TralhaVisitor<T> extends ParseTreeVisitor<T> {
   /// Return the visitor result.
   T? visitExpressao(ExpressaoContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.termo].
+  /// Visit a parse tree produced by [TralhaParser.primary].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitTermo(TermoContext ctx);
+  T? visitPrimary(PrimaryContext ctx);
+
+  /// Visit a parse tree produced by [TralhaParser.array_literal].
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T? visitArray_literal(Array_literalContext ctx);
+
+  /// Visit a parse tree produced by [TralhaParser.literal].
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T? visitLiteral(LiteralContext ctx);
 
   /// Visit a parse tree produced by [TralhaParser.tipo].
   /// [ctx] the parse tree.
   /// Return the visitor result.
   T? visitTipo(TipoContext ctx);
+
+  /// Visit a parse tree produced by [TralhaParser.tipo_base].
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T? visitTipo_base(Tipo_baseContext ctx);
 }
