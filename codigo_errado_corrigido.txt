@@ -1,0 +1,9 @@
+trazPraca br.cafe.Sobrevivencia
+
+todo TREM Normal {
+    naoFracionado valor receba 10
+    
+    todo rouba fazAlgo() {
+        whatsapp("Isso agora é TRALHA puro, sucesso na certa!")
+    }
+}

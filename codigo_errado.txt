@@ -1,0 +1,13 @@
+trazPraca br.cafe.Sobrevivencia
+
+//todo TREM Normal
+classe Normal {
+
+    //naoFracionado valor receba 10;
+    inteiro valor = 10;
+    
+    //todo rouba fazAlgo()
+    funcao fazAlgo() {
+        imprima("Isso não é TRALHA, vai dar erro!");
+    }
+}
