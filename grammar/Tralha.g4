@@ -1,211 +1,409 @@
+// Gramática da linguagem Tralha
+// Linguagem de programação orientada a objetos com palavras-chave em português
+//
+// Convenções ANTLR4 adotadas:
+//   - Regras do parser : camelCase          ex: program, classDeclaration, expression
+//   - Tokens do lexer  : UPPER_SNAKE_CASE   ex: INT, FLOAT, STRING
+//   - Fragmentos       : UPPER_SNAKE_CASE   ex: DIGIT, LETTER
+
 grammar Tralha;
 
-options {
-    language = Dart;
-}
+// ============================================================
+// PARSER — regras sintáticas (camelCase)
+// ============================================================
 
-// ----- PARSER RULES -----
-programa : (import_decl | class_decl | comando)* EOF ;
+// ------------------------------------------------------------
+// Ponto de entrada
+// ------------------------------------------------------------
 
-import_decl : 'trazPraca' qualified_id ';'? ;
-
-qualified_id : ID ('.' ID)* ;
-
-class_decl 
-    : modificadores? 'TREM' ID (mamata_clause)? (bota_clause)? '{' membro* '}' 
+/// program :
+///     ( importDeclaration | classDeclaration | statement )* EOF
+program
+    : (importDeclaration | classDeclaration | statement)* EOF
     ;
 
-mamata_clause : 'mamata' ID ;
-bota_clause : 'bota' ID (',' ID)* ;
+// ------------------------------------------------------------
+// Importações
+// ------------------------------------------------------------
 
-membro
-    : modificadores? (metodo_decl | campo_decl | construtor_decl)
-    | metodo_decl
-    | campo_decl
-    | construtor_decl
+/// importDeclaration :
+///     trazPraca qualifiedName ;?
+importDeclaration
+    : 'trazPraca' qualifiedName ';'?
     ;
 
-campo_decl
-    : tipo ID ('receba' expressao)? ';'?
+/// qualifiedName :
+///     ID ( . ID )*
+qualifiedName
+    : ID ('.' ID)*
     ;
 
-metodo_decl
-    : tipo? ID '(' parametros? ')' (bloco | ';')
-    | tipo? ID '(' parametros? ')' // Abstract method without block or semicolon
+// ------------------------------------------------------------
+// Declaração de Classe
+// ------------------------------------------------------------
+
+/// classDeclaration :
+///     modifier* TREM ClassName extendsClause? implementsClause? { memberDeclaration* }
+classDeclaration
+    : modifier* 'TREM' ID extendsClause? implementsClause? '{' memberDeclaration* '}'
     ;
 
-construtor_decl
-    : ID '(' parametros? ')' bloco
+/// extendsClause :
+///     mamata ClassName      (herança — equivale a extends)
+extendsClause
+    : 'mamata' ID
     ;
 
-parametros
-    : parametro (',' parametro)*
+/// implementsClause :
+///     bota Interface (, Interface)*   (equivale a implements)
+implementsClause
+    : 'bota' ID (',' ID)*
     ;
 
-parametro
-    : tipo ID
+/// memberDeclaration :
+///     modifier* ( methodDeclaration | fieldDeclaration | constructorDeclaration )
+memberDeclaration
+    : modifier* (methodDeclaration | fieldDeclaration | constructorDeclaration)
     ;
 
-modificadores
-    : modificador+
+/// fieldDeclaration :
+///     type name receba value? ;?
+fieldDeclaration
+    : type ID ('receba' expression)? ';'?
     ;
 
-modificador
-    : 'todo'
-    | 'sou'
-    | 'nepotismo'
-    | 'baiano'
-    | 'teimoso'
-    | 'cravado'
-    | 'politico'
-    | 'override'
+/// methodDeclaration :
+///     type? name ( params? ) block       (método concreto)
+///     type? name ( params? ) ;           (método abstrato)
+methodDeclaration
+    : type? ID '(' parameterList? ')' (block | ';'?)
     ;
 
-bloco : '{' comando* '}' ;
-
-comando 
-    : declaracao ';'?
-    | atribuicao ';'?
-    | chamada_metodo ';'?
-    | condicional
-    | repeticao
-    | excessao
-    | comando_io ';'?
-    | 'chega' ';'?
-    | 'pula' ';'?
-    | 'manda' expressao? ';'?
-    | 'taca' expressao ';'?
-    | bloco
+/// constructorDeclaration :
+///     ClassName ( params? ) block
+constructorDeclaration
+    : ID '(' parameterList? ')' block
     ;
 
-declaracao
-    : tipo ID ('receba' expressao)?
+// ------------------------------------------------------------
+// Modificadores
+// ------------------------------------------------------------
+
+/// modifier : todo | sou | nepotismo | baiano | teimoso | cravado | politico | override
+modifier
+    : 'todo'        // public
+    | 'sou'         // private
+    | 'nepotismo'   // protected
+    | 'baiano'      // static
+    | 'teimoso'     // final
+    | 'cravado'     // const
+    | 'politico'    // abstract
+    | 'override'    // @Override
     ;
 
-atribuicao
-    : lvalue 'receba' expressao
-    | lvalue ('++' | '--')
-    | ('++' | '--') lvalue
+// ------------------------------------------------------------
+// Parâmetros
+// ------------------------------------------------------------
+
+/// parameterList :
+///     parameter (, parameter)*
+parameterList
+    : parameter (',' parameter)*
     ;
 
-lvalue
+/// parameter :
+///     type name
+parameter
+    : type ID
+    ;
+
+// ------------------------------------------------------------
+// Bloco e Comandos
+// ------------------------------------------------------------
+
+/// block :
+///     { statement* }
+block
+    : '{' statement* '}'
+    ;
+
+/// statement :
+///     variableDeclaration                  declaração de variável local
+///     assignment                           atribuição
+///     methodCall                           chamada de método como comando
+///     ifStatement                          if / else if / else
+///     switchStatement                      switch / case / default
+///     whileStatement                       while
+///     doWhileStatement                     do-while
+///     forStatement                         for clássico
+///     forEachStatement                     for-each
+///     tryStatement                         try / catch / finally
+///     printStatement                       saída (whatsapp)
+///     break / continue / return / throw
+///     block                                bloco aninhado
+statement
+    : variableDeclaration ';'?
+    | assignment ';'?
+    | methodCall ';'?
+    | ifStatement
+    | switchStatement
+    | whileStatement
+    | doWhileStatement
+    | forStatement
+    | forEachStatement
+    | tryStatement
+    | printStatement ';'?
+    | 'chega' ';'?            // break
+    | 'pula' ';'?             // continue
+    | 'manda' expression? ';' // return
+    | 'taca' expression ';'?  // throw
+    | block
+    ;
+
+// ------------------------------------------------------------
+// Declaração e Atribuição
+// ------------------------------------------------------------
+
+/// variableDeclaration :
+///     type name ( receba expression )?
+variableDeclaration
+    : type ID ('receba' expression)?
+    ;
+
+/// assignment :
+///     assignable receba expression
+///     assignable ++  |  assignable --
+///     ++ assignable  |  -- assignable
+assignment
+    : assignable 'receba' expression
+    | assignable ('++' | '--')
+    | ('++' | '--') assignable
+    ;
+
+/// assignable :
+///     variável simples | acesso encadeado | this.campo
+///     (lado esquerdo de uma atribuição)
+assignable
     : ID
-    | acesso
+    | memberAccess
     | 'nessaBomba' '.' ID
     ;
 
-acesso
-    : (ID | 'nessaBomba' | 'deuErro') ('.' ID | '[' expressao ']')+
+// ------------------------------------------------------------
+// Acesso a membros e Chamada de método
+// ------------------------------------------------------------
+
+/// memberAccess :
+///     target ( .campo | [indice] )+      (acesso encadeado)
+memberAccess
+    : (ID | 'nessaBomba' | 'deuErro') ('.' ID | '[' expression ']')+
     ;
 
-chamada_metodo
-    : (ID | acesso | 'nessaBomba' | 'deuErro' | primary) '(' lista_expressoes? ')'
+/// methodCall :
+///     target ( args? )
+methodCall
+    : (ID | memberAccess | 'nessaBomba' | 'deuErro') '(' argumentList? ')'
     ;
 
-lista_expressoes
-    : expressao (',' expressao)*
+/// argumentList :
+///     expression (, expression)*
+argumentList
+    : expression (',' expression)*
     ;
 
-condicional
-    : 'sePa' '(' expressao ')' comando
-      ('ouSeDeusQuiser' 'sePa' '(' expressao ')' comando)*
-      ('ouSeDeusQuiser' comando)?
-    | 'dependendo' '(' expressao ')' '{' caso* padrao? '}'
+// ------------------------------------------------------------
+// Estruturas de Controle
+// ------------------------------------------------------------
+
+/// ifStatement :
+///     sePa ( cond ) stmt
+///     ( ouSeDeusQuiser sePa ( cond ) stmt )*
+///     ( ouSeDeusQuiser stmt )?
+ifStatement
+    : 'sePa' '(' expression ')' statement
+      ('ouSeDeusQuiser' 'sePa' '(' expression ')' statement)*
+      ('ouSeDeusQuiser' statement)?
     ;
 
-caso
-    : 'nesseCaso' expressao ':' comando*
+/// switchStatement :
+///     dependendo ( expr ) { switchCase* defaultCase? }
+switchStatement
+    : 'dependendo' '(' expression ')' '{' switchCase* defaultCase? '}'
     ;
 
-padrao
-    : 'naDuvida' ':' comando*
+/// switchCase :
+///     nesseCaso value : statement*
+switchCase
+    : 'nesseCaso' expression ':' statement*
     ;
 
-repeticao
-    : 'ateDarCerto' '(' expressao ')' comando
-    | 'vaiNaFe' bloco 'ateDarCerto' '(' expressao ')' ';'?
-    | 'vaiVolta' '(' declaracao? ';' expressao? ';' atribuicao? ')' comando
-    | 'vaiVolta' '(' tipo ID 'laEle' expressao ')' comando
+/// defaultCase :
+///     naDuvida : statement*
+defaultCase
+    : 'naDuvida' ':' statement*
     ;
 
-excessao
-    : 'gambiarra' bloco 'deuPau' '(' tipo ID ')' bloco ('fitaIsolante' bloco)?
+/// whileStatement :
+///     ateDarCerto ( cond ) stmt
+whileStatement
+    : 'ateDarCerto' '(' expression ')' statement
     ;
 
-comando_io
-    : 'whatsapp' '(' expressao ')'
+/// doWhileStatement :
+///     vaiNaFe block ateDarCerto ( cond ) ;?
+doWhileStatement
+    : 'vaiNaFe' block 'ateDarCerto' '(' expression ')' ';'?
     ;
 
-expressao
-    : primary
-    | expressao '.' ID
-    | expressao '[' expressao ']'
-    | expressao '(' lista_expressoes? ')'
-    | ('+'|'-'|'!') expressao
-    | expressao ('*'|'/'|'%') expressao
-    | expressao ('+'|'-') expressao
-    | expressao ('<'|'<='|'>'|'>=') expressao
-    | expressao ('=='|'!=') expressao
-    | expressao '&&' expressao
-    | expressao '||' expressao
+/// forStatement :
+///     vaiVolta ( init? ; cond? ; update? ) stmt
+forStatement
+    : 'vaiVolta' '(' variableDeclaration? ';' expression? ';' assignment? ')' statement
     ;
 
-primary
-    : ID
-    | 'nessaBomba'
-    | 'deuErro'
-    | 'meteUm' ID '(' lista_expressoes? ')'
-    | array_literal
-    | literal
-    | '(' expressao ')'
+/// forEachStatement :
+///     vaiVolta ( type name laEle collection ) stmt
+forEachStatement
+    : 'vaiVolta' '(' type ID 'laEle' expression ')' statement
     ;
 
-array_literal
-    : '[' lista_expressoes? ']'
+/// tryStatement :
+///     gambiarra block deuPau ( type name ) block ( fitaIsolante block )?
+tryStatement
+    : 'gambiarra' block 'deuPau' '(' type ID ')' block ('fitaIsolante' block)?
     ;
 
+/// printStatement :
+///     whatsapp ( expr )       (equivalente a System.out.println)
+printStatement
+    : 'whatsapp' '(' expression ')'
+    ;
+
+// ------------------------------------------------------------
+// Expressões
+// (cada nível de precedência é uma alternativa — do menor para o maior)
+// ANTLR4 resolve a recursão à esquerda e a precedência automaticamente.
+// ------------------------------------------------------------
+
+/// expression :
+///     Nível 1 (menor precedência) → ou lógico
+///     Nível 2                     → e lógico
+///     Nível 3                     → igualdade
+///     Nível 4                     → relacional
+///     Nível 5                     → adição / subtração
+///     Nível 6                     → multiplicação / divisão / módulo
+///     Nível 7                     → operadores unários
+///     Nível 8                     → acesso a array
+///     Nível 9                     → acesso a membro
+///     Nível 10                    → chamada de função/método
+///     Nível 11 (maior)            → valor primário
+expression
+    : expression '||' expression                        // ou lógico
+    | expression '&&' expression                        // e lógico
+    | expression ('==' | '!=') expression               // igualdade
+    | expression ('<' | '<=' | '>' | '>=') expression   // relacional
+    | expression ('+' | '-') expression                 // adição
+    | expression ('*' | '/' | '%') expression           // multiplicação
+    | ('+' | '-' | '!') expression                      // unário
+    | expression '[' expression ']'                     // índice de array
+    | expression '.' ID                                 // acesso a membro
+    | expression '(' argumentList? ')'                  // chamada
+    | atom                                              // valor primário
+    ;
+
+/// atom :
+///     unidade mínima de uma expressão
+///     literal | variável | this | null | new | array | ( expr )
+atom
+    : literal
+    | ID
+    | 'nessaBomba'                              // this
+    | 'deuErro'                                 // null
+    | 'meteUm' ID '(' argumentList? ')'         // new Objeto(args)
+    | arrayLiteral
+    | '(' expression ')'
+    ;
+
+/// arrayLiteral :
+///     [ argumentList? ]
+arrayLiteral
+    : '[' argumentList? ']'
+    ;
+
+// ------------------------------------------------------------
+// Literais
+// ------------------------------------------------------------
+
+/// literal :
+///     número | texto | caractere | booleano | null
 literal
-    : STRING_LITERAL
-    | INT_LITERAL
-    | FLOAT_LITERAL
-    | DOUBLE_LITERAL
-    | CHAR_LITERAL
-    | 'confia'
-    | 'fakeNews'
-    | 'oco'
+    : INT
+    | FLOAT
+    | DOUBLE
+    | STRING
+    | CHAR
+    | 'confia'      // true
+    | 'fakeNews'    // false
+    | 'oco'         // null
     ;
 
-tipo
-    : tipo_base ('[' ']')*
+// ------------------------------------------------------------
+// Tipos
+// ------------------------------------------------------------
+
+/// type :
+///     baseType ( [] )*      suporte a arrays: int[], String[][], etc.
+type
+    : baseType ('[' ']')*
     ;
 
-tipo_base
-    : 'naoFracionado'
-    | 'fracionado'
-    | 'fracionadao'
-    | 'letrinha'
-    | 'bipolar'
-    | 'testao'
-    | 'rouba'
-    | 'mutante'
-    | 'adivinha'
-    | ID 
+/// baseType :
+///     tipos primitivos | void | var | nome de classe (ID)
+baseType
+    : 'naoFracionado'   // int
+    | 'fracionado'      // float
+    | 'fracionadao'     // double
+    | 'letrinha'        // char
+    | 'bipolar'         // boolean
+    | 'testao'          // String
+    | 'rouba'           // void
+    | 'mutante'         // var  (tipo inferido)
+    | 'adivinha'        // dynamic / Object
+    | ID                // nome de classe definida pelo usuário
     ;
 
-// ----- LEXER RULES -----
+// ============================================================
+// LEXER — tokens (UPPER_SNAKE_CASE)
+// ============================================================
 
-// Numeros (Literais)
-FLOAT_LITERAL : [0-9]+ ('.' [0-9]+)? 'f' ;
-DOUBLE_LITERAL : [0-9]+ ('.' [0-9]+)? ;
-INT_LITERAL : [0-9]+ ;
+// ------------------------------------------------------------
+// Literais numéricos
+// (declarados do mais específico para o mais genérico)
+// ------------------------------------------------------------
+FLOAT  : DIGIT+ ('.' DIGIT+)? 'f' ;   // ex: 3.14f
+DOUBLE : DIGIT+ '.' DIGIT+         ;   // ex: 3.14
+INT    : DIGIT+                     ;   // ex: 42
 
-STRING_LITERAL : '"' ~( '"' | '\\' )* '"' ;
-CHAR_LITERAL : '\'' . '\'' ;
+// ------------------------------------------------------------
+// Literais de texto
+// ------------------------------------------------------------
+STRING : '"'  (~["\\\r\n] | '\\' .)* '"'  ;  // ex: "ola mundo"
+CHAR   : '\'' (~['\\\r\n] | '\\' .) '\''  ;  // ex: 'a'
 
+// ------------------------------------------------------------
 // Identificadores
-ID : [a-zA-Z_][a-zA-Z0-9_]* ;
+// ------------------------------------------------------------
+ID : LETTER (LETTER | DIGIT | '_')* ;
 
-// Comentarios e espaços em branco
-WS : [ \t\r\n]+ -> skip ;
-LINE_COMMENT : '//' ~[\r\n]* -> skip ;
-BLOCK_COMMENT : '/*' .*? '*/' -> skip ;
+// ------------------------------------------------------------
+// Espaços em branco e comentários (descartados)
+// ------------------------------------------------------------
+BLOCK_COMMENT : '/*' .*? '*/'  -> skip ;  // /* ... */
+LINE_COMMENT  : '//' ~[\r\n]*  -> skip ;  // // ...
+WS            : [ \t\r\n]+     -> skip ;
+
+// ------------------------------------------------------------
+// Fragmentos (blocos reutilizáveis — não geram tokens)
+// ------------------------------------------------------------
+fragment DIGIT  : [0-9]          ;
+fragment LETTER : [a-zA-Z_]      ;

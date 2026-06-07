@@ -1,5 +1,5 @@
 
-watch -n 1 "dart run bin/antlr.dart codigo_certo.txt"
+watch -n 1 "dart run bin/antlr.dart codigo_errado.txt"
 
 
 # 🚀 Tutorial: Criando o Compilador TRALHA do Zero (ANTLR4 + Dart)
