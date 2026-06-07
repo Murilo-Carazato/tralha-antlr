@@ -1,3 +1,7 @@
+
+watch -n 1 "dart run bin/antlr.dart codigo_certo.txt"
+
+
 # 🚀 Tutorial: Criando o Compilador TRALHA do Zero (ANTLR4 + Dart)
 
 Este é o guia definitivo passo a passo para você replicar toda a esteira do compilador que acabamos de construir, partindo de uma pasta completamente vazia até a execução da Árvore de Sintaxe Abstrata (AST).
