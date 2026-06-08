@@ -10,173 +10,188 @@ import 'TralhaParser.dart';
 /// [T] is the eturn type of the visit operation. Use `void` for
 /// operations with no return type.
 abstract class TralhaVisitor<T> extends ParseTreeVisitor<T> {
-  /// Visit a parse tree produced by [TralhaParser.programa].
+  /// Visit a parse tree produced by [TralhaParser.program].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitPrograma(ProgramaContext ctx);
+  T? visitProgram(ProgramContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.import_decl].
+  /// Visit a parse tree produced by [TralhaParser.importDeclaration].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitImport_decl(Import_declContext ctx);
+  T? visitImportDeclaration(ImportDeclarationContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.qualified_id].
+  /// Visit a parse tree produced by [TralhaParser.qualifiedName].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitQualified_id(Qualified_idContext ctx);
+  T? visitQualifiedName(QualifiedNameContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.class_decl].
+  /// Visit a parse tree produced by [TralhaParser.classDeclaration].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitClass_decl(Class_declContext ctx);
+  T? visitClassDeclaration(ClassDeclarationContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.mamata_clause].
+  /// Visit a parse tree produced by [TralhaParser.extendsClause].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitMamata_clause(Mamata_clauseContext ctx);
+  T? visitExtendsClause(ExtendsClauseContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.bota_clause].
+  /// Visit a parse tree produced by [TralhaParser.implementsClause].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitBota_clause(Bota_clauseContext ctx);
+  T? visitImplementsClause(ImplementsClauseContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.membro].
+  /// Visit a parse tree produced by [TralhaParser.memberDeclaration].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitMembro(MembroContext ctx);
+  T? visitMemberDeclaration(MemberDeclarationContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.campo_decl].
+  /// Visit a parse tree produced by [TralhaParser.fieldDeclaration].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitCampo_decl(Campo_declContext ctx);
+  T? visitFieldDeclaration(FieldDeclarationContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.metodo_decl].
+  /// Visit a parse tree produced by [TralhaParser.methodDeclaration].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitMetodo_decl(Metodo_declContext ctx);
+  T? visitMethodDeclaration(MethodDeclarationContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.construtor_decl].
+  /// Visit a parse tree produced by [TralhaParser.constructorDeclaration].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitConstrutor_decl(Construtor_declContext ctx);
+  T? visitConstructorDeclaration(ConstructorDeclarationContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.parametros].
+  /// Visit a parse tree produced by [TralhaParser.modifier].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitParametros(ParametrosContext ctx);
+  T? visitModifier(ModifierContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.parametro].
+  /// Visit a parse tree produced by [TralhaParser.parameterList].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitParametro(ParametroContext ctx);
+  T? visitParameterList(ParameterListContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.modificadores].
+  /// Visit a parse tree produced by [TralhaParser.parameter].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitModificadores(ModificadoresContext ctx);
+  T? visitParameter(ParameterContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.modificador].
+  /// Visit a parse tree produced by [TralhaParser.block].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitModificador(ModificadorContext ctx);
+  T? visitBlock(BlockContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.bloco].
+  /// Visit a parse tree produced by [TralhaParser.statement].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitBloco(BlocoContext ctx);
+  T? visitStatement(StatementContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.comando].
+  /// Visit a parse tree produced by [TralhaParser.variableDeclaration].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitComando(ComandoContext ctx);
+  T? visitVariableDeclaration(VariableDeclarationContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.declaracao].
+  /// Visit a parse tree produced by [TralhaParser.assignment].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitDeclaracao(DeclaracaoContext ctx);
+  T? visitAssignment(AssignmentContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.atribuicao].
+  /// Visit a parse tree produced by [TralhaParser.assignable].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitAtribuicao(AtribuicaoContext ctx);
+  T? visitAssignable(AssignableContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.lvalue].
+  /// Visit a parse tree produced by [TralhaParser.memberAccess].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitLvalue(LvalueContext ctx);
+  T? visitMemberAccess(MemberAccessContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.acesso].
+  /// Visit a parse tree produced by [TralhaParser.methodCall].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitAcesso(AcessoContext ctx);
+  T? visitMethodCall(MethodCallContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.chamada_metodo].
+  /// Visit a parse tree produced by [TralhaParser.argumentList].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitChamada_metodo(Chamada_metodoContext ctx);
+  T? visitArgumentList(ArgumentListContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.lista_expressoes].
+  /// Visit a parse tree produced by [TralhaParser.ifStatement].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitLista_expressoes(Lista_expressoesContext ctx);
+  T? visitIfStatement(IfStatementContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.condicional].
+  /// Visit a parse tree produced by [TralhaParser.switchStatement].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitCondicional(CondicionalContext ctx);
+  T? visitSwitchStatement(SwitchStatementContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.caso].
+  /// Visit a parse tree produced by [TralhaParser.switchCase].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitCaso(CasoContext ctx);
+  T? visitSwitchCase(SwitchCaseContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.padrao].
+  /// Visit a parse tree produced by [TralhaParser.defaultCase].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitPadrao(PadraoContext ctx);
+  T? visitDefaultCase(DefaultCaseContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.repeticao].
+  /// Visit a parse tree produced by [TralhaParser.whileStatement].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitRepeticao(RepeticaoContext ctx);
+  T? visitWhileStatement(WhileStatementContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.excessao].
+  /// Visit a parse tree produced by [TralhaParser.doWhileStatement].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitExcessao(ExcessaoContext ctx);
+  T? visitDoWhileStatement(DoWhileStatementContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.comando_io].
+  /// Visit a parse tree produced by [TralhaParser.forStatement].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitComando_io(Comando_ioContext ctx);
+  T? visitForStatement(ForStatementContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.expressao].
+  /// Visit a parse tree produced by [TralhaParser.forEachStatement].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitExpressao(ExpressaoContext ctx);
+  T? visitForEachStatement(ForEachStatementContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.primary].
+  /// Visit a parse tree produced by [TralhaParser.tryStatement].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitPrimary(PrimaryContext ctx);
+  T? visitTryStatement(TryStatementContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.array_literal].
+  /// Visit a parse tree produced by [TralhaParser.printStatement].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitArray_literal(Array_literalContext ctx);
+  T? visitPrintStatement(PrintStatementContext ctx);
+
+  /// Visit a parse tree produced by [TralhaParser.expression].
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T? visitExpression(ExpressionContext ctx);
+
+  /// Visit a parse tree produced by [TralhaParser.atom].
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T? visitAtom(AtomContext ctx);
+
+  /// Visit a parse tree produced by [TralhaParser.arrayLiteral].
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T? visitArrayLiteral(ArrayLiteralContext ctx);
 
   /// Visit a parse tree produced by [TralhaParser.literal].
   /// [ctx] the parse tree.
   /// Return the visitor result.
   T? visitLiteral(LiteralContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.tipo].
+  /// Visit a parse tree produced by [TralhaParser.type].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitTipo(TipoContext ctx);
+  T? visitType(TypeContext ctx);
 
-  /// Visit a parse tree produced by [TralhaParser.tipo_base].
+  /// Visit a parse tree produced by [TralhaParser.baseType].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T? visitTipo_base(Tipo_baseContext ctx);
+  T? visitBaseType(BaseTypeContext ctx);
 }

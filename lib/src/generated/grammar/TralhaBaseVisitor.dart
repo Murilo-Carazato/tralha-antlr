@@ -15,127 +15,139 @@ class TralhaBaseVisitor<T> extends ParseTreeVisitor<T> implements TralhaVisitor<
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitPrograma(ProgramaContext ctx) => visitChildren(ctx);
+  T? visitProgram(ProgramContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitImport_decl(Import_declContext ctx) => visitChildren(ctx);
+  T? visitImportDeclaration(ImportDeclarationContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitQualified_id(Qualified_idContext ctx) => visitChildren(ctx);
+  T? visitQualifiedName(QualifiedNameContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitClass_decl(Class_declContext ctx) => visitChildren(ctx);
+  T? visitClassDeclaration(ClassDeclarationContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitMamata_clause(Mamata_clauseContext ctx) => visitChildren(ctx);
+  T? visitExtendsClause(ExtendsClauseContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitBota_clause(Bota_clauseContext ctx) => visitChildren(ctx);
+  T? visitImplementsClause(ImplementsClauseContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitMembro(MembroContext ctx) => visitChildren(ctx);
+  T? visitMemberDeclaration(MemberDeclarationContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitCampo_decl(Campo_declContext ctx) => visitChildren(ctx);
+  T? visitFieldDeclaration(FieldDeclarationContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitMetodo_decl(Metodo_declContext ctx) => visitChildren(ctx);
+  T? visitMethodDeclaration(MethodDeclarationContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitConstrutor_decl(Construtor_declContext ctx) => visitChildren(ctx);
+  T? visitConstructorDeclaration(ConstructorDeclarationContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitParametros(ParametrosContext ctx) => visitChildren(ctx);
+  T? visitModifier(ModifierContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitParametro(ParametroContext ctx) => visitChildren(ctx);
+  T? visitParameterList(ParameterListContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitModificadores(ModificadoresContext ctx) => visitChildren(ctx);
+  T? visitParameter(ParameterContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitModificador(ModificadorContext ctx) => visitChildren(ctx);
+  T? visitBlock(BlockContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitBloco(BlocoContext ctx) => visitChildren(ctx);
+  T? visitStatement(StatementContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitComando(ComandoContext ctx) => visitChildren(ctx);
+  T? visitVariableDeclaration(VariableDeclarationContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitDeclaracao(DeclaracaoContext ctx) => visitChildren(ctx);
+  T? visitAssignment(AssignmentContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitAtribuicao(AtribuicaoContext ctx) => visitChildren(ctx);
+  T? visitAssignable(AssignableContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitLvalue(LvalueContext ctx) => visitChildren(ctx);
+  T? visitMemberAccess(MemberAccessContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitAcesso(AcessoContext ctx) => visitChildren(ctx);
+  T? visitMethodCall(MethodCallContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitChamada_metodo(Chamada_metodoContext ctx) => visitChildren(ctx);
+  T? visitArgumentList(ArgumentListContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitLista_expressoes(Lista_expressoesContext ctx) => visitChildren(ctx);
+  T? visitIfStatement(IfStatementContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitCondicional(CondicionalContext ctx) => visitChildren(ctx);
+  T? visitSwitchStatement(SwitchStatementContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitCaso(CasoContext ctx) => visitChildren(ctx);
+  T? visitSwitchCase(SwitchCaseContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitPadrao(PadraoContext ctx) => visitChildren(ctx);
+  T? visitDefaultCase(DefaultCaseContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitRepeticao(RepeticaoContext ctx) => visitChildren(ctx);
+  T? visitWhileStatement(WhileStatementContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitExcessao(ExcessaoContext ctx) => visitChildren(ctx);
+  T? visitDoWhileStatement(DoWhileStatementContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitComando_io(Comando_ioContext ctx) => visitChildren(ctx);
+  T? visitForStatement(ForStatementContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitExpressao(ExpressaoContext ctx) => visitChildren(ctx);
+  T? visitForEachStatement(ForEachStatementContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitPrimary(PrimaryContext ctx) => visitChildren(ctx);
+  T? visitTryStatement(TryStatementContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitArray_literal(Array_literalContext ctx) => visitChildren(ctx);
+  T? visitPrintStatement(PrintStatementContext ctx) => visitChildren(ctx);
+  /// The default implementation returns the result of calling
+  /// [visitChildren] on [ctx].
+  @override
+  T? visitExpression(ExpressionContext ctx) => visitChildren(ctx);
+  /// The default implementation returns the result of calling
+  /// [visitChildren] on [ctx].
+  @override
+  T? visitAtom(AtomContext ctx) => visitChildren(ctx);
+  /// The default implementation returns the result of calling
+  /// [visitChildren] on [ctx].
+  @override
+  T? visitArrayLiteral(ArrayLiteralContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
@@ -143,9 +155,9 @@ class TralhaBaseVisitor<T> extends ParseTreeVisitor<T> implements TralhaVisitor<
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitTipo(TipoContext ctx) => visitChildren(ctx);
+  T? visitType(TypeContext ctx) => visitChildren(ctx);
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T? visitTipo_base(Tipo_baseContext ctx) => visitChildren(ctx);
+  T? visitBaseType(BaseTypeContext ctx) => visitChildren(ctx);
 }

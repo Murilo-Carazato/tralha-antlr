@@ -4,16 +4,18 @@ import 'package:antlr4/antlr4.dart';
 
 import 'TralhaVisitor.dart';
 import 'TralhaBaseVisitor.dart';
-const int RULE_programa = 0, RULE_import_decl = 1, RULE_qualified_id = 2, 
-          RULE_class_decl = 3, RULE_mamata_clause = 4, RULE_bota_clause = 5, 
-          RULE_membro = 6, RULE_campo_decl = 7, RULE_metodo_decl = 8, RULE_construtor_decl = 9, 
-          RULE_parametros = 10, RULE_parametro = 11, RULE_modificadores = 12, 
-          RULE_modificador = 13, RULE_bloco = 14, RULE_comando = 15, RULE_declaracao = 16, 
-          RULE_atribuicao = 17, RULE_lvalue = 18, RULE_acesso = 19, RULE_chamada_metodo = 20, 
-          RULE_lista_expressoes = 21, RULE_condicional = 22, RULE_caso = 23, 
-          RULE_padrao = 24, RULE_repeticao = 25, RULE_excessao = 26, RULE_comando_io = 27, 
-          RULE_expressao = 28, RULE_primary = 29, RULE_array_literal = 30, 
-          RULE_literal = 31, RULE_tipo = 32, RULE_tipo_base = 33;
+const int RULE_program = 0, RULE_importDeclaration = 1, RULE_qualifiedName = 2, 
+          RULE_classDeclaration = 3, RULE_extendsClause = 4, RULE_implementsClause = 5, 
+          RULE_memberDeclaration = 6, RULE_fieldDeclaration = 7, RULE_methodDeclaration = 8, 
+          RULE_constructorDeclaration = 9, RULE_modifier = 10, RULE_parameterList = 11, 
+          RULE_parameter = 12, RULE_block = 13, RULE_statement = 14, RULE_variableDeclaration = 15, 
+          RULE_assignment = 16, RULE_assignable = 17, RULE_memberAccess = 18, 
+          RULE_methodCall = 19, RULE_argumentList = 20, RULE_ifStatement = 21, 
+          RULE_switchStatement = 22, RULE_switchCase = 23, RULE_defaultCase = 24, 
+          RULE_whileStatement = 25, RULE_doWhileStatement = 26, RULE_forStatement = 27, 
+          RULE_forEachStatement = 28, RULE_tryStatement = 29, RULE_printStatement = 30, 
+          RULE_expression = 31, RULE_atom = 32, RULE_arrayLiteral = 33, 
+          RULE_literal = 34, RULE_type = 35, RULE_baseType = 36;
 class TralhaParser extends Parser {
   static final checkVersion = () => RuntimeMetaData.checkVersion('4.13.2', RuntimeMetaData.VERSION);
   static const int TOKEN_EOF = IntStream.EOF;
@@ -43,20 +45,21 @@ class TralhaParser extends Parser {
                    TOKEN_T__60 = 61, TOKEN_T__61 = 62, TOKEN_T__62 = 63, 
                    TOKEN_T__63 = 64, TOKEN_T__64 = 65, TOKEN_T__65 = 66, 
                    TOKEN_T__66 = 67, TOKEN_T__67 = 68, TOKEN_T__68 = 69, 
-                   TOKEN_T__69 = 70, TOKEN_T__70 = 71, TOKEN_FLOAT_LITERAL = 72, 
-                   TOKEN_DOUBLE_LITERAL = 73, TOKEN_INT_LITERAL = 74, TOKEN_STRING_LITERAL = 75, 
-                   TOKEN_CHAR_LITERAL = 76, TOKEN_ID = 77, TOKEN_WS = 78, 
-                   TOKEN_LINE_COMMENT = 79, TOKEN_BLOCK_COMMENT = 80;
+                   TOKEN_T__69 = 70, TOKEN_T__70 = 71, TOKEN_FLOAT = 72, 
+                   TOKEN_DOUBLE = 73, TOKEN_INT = 74, TOKEN_STRING = 75, 
+                   TOKEN_CHAR = 76, TOKEN_ID = 77, TOKEN_BLOCK_COMMENT = 78, 
+                   TOKEN_LINE_COMMENT = 79, TOKEN_WS = 80;
 
   @override
   final List<String> ruleNames = [
-    'programa', 'import_decl', 'qualified_id', 'class_decl', 'mamata_clause', 
-    'bota_clause', 'membro', 'campo_decl', 'metodo_decl', 'construtor_decl', 
-    'parametros', 'parametro', 'modificadores', 'modificador', 'bloco', 
-    'comando', 'declaracao', 'atribuicao', 'lvalue', 'acesso', 'chamada_metodo', 
-    'lista_expressoes', 'condicional', 'caso', 'padrao', 'repeticao', 'excessao', 
-    'comando_io', 'expressao', 'primary', 'array_literal', 'literal', 'tipo', 
-    'tipo_base'
+    'program', 'importDeclaration', 'qualifiedName', 'classDeclaration', 
+    'extendsClause', 'implementsClause', 'memberDeclaration', 'fieldDeclaration', 
+    'methodDeclaration', 'constructorDeclaration', 'modifier', 'parameterList', 
+    'parameter', 'block', 'statement', 'variableDeclaration', 'assignment', 
+    'assignable', 'memberAccess', 'methodCall', 'argumentList', 'ifStatement', 
+    'switchStatement', 'switchCase', 'defaultCase', 'whileStatement', 'doWhileStatement', 
+    'forStatement', 'forEachStatement', 'tryStatement', 'printStatement', 
+    'expression', 'atom', 'arrayLiteral', 'literal', 'type', 'baseType'
   ];
 
   static final List<String?> _LITERAL_NAMES = [
@@ -67,8 +70,8 @@ class TralhaParser extends Parser {
       "'deuErro'", "'['", "']'", "'sePa'", "'ouSeDeusQuiser'", "'dependendo'", 
       "'nesseCaso'", "':'", "'naDuvida'", "'ateDarCerto'", "'vaiNaFe'", 
       "'vaiVolta'", "'laEle'", "'gambiarra'", "'deuPau'", "'fitaIsolante'", 
-      "'whatsapp'", "'+'", "'-'", "'!'", "'*'", "'/'", "'%'", "'<'", "'<='", 
-      "'>'", "'>='", "'=='", "'!='", "'&&'", "'||'", "'meteUm'", "'confia'", 
+      "'whatsapp'", "'||'", "'&&'", "'=='", "'!='", "'<'", "'<='", "'>'", 
+      "'>='", "'+'", "'-'", "'*'", "'/'", "'%'", "'!'", "'meteUm'", "'confia'", 
       "'fakeNews'", "'oco'", "'naoFracionado'", "'fracionado'", "'fracionadao'", 
       "'letrinha'", "'bipolar'", "'testao'", "'rouba'", "'mutante'", "'adivinha'"
   ];
@@ -79,9 +82,8 @@ class TralhaParser extends Parser {
       null, null, null, null, null, null, null, null, null, null, null, 
       null, null, null, null, null, null, null, null, null, null, null, 
       null, null, null, null, null, null, null, null, null, null, null, 
-      null, null, null, null, null, null, "FLOAT_LITERAL", "DOUBLE_LITERAL", 
-      "INT_LITERAL", "STRING_LITERAL", "CHAR_LITERAL", "ID", "WS", "LINE_COMMENT", 
-      "BLOCK_COMMENT"
+      null, null, null, null, null, null, "FLOAT", "DOUBLE", "INT", "STRING", 
+      "CHAR", "ID", "BLOCK_COMMENT", "LINE_COMMENT", "WS"
   ];
   static final Vocabulary VOCABULARY = VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -105,22 +107,22 @@ class TralhaParser extends Parser {
     interpreter = ParserATNSimulator(this, _ATN, _decisionToDFA, _sharedContextCache);
   }
 
-  ProgramaContext programa() {
-    dynamic _localctx = ProgramaContext(context, state);
-    enterRule(_localctx, 0, RULE_programa);
+  ProgramContext program() {
+    dynamic _localctx = ProgramContext(context, state);
+    enterRule(_localctx, 0, RULE_program);
     int _la;
     try {
       enterOuterAlt(_localctx, 1);
-      state = 73;
+      state = 79;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
-      while ((((_la) & ~0x3f) == 0 && ((1 << _la) & -576439987210295246) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1 << (_la - 64)) & 16383) != 0)) {
-        state = 71;
+      while ((((_la) & ~0x3f) == 0 && ((1 << _la) & -9223351272298520526) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1 << (_la - 64)) & 8447) != 0)) {
+        state = 77;
         errorHandler.sync(this);
         switch (tokenStream.LA(1)!) {
         case TOKEN_T__0:
-          state = 68;
-          import_decl();
+          state = 74;
+          importDeclaration();
           break;
         case TOKEN_T__3:
         case TOKEN_T__12:
@@ -131,11 +133,10 @@ class TralhaParser extends Parser {
         case TOKEN_T__17:
         case TOKEN_T__18:
         case TOKEN_T__19:
-          state = 69;
-          class_decl();
+          state = 75;
+          classDeclaration();
           break;
         case TOKEN_T__4:
-        case TOKEN_T__10:
         case TOKEN_T__20:
         case TOKEN_T__21:
         case TOKEN_T__22:
@@ -144,7 +145,6 @@ class TralhaParser extends Parser {
         case TOKEN_T__25:
         case TOKEN_T__26:
         case TOKEN_T__27:
-        case TOKEN_T__28:
         case TOKEN_T__30:
         case TOKEN_T__32:
         case TOKEN_T__36:
@@ -152,10 +152,6 @@ class TralhaParser extends Parser {
         case TOKEN_T__38:
         case TOKEN_T__40:
         case TOKEN_T__43:
-        case TOKEN_T__58:
-        case TOKEN_T__59:
-        case TOKEN_T__60:
-        case TOKEN_T__61:
         case TOKEN_T__62:
         case TOKEN_T__63:
         case TOKEN_T__64:
@@ -165,23 +161,18 @@ class TralhaParser extends Parser {
         case TOKEN_T__68:
         case TOKEN_T__69:
         case TOKEN_T__70:
-        case TOKEN_FLOAT_LITERAL:
-        case TOKEN_DOUBLE_LITERAL:
-        case TOKEN_INT_LITERAL:
-        case TOKEN_STRING_LITERAL:
-        case TOKEN_CHAR_LITERAL:
         case TOKEN_ID:
-          state = 70;
-          comando();
+          state = 76;
+          statement();
           break;
         default:
           throw NoViableAltException(this);
         }
-        state = 75;
+        state = 81;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
       }
-      state = 76;
+      state = 82;
       match(TOKEN_EOF);
     } on RecognitionException catch (re) {
       _localctx.exception = re;
@@ -193,21 +184,21 @@ class TralhaParser extends Parser {
     return _localctx;
   }
 
-  Import_declContext import_decl() {
-    dynamic _localctx = Import_declContext(context, state);
-    enterRule(_localctx, 2, RULE_import_decl);
+  ImportDeclarationContext importDeclaration() {
+    dynamic _localctx = ImportDeclarationContext(context, state);
+    enterRule(_localctx, 2, RULE_importDeclaration);
     int _la;
     try {
       enterOuterAlt(_localctx, 1);
-      state = 78;
+      state = 84;
       match(TOKEN_T__0);
-      state = 79;
-      qualified_id();
-      state = 81;
+      state = 85;
+      qualifiedName();
+      state = 87;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
       if (_la == TOKEN_T__1) {
-        state = 80;
+        state = 86;
         match(TOKEN_T__1);
       }
 
@@ -221,23 +212,23 @@ class TralhaParser extends Parser {
     return _localctx;
   }
 
-  Qualified_idContext qualified_id() {
-    dynamic _localctx = Qualified_idContext(context, state);
-    enterRule(_localctx, 4, RULE_qualified_id);
+  QualifiedNameContext qualifiedName() {
+    dynamic _localctx = QualifiedNameContext(context, state);
+    enterRule(_localctx, 4, RULE_qualifiedName);
     int _la;
     try {
       enterOuterAlt(_localctx, 1);
-      state = 83;
+      state = 89;
       match(TOKEN_ID);
-      state = 88;
+      state = 94;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
       while (_la == TOKEN_T__2) {
-        state = 84;
-        match(TOKEN_T__2);
-        state = 85;
-        match(TOKEN_ID);
         state = 90;
+        match(TOKEN_T__2);
+        state = 91;
+        match(TOKEN_ID);
+        state = 96;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
       }
@@ -251,53 +242,55 @@ class TralhaParser extends Parser {
     return _localctx;
   }
 
-  Class_declContext class_decl() {
-    dynamic _localctx = Class_declContext(context, state);
-    enterRule(_localctx, 6, RULE_class_decl);
+  ClassDeclarationContext classDeclaration() {
+    dynamic _localctx = ClassDeclarationContext(context, state);
+    enterRule(_localctx, 6, RULE_classDeclaration);
     int _la;
     try {
       enterOuterAlt(_localctx, 1);
-      state = 92;
-      errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if ((((_la) & ~0x3f) == 0 && ((1 << _la) & 2088960) != 0)) {
-        state = 91;
-        modificadores();
-      }
-
-      state = 94;
-      match(TOKEN_T__3);
-      state = 95;
-      match(TOKEN_ID);
-      state = 97;
-      errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_T__6) {
-        state = 96;
-        mamata_clause();
-      }
-
       state = 100;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_T__7) {
-        state = 99;
-        bota_clause();
-      }
-
-      state = 102;
-      match(TOKEN_T__4);
-      state = 106;
-      errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while ((((_la) & ~0x3f) == 0 && ((1 << _la) & -9223372036852686848) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1 << (_la - 64)) & 8447) != 0)) {
-        state = 103;
-        membro();
-        state = 108;
+      while ((((_la) & ~0x3f) == 0 && ((1 << _la) & 2088960) != 0)) {
+        state = 97;
+        modifier();
+        state = 102;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
       }
+      state = 103;
+      match(TOKEN_T__3);
+      state = 104;
+      match(TOKEN_ID);
+      state = 106;
+      errorHandler.sync(this);
+      _la = tokenStream.LA(1)!;
+      if (_la == TOKEN_T__6) {
+        state = 105;
+        extendsClause();
+      }
+
       state = 109;
+      errorHandler.sync(this);
+      _la = tokenStream.LA(1)!;
+      if (_la == TOKEN_T__7) {
+        state = 108;
+        implementsClause();
+      }
+
+      state = 111;
+      match(TOKEN_T__4);
+      state = 115;
+      errorHandler.sync(this);
+      _la = tokenStream.LA(1)!;
+      while ((((_la) & ~0x3f) == 0 && ((1 << _la) & -9223372036852686848) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1 << (_la - 64)) & 8447) != 0)) {
+        state = 112;
+        memberDeclaration();
+        state = 117;
+        errorHandler.sync(this);
+        _la = tokenStream.LA(1)!;
+      }
+      state = 118;
       match(TOKEN_T__5);
     } on RecognitionException catch (re) {
       _localctx.exception = re;
@@ -309,14 +302,14 @@ class TralhaParser extends Parser {
     return _localctx;
   }
 
-  Mamata_clauseContext mamata_clause() {
-    dynamic _localctx = Mamata_clauseContext(context, state);
-    enterRule(_localctx, 8, RULE_mamata_clause);
+  ExtendsClauseContext extendsClause() {
+    dynamic _localctx = ExtendsClauseContext(context, state);
+    enterRule(_localctx, 8, RULE_extendsClause);
     try {
       enterOuterAlt(_localctx, 1);
-      state = 111;
+      state = 120;
       match(TOKEN_T__6);
-      state = 112;
+      state = 121;
       match(TOKEN_ID);
     } on RecognitionException catch (re) {
       _localctx.exception = re;
@@ -328,88 +321,27 @@ class TralhaParser extends Parser {
     return _localctx;
   }
 
-  Bota_clauseContext bota_clause() {
-    dynamic _localctx = Bota_clauseContext(context, state);
-    enterRule(_localctx, 10, RULE_bota_clause);
+  ImplementsClauseContext implementsClause() {
+    dynamic _localctx = ImplementsClauseContext(context, state);
+    enterRule(_localctx, 10, RULE_implementsClause);
     int _la;
     try {
       enterOuterAlt(_localctx, 1);
-      state = 114;
+      state = 123;
       match(TOKEN_T__7);
-      state = 115;
+      state = 124;
       match(TOKEN_ID);
-      state = 120;
+      state = 129;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
       while (_la == TOKEN_T__8) {
-        state = 116;
+        state = 125;
         match(TOKEN_T__8);
-        state = 117;
+        state = 126;
         match(TOKEN_ID);
-        state = 122;
-        errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-      }
-    } on RecognitionException catch (re) {
-      _localctx.exception = re;
-      errorHandler.reportError(this, re);
-      errorHandler.recover(this, re);
-    } finally {
-      exitRule();
-    }
-    return _localctx;
-  }
-
-  MembroContext membro() {
-    dynamic _localctx = MembroContext(context, state);
-    enterRule(_localctx, 12, RULE_membro);
-    int _la;
-    try {
-      state = 134;
-      errorHandler.sync(this);
-      switch (interpreter!.adaptivePredict(tokenStream, 11, context)) {
-      case 1:
-        enterOuterAlt(_localctx, 1);
-        state = 124;
-        errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if ((((_la) & ~0x3f) == 0 && ((1 << _la) & 2088960) != 0)) {
-          state = 123;
-          modificadores();
-        }
-
-        state = 129;
-        errorHandler.sync(this);
-        switch (interpreter!.adaptivePredict(tokenStream, 10, context)) {
-        case 1:
-          state = 126;
-          metodo_decl();
-          break;
-        case 2:
-          state = 127;
-          campo_decl();
-          break;
-        case 3:
-          state = 128;
-          construtor_decl();
-          break;
-        }
-        break;
-      case 2:
-        enterOuterAlt(_localctx, 2);
         state = 131;
-        metodo_decl();
-        break;
-      case 3:
-        enterOuterAlt(_localctx, 3);
-        state = 132;
-        campo_decl();
-        break;
-      case 4:
-        enterOuterAlt(_localctx, 4);
-        state = 133;
-        construtor_decl();
-        break;
+        errorHandler.sync(this);
+        _la = tokenStream.LA(1)!;
       }
     } on RecognitionException catch (re) {
       _localctx.exception = re;
@@ -421,31 +353,73 @@ class TralhaParser extends Parser {
     return _localctx;
   }
 
-  Campo_declContext campo_decl() {
-    dynamic _localctx = Campo_declContext(context, state);
-    enterRule(_localctx, 14, RULE_campo_decl);
+  MemberDeclarationContext memberDeclaration() {
+    dynamic _localctx = MemberDeclarationContext(context, state);
+    enterRule(_localctx, 12, RULE_memberDeclaration);
     int _la;
     try {
       enterOuterAlt(_localctx, 1);
-      state = 136;
-      tipo();
-      state = 137;
+      state = 135;
+      errorHandler.sync(this);
+      _la = tokenStream.LA(1)!;
+      while ((((_la) & ~0x3f) == 0 && ((1 << _la) & 2088960) != 0)) {
+        state = 132;
+        modifier();
+        state = 137;
+        errorHandler.sync(this);
+        _la = tokenStream.LA(1)!;
+      }
+      state = 141;
+      errorHandler.sync(this);
+      switch (interpreter!.adaptivePredict(tokenStream, 10, context)) {
+      case 1:
+        state = 138;
+        methodDeclaration();
+        break;
+      case 2:
+        state = 139;
+        fieldDeclaration();
+        break;
+      case 3:
+        state = 140;
+        constructorDeclaration();
+        break;
+      }
+    } on RecognitionException catch (re) {
+      _localctx.exception = re;
+      errorHandler.reportError(this, re);
+      errorHandler.recover(this, re);
+    } finally {
+      exitRule();
+    }
+    return _localctx;
+  }
+
+  FieldDeclarationContext fieldDeclaration() {
+    dynamic _localctx = FieldDeclarationContext(context, state);
+    enterRule(_localctx, 14, RULE_fieldDeclaration);
+    int _la;
+    try {
+      enterOuterAlt(_localctx, 1);
+      state = 143;
+      type();
+      state = 144;
       match(TOKEN_ID);
-      state = 140;
+      state = 147;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
       if (_la == TOKEN_T__9) {
-        state = 138;
+        state = 145;
         match(TOKEN_T__9);
-        state = 139;
-        expressao(0);
+        state = 146;
+        expression(0);
       }
 
-      state = 143;
+      state = 150;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
       if (_la == TOKEN_T__1) {
-        state = 142;
+        state = 149;
         match(TOKEN_T__1);
       }
 
@@ -459,140 +433,72 @@ class TralhaParser extends Parser {
     return _localctx;
   }
 
-  Metodo_declContext metodo_decl() {
-    dynamic _localctx = Metodo_declContext(context, state);
-    enterRule(_localctx, 16, RULE_metodo_decl);
-    int _la;
-    try {
-      state = 167;
-      errorHandler.sync(this);
-      switch (interpreter!.adaptivePredict(tokenStream, 19, context)) {
-      case 1:
-        enterOuterAlt(_localctx, 1);
-        state = 146;
-        errorHandler.sync(this);
-        switch (interpreter!.adaptivePredict(tokenStream, 14, context)) {
-        case 1:
-          state = 145;
-          tipo();
-          break;
-        }
-        state = 148;
-        match(TOKEN_ID);
-        state = 149;
-        match(TOKEN_T__10);
-        state = 151;
-        errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if (((((_la - 63)) & ~0x3f) == 0 && ((1 << (_la - 63)) & 16895) != 0)) {
-          state = 150;
-          parametros();
-        }
-
-        state = 153;
-        match(TOKEN_T__11);
-        state = 156;
-        errorHandler.sync(this);
-        switch (tokenStream.LA(1)!) {
-        case TOKEN_T__4:
-          state = 154;
-          bloco();
-          break;
-        case TOKEN_T__1:
-          state = 155;
-          match(TOKEN_T__1);
-          break;
-        default:
-          throw NoViableAltException(this);
-        }
-        break;
-      case 2:
-        enterOuterAlt(_localctx, 2);
-        state = 159;
-        errorHandler.sync(this);
-        switch (interpreter!.adaptivePredict(tokenStream, 17, context)) {
-        case 1:
-          state = 158;
-          tipo();
-          break;
-        }
-        state = 161;
-        match(TOKEN_ID);
-        state = 162;
-        match(TOKEN_T__10);
-        state = 164;
-        errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if (((((_la - 63)) & ~0x3f) == 0 && ((1 << (_la - 63)) & 16895) != 0)) {
-          state = 163;
-          parametros();
-        }
-
-        state = 166;
-        match(TOKEN_T__11);
-        break;
-      }
-    } on RecognitionException catch (re) {
-      _localctx.exception = re;
-      errorHandler.reportError(this, re);
-      errorHandler.recover(this, re);
-    } finally {
-      exitRule();
-    }
-    return _localctx;
-  }
-
-  Construtor_declContext construtor_decl() {
-    dynamic _localctx = Construtor_declContext(context, state);
-    enterRule(_localctx, 18, RULE_construtor_decl);
+  MethodDeclarationContext methodDeclaration() {
+    dynamic _localctx = MethodDeclarationContext(context, state);
+    enterRule(_localctx, 16, RULE_methodDeclaration);
     int _la;
     try {
       enterOuterAlt(_localctx, 1);
-      state = 169;
+      state = 153;
+      errorHandler.sync(this);
+      switch (interpreter!.adaptivePredict(tokenStream, 13, context)) {
+      case 1:
+        state = 152;
+        type();
+        break;
+      }
+      state = 155;
       match(TOKEN_ID);
-      state = 170;
+      state = 156;
       match(TOKEN_T__10);
-      state = 172;
+      state = 158;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
       if (((((_la - 63)) & ~0x3f) == 0 && ((1 << (_la - 63)) & 16895) != 0)) {
-        state = 171;
-        parametros();
+        state = 157;
+        parameterList();
       }
 
-      state = 174;
+      state = 160;
       match(TOKEN_T__11);
-      state = 175;
-      bloco();
-    } on RecognitionException catch (re) {
-      _localctx.exception = re;
-      errorHandler.reportError(this, re);
-      errorHandler.recover(this, re);
-    } finally {
-      exitRule();
-    }
-    return _localctx;
-  }
-
-  ParametrosContext parametros() {
-    dynamic _localctx = ParametrosContext(context, state);
-    enterRule(_localctx, 20, RULE_parametros);
-    int _la;
-    try {
-      enterOuterAlt(_localctx, 1);
-      state = 177;
-      parametro();
-      state = 182;
+      state = 165;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while (_la == TOKEN_T__8) {
-        state = 178;
-        match(TOKEN_T__8);
-        state = 179;
-        parametro();
-        state = 184;
+      switch (tokenStream.LA(1)!) {
+      case TOKEN_T__4:
+        state = 161;
+        block();
+        break;
+      case TOKEN_T__1:
+      case TOKEN_T__5:
+      case TOKEN_T__12:
+      case TOKEN_T__13:
+      case TOKEN_T__14:
+      case TOKEN_T__15:
+      case TOKEN_T__16:
+      case TOKEN_T__17:
+      case TOKEN_T__18:
+      case TOKEN_T__19:
+      case TOKEN_T__62:
+      case TOKEN_T__63:
+      case TOKEN_T__64:
+      case TOKEN_T__65:
+      case TOKEN_T__66:
+      case TOKEN_T__67:
+      case TOKEN_T__68:
+      case TOKEN_T__69:
+      case TOKEN_T__70:
+      case TOKEN_ID:
+        state = 163;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
+        if (_la == TOKEN_T__1) {
+          state = 162;
+          match(TOKEN_T__1);
+        }
+
+        break;
+      default:
+        throw NoViableAltException(this);
       }
     } on RecognitionException catch (re) {
       _localctx.exception = re;
@@ -604,41 +510,28 @@ class TralhaParser extends Parser {
     return _localctx;
   }
 
-  ParametroContext parametro() {
-    dynamic _localctx = ParametroContext(context, state);
-    enterRule(_localctx, 22, RULE_parametro);
-    try {
-      enterOuterAlt(_localctx, 1);
-      state = 185;
-      tipo();
-      state = 186;
-      match(TOKEN_ID);
-    } on RecognitionException catch (re) {
-      _localctx.exception = re;
-      errorHandler.reportError(this, re);
-      errorHandler.recover(this, re);
-    } finally {
-      exitRule();
-    }
-    return _localctx;
-  }
-
-  ModificadoresContext modificadores() {
-    dynamic _localctx = ModificadoresContext(context, state);
-    enterRule(_localctx, 24, RULE_modificadores);
+  ConstructorDeclarationContext constructorDeclaration() {
+    dynamic _localctx = ConstructorDeclarationContext(context, state);
+    enterRule(_localctx, 18, RULE_constructorDeclaration);
     int _la;
     try {
       enterOuterAlt(_localctx, 1);
-      state = 189; 
+      state = 167;
+      match(TOKEN_ID);
+      state = 168;
+      match(TOKEN_T__10);
+      state = 170;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
-      do {
-        state = 188;
-        modificador();
-        state = 191; 
-        errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-      } while ((((_la) & ~0x3f) == 0 && ((1 << _la) & 2088960) != 0));
+      if (((((_la - 63)) & ~0x3f) == 0 && ((1 << (_la - 63)) & 16895) != 0)) {
+        state = 169;
+        parameterList();
+      }
+
+      state = 172;
+      match(TOKEN_T__11);
+      state = 173;
+      block();
     } on RecognitionException catch (re) {
       _localctx.exception = re;
       errorHandler.reportError(this, re);
@@ -649,13 +542,13 @@ class TralhaParser extends Parser {
     return _localctx;
   }
 
-  ModificadorContext modificador() {
-    dynamic _localctx = ModificadorContext(context, state);
-    enterRule(_localctx, 26, RULE_modificador);
+  ModifierContext modifier() {
+    dynamic _localctx = ModifierContext(context, state);
+    enterRule(_localctx, 20, RULE_modifier);
     int _la;
     try {
       enterOuterAlt(_localctx, 1);
-      state = 193;
+      state = 175;
       _la = tokenStream.LA(1)!;
       if (!((((_la) & ~0x3f) == 0 && ((1 << _la) & 2088960) != 0))) {
       errorHandler.recoverInline(this);
@@ -674,25 +567,74 @@ class TralhaParser extends Parser {
     return _localctx;
   }
 
-  BlocoContext bloco() {
-    dynamic _localctx = BlocoContext(context, state);
-    enterRule(_localctx, 28, RULE_bloco);
+  ParameterListContext parameterList() {
+    dynamic _localctx = ParameterListContext(context, state);
+    enterRule(_localctx, 22, RULE_parameterList);
     int _la;
     try {
       enterOuterAlt(_localctx, 1);
-      state = 195;
-      match(TOKEN_T__4);
-      state = 199;
+      state = 177;
+      parameter();
+      state = 182;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
-      while ((((_la) & ~0x3f) == 0 && ((1 << _la) & -576439987212384224) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1 << (_la - 64)) & 16383) != 0)) {
-        state = 196;
-        comando();
-        state = 201;
+      while (_la == TOKEN_T__8) {
+        state = 178;
+        match(TOKEN_T__8);
+        state = 179;
+        parameter();
+        state = 184;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
       }
-      state = 202;
+    } on RecognitionException catch (re) {
+      _localctx.exception = re;
+      errorHandler.reportError(this, re);
+      errorHandler.recover(this, re);
+    } finally {
+      exitRule();
+    }
+    return _localctx;
+  }
+
+  ParameterContext parameter() {
+    dynamic _localctx = ParameterContext(context, state);
+    enterRule(_localctx, 24, RULE_parameter);
+    try {
+      enterOuterAlt(_localctx, 1);
+      state = 185;
+      type();
+      state = 186;
+      match(TOKEN_ID);
+    } on RecognitionException catch (re) {
+      _localctx.exception = re;
+      errorHandler.reportError(this, re);
+      errorHandler.recover(this, re);
+    } finally {
+      exitRule();
+    }
+    return _localctx;
+  }
+
+  BlockContext block() {
+    dynamic _localctx = BlockContext(context, state);
+    enterRule(_localctx, 26, RULE_block);
+    int _la;
+    try {
+      enterOuterAlt(_localctx, 1);
+      state = 188;
+      match(TOKEN_T__4);
+      state = 192;
+      errorHandler.sync(this);
+      _la = tokenStream.LA(1)!;
+      while ((((_la) & ~0x3f) == 0 && ((1 << _la) & -9223351272300609504) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1 << (_la - 64)) & 8447) != 0)) {
+        state = 189;
+        statement();
+        state = 194;
+        errorHandler.sync(this);
+        _la = tokenStream.LA(1)!;
+      }
+      state = 195;
       match(TOKEN_T__5);
     } on RecognitionException catch (re) {
       _localctx.exception = re;
@@ -704,119 +646,148 @@ class TralhaParser extends Parser {
     return _localctx;
   }
 
-  ComandoContext comando() {
-    dynamic _localctx = ComandoContext(context, state);
-    enterRule(_localctx, 30, RULE_comando);
+  StatementContext statement() {
+    dynamic _localctx = StatementContext(context, state);
+    enterRule(_localctx, 28, RULE_statement);
     int _la;
     try {
-      state = 244;
+      state = 239;
       errorHandler.sync(this);
-      switch (interpreter!.adaptivePredict(tokenStream, 33, context)) {
+      switch (interpreter!.adaptivePredict(tokenStream, 28, context)) {
       case 1:
         enterOuterAlt(_localctx, 1);
-        state = 204;
-        declaracao();
-        state = 206;
+        state = 197;
+        variableDeclaration();
+        state = 199;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
         if (_la == TOKEN_T__1) {
-          state = 205;
+          state = 198;
           match(TOKEN_T__1);
         }
 
         break;
       case 2:
         enterOuterAlt(_localctx, 2);
-        state = 208;
-        atribuicao();
-        state = 210;
+        state = 201;
+        assignment();
+        state = 203;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
         if (_la == TOKEN_T__1) {
-          state = 209;
+          state = 202;
           match(TOKEN_T__1);
         }
 
         break;
       case 3:
         enterOuterAlt(_localctx, 3);
-        state = 212;
-        chamada_metodo();
-        state = 214;
+        state = 205;
+        methodCall();
+        state = 207;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
         if (_la == TOKEN_T__1) {
-          state = 213;
+          state = 206;
           match(TOKEN_T__1);
         }
 
         break;
       case 4:
         enterOuterAlt(_localctx, 4);
-        state = 216;
-        condicional();
+        state = 209;
+        ifStatement();
         break;
       case 5:
         enterOuterAlt(_localctx, 5);
-        state = 217;
-        repeticao();
+        state = 210;
+        switchStatement();
         break;
       case 6:
         enterOuterAlt(_localctx, 6);
-        state = 218;
-        excessao();
+        state = 211;
+        whileStatement();
         break;
       case 7:
         enterOuterAlt(_localctx, 7);
-        state = 219;
-        comando_io();
-        state = 221;
-        errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if (_la == TOKEN_T__1) {
-          state = 220;
-          match(TOKEN_T__1);
-        }
-
+        state = 212;
+        doWhileStatement();
         break;
       case 8:
         enterOuterAlt(_localctx, 8);
-        state = 223;
-        match(TOKEN_T__20);
-        state = 225;
-        errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if (_la == TOKEN_T__1) {
-          state = 224;
-          match(TOKEN_T__1);
-        }
-
+        state = 213;
+        forStatement();
         break;
       case 9:
         enterOuterAlt(_localctx, 9);
-        state = 227;
-        match(TOKEN_T__21);
-        state = 229;
+        state = 214;
+        forEachStatement();
+        break;
+      case 10:
+        enterOuterAlt(_localctx, 10);
+        state = 215;
+        tryStatement();
+        break;
+      case 11:
+        enterOuterAlt(_localctx, 11);
+        state = 216;
+        printStatement();
+        state = 218;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
         if (_la == TOKEN_T__1) {
-          state = 228;
+          state = 217;
           match(TOKEN_T__1);
         }
 
         break;
-      case 10:
-        enterOuterAlt(_localctx, 10);
-        state = 231;
-        match(TOKEN_T__22);
-        state = 233;
+      case 12:
+        enterOuterAlt(_localctx, 12);
+        state = 220;
+        match(TOKEN_T__20);
+        state = 222;
         errorHandler.sync(this);
-        switch (interpreter!.adaptivePredict(tokenStream, 30, context)) {
-        case 1:
-          state = 232;
-          expressao(0);
-          break;
+        _la = tokenStream.LA(1)!;
+        if (_la == TOKEN_T__1) {
+          state = 221;
+          match(TOKEN_T__1);
         }
+
+        break;
+      case 13:
+        enterOuterAlt(_localctx, 13);
+        state = 224;
+        match(TOKEN_T__21);
+        state = 226;
+        errorHandler.sync(this);
+        _la = tokenStream.LA(1)!;
+        if (_la == TOKEN_T__1) {
+          state = 225;
+          match(TOKEN_T__1);
+        }
+
+        break;
+      case 14:
+        enterOuterAlt(_localctx, 14);
+        state = 228;
+        match(TOKEN_T__22);
+        state = 230;
+        errorHandler.sync(this);
+        _la = tokenStream.LA(1)!;
+        if ((((_la) & ~0x3f) == 0 && ((1 << _la) & 8962163259406813184) != 0) || ((((_la - 72)) & ~0x3f) == 0 && ((1 << (_la - 72)) & 63) != 0)) {
+          state = 229;
+          expression(0);
+        }
+
+        state = 232;
+        match(TOKEN_T__1);
+        break;
+      case 15:
+        enterOuterAlt(_localctx, 15);
+        state = 233;
+        match(TOKEN_T__23);
+        state = 234;
+        expression(0);
         state = 236;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
@@ -826,25 +797,10 @@ class TralhaParser extends Parser {
         }
 
         break;
-      case 11:
-        enterOuterAlt(_localctx, 11);
+      case 16:
+        enterOuterAlt(_localctx, 16);
         state = 238;
-        match(TOKEN_T__23);
-        state = 239;
-        expressao(0);
-        state = 241;
-        errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if (_la == TOKEN_T__1) {
-          state = 240;
-          match(TOKEN_T__1);
-        }
-
-        break;
-      case 12:
-        enterOuterAlt(_localctx, 12);
-        state = 243;
-        bloco();
+        block();
         break;
       }
     } on RecognitionException catch (re) {
@@ -857,58 +813,58 @@ class TralhaParser extends Parser {
     return _localctx;
   }
 
-  DeclaracaoContext declaracao() {
-    dynamic _localctx = DeclaracaoContext(context, state);
-    enterRule(_localctx, 32, RULE_declaracao);
+  VariableDeclarationContext variableDeclaration() {
+    dynamic _localctx = VariableDeclarationContext(context, state);
+    enterRule(_localctx, 30, RULE_variableDeclaration);
     int _la;
     try {
       enterOuterAlt(_localctx, 1);
-      state = 246;
-      tipo();
-      state = 247;
+      state = 241;
+      type();
+      state = 242;
       match(TOKEN_ID);
-      state = 250;
+      state = 245;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
       if (_la == TOKEN_T__9) {
+        state = 243;
+        match(TOKEN_T__9);
+        state = 244;
+        expression(0);
+      }
+
+    } on RecognitionException catch (re) {
+      _localctx.exception = re;
+      errorHandler.reportError(this, re);
+      errorHandler.recover(this, re);
+    } finally {
+      exitRule();
+    }
+    return _localctx;
+  }
+
+  AssignmentContext assignment() {
+    dynamic _localctx = AssignmentContext(context, state);
+    enterRule(_localctx, 32, RULE_assignment);
+    int _la;
+    try {
+      state = 256;
+      errorHandler.sync(this);
+      switch (interpreter!.adaptivePredict(tokenStream, 30, context)) {
+      case 1:
+        enterOuterAlt(_localctx, 1);
+        state = 247;
+        assignable();
         state = 248;
         match(TOKEN_T__9);
         state = 249;
-        expressao(0);
-      }
-
-    } on RecognitionException catch (re) {
-      _localctx.exception = re;
-      errorHandler.reportError(this, re);
-      errorHandler.recover(this, re);
-    } finally {
-      exitRule();
-    }
-    return _localctx;
-  }
-
-  AtribuicaoContext atribuicao() {
-    dynamic _localctx = AtribuicaoContext(context, state);
-    enterRule(_localctx, 34, RULE_atribuicao);
-    int _la;
-    try {
-      state = 261;
-      errorHandler.sync(this);
-      switch (interpreter!.adaptivePredict(tokenStream, 35, context)) {
-      case 1:
-        enterOuterAlt(_localctx, 1);
+        expression(0);
+        break;
+      case 2:
+        enterOuterAlt(_localctx, 2);
+        state = 251;
+        assignable();
         state = 252;
-        lvalue();
-        state = 253;
-        match(TOKEN_T__9);
-        state = 254;
-        expressao(0);
-        break;
-      case 2:
-        enterOuterAlt(_localctx, 2);
-        state = 256;
-        lvalue();
-        state = 257;
         _la = tokenStream.LA(1)!;
         if (!(_la == TOKEN_T__24 || _la == TOKEN_T__25)) {
         errorHandler.recoverInline(this);
@@ -920,7 +876,7 @@ class TralhaParser extends Parser {
         break;
       case 3:
         enterOuterAlt(_localctx, 3);
-        state = 259;
+        state = 254;
         _la = tokenStream.LA(1)!;
         if (!(_la == TOKEN_T__24 || _la == TOKEN_T__25)) {
         errorHandler.recoverInline(this);
@@ -929,8 +885,8 @@ class TralhaParser extends Parser {
           errorHandler.reportMatch(this);
           consume();
         }
-        state = 260;
-        lvalue();
+        state = 255;
+        assignable();
         break;
       }
     } on RecognitionException catch (re) {
@@ -943,30 +899,30 @@ class TralhaParser extends Parser {
     return _localctx;
   }
 
-  LvalueContext lvalue() {
-    dynamic _localctx = LvalueContext(context, state);
-    enterRule(_localctx, 36, RULE_lvalue);
+  AssignableContext assignable() {
+    dynamic _localctx = AssignableContext(context, state);
+    enterRule(_localctx, 34, RULE_assignable);
     try {
-      state = 268;
+      state = 263;
       errorHandler.sync(this);
-      switch (interpreter!.adaptivePredict(tokenStream, 36, context)) {
+      switch (interpreter!.adaptivePredict(tokenStream, 31, context)) {
       case 1:
         enterOuterAlt(_localctx, 1);
-        state = 263;
+        state = 258;
         match(TOKEN_ID);
         break;
       case 2:
         enterOuterAlt(_localctx, 2);
-        state = 264;
-        acesso();
+        state = 259;
+        memberAccess();
         break;
       case 3:
         enterOuterAlt(_localctx, 3);
-        state = 265;
+        state = 260;
         match(TOKEN_T__26);
-        state = 266;
+        state = 261;
         match(TOKEN_T__2);
-        state = 267;
+        state = 262;
         match(TOKEN_ID);
         break;
       }
@@ -980,14 +936,13 @@ class TralhaParser extends Parser {
     return _localctx;
   }
 
-  AcessoContext acesso() {
-    dynamic _localctx = AcessoContext(context, state);
-    enterRule(_localctx, 38, RULE_acesso);
+  MemberAccessContext memberAccess() {
+    dynamic _localctx = MemberAccessContext(context, state);
+    enterRule(_localctx, 36, RULE_memberAccess);
     int _la;
     try {
-      int _alt;
       enterOuterAlt(_localctx, 1);
-      state = 270;
+      state = 265;
       _la = tokenStream.LA(1)!;
       if (!(((((_la - 27)) & ~0x3f) == 0 && ((1 << (_la - 27)) & 1125899906842627) != 0))) {
       errorHandler.recoverInline(this);
@@ -996,40 +951,34 @@ class TralhaParser extends Parser {
         errorHandler.reportMatch(this);
         consume();
       }
-      state = 277; 
+      state = 272; 
       errorHandler.sync(this);
-      _alt = 1;
+      _la = tokenStream.LA(1)!;
       do {
-        switch (_alt) {
-        case 1:
-          state = 277;
-          errorHandler.sync(this);
-          switch (tokenStream.LA(1)!) {
-          case TOKEN_T__2:
-            state = 271;
-            match(TOKEN_T__2);
-            state = 272;
-            match(TOKEN_ID);
-            break;
-          case TOKEN_T__28:
-            state = 273;
-            match(TOKEN_T__28);
-            state = 274;
-            expressao(0);
-            state = 275;
-            match(TOKEN_T__29);
-            break;
-          default:
-            throw NoViableAltException(this);
-          }
+        state = 272;
+        errorHandler.sync(this);
+        switch (tokenStream.LA(1)!) {
+        case TOKEN_T__2:
+          state = 266;
+          match(TOKEN_T__2);
+          state = 267;
+          match(TOKEN_ID);
+          break;
+        case TOKEN_T__28:
+          state = 268;
+          match(TOKEN_T__28);
+          state = 269;
+          expression(0);
+          state = 270;
+          match(TOKEN_T__29);
           break;
         default:
           throw NoViableAltException(this);
         }
-        state = 279; 
+        state = 274; 
         errorHandler.sync(this);
-        _alt = interpreter!.adaptivePredict(tokenStream, 38, context);
-      } while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER);
+        _la = tokenStream.LA(1)!;
+      } while (_la == TOKEN_T__2 || _la == TOKEN_T__28);
     } on RecognitionException catch (re) {
       _localctx.exception = re;
       errorHandler.reportError(this, re);
@@ -1040,47 +989,43 @@ class TralhaParser extends Parser {
     return _localctx;
   }
 
-  Chamada_metodoContext chamada_metodo() {
-    dynamic _localctx = Chamada_metodoContext(context, state);
-    enterRule(_localctx, 40, RULE_chamada_metodo);
+  MethodCallContext methodCall() {
+    dynamic _localctx = MethodCallContext(context, state);
+    enterRule(_localctx, 38, RULE_methodCall);
     int _la;
     try {
       enterOuterAlt(_localctx, 1);
-      state = 286;
+      state = 280;
       errorHandler.sync(this);
-      switch (interpreter!.adaptivePredict(tokenStream, 39, context)) {
+      switch (interpreter!.adaptivePredict(tokenStream, 34, context)) {
       case 1:
-        state = 281;
+        state = 276;
         match(TOKEN_ID);
         break;
       case 2:
-        state = 282;
-        acesso();
+        state = 277;
+        memberAccess();
         break;
       case 3:
-        state = 283;
+        state = 278;
         match(TOKEN_T__26);
         break;
       case 4:
-        state = 284;
+        state = 279;
         match(TOKEN_T__27);
         break;
-      case 5:
-        state = 285;
-        primary();
-        break;
       }
-      state = 288;
+      state = 282;
       match(TOKEN_T__10);
-      state = 290;
+      state = 284;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
-      if ((((_la) & ~0x3f) == 0 && ((1 << _la) & 8647157576095500288) != 0) || ((((_la - 72)) & ~0x3f) == 0 && ((1 << (_la - 72)) & 63) != 0)) {
-        state = 289;
-        lista_expressoes();
+      if ((((_la) & ~0x3f) == 0 && ((1 << _la) & 8962163259406813184) != 0) || ((((_la - 72)) & ~0x3f) == 0 && ((1 << (_la - 72)) & 63) != 0)) {
+        state = 283;
+        argumentList();
       }
 
-      state = 292;
+      state = 286;
       match(TOKEN_T__11);
     } on RecognitionException catch (re) {
       _localctx.exception = re;
@@ -1092,23 +1037,23 @@ class TralhaParser extends Parser {
     return _localctx;
   }
 
-  Lista_expressoesContext lista_expressoes() {
-    dynamic _localctx = Lista_expressoesContext(context, state);
-    enterRule(_localctx, 42, RULE_lista_expressoes);
+  ArgumentListContext argumentList() {
+    dynamic _localctx = ArgumentListContext(context, state);
+    enterRule(_localctx, 40, RULE_argumentList);
     int _la;
     try {
       enterOuterAlt(_localctx, 1);
-      state = 294;
-      expressao(0);
-      state = 299;
+      state = 288;
+      expression(0);
+      state = 293;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
       while (_la == TOKEN_T__8) {
-        state = 295;
+        state = 289;
         match(TOKEN_T__8);
-        state = 296;
-        expressao(0);
-        state = 301;
+        state = 290;
+        expression(0);
+        state = 295;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
       }
@@ -1122,95 +1067,53 @@ class TralhaParser extends Parser {
     return _localctx;
   }
 
-  CondicionalContext condicional() {
-    dynamic _localctx = CondicionalContext(context, state);
-    enterRule(_localctx, 44, RULE_condicional);
-    int _la;
+  IfStatementContext ifStatement() {
+    dynamic _localctx = IfStatementContext(context, state);
+    enterRule(_localctx, 42, RULE_ifStatement);
     try {
       int _alt;
-      state = 339;
+      enterOuterAlt(_localctx, 1);
+      state = 296;
+      match(TOKEN_T__30);
+      state = 297;
+      match(TOKEN_T__10);
+      state = 298;
+      expression(0);
+      state = 299;
+      match(TOKEN_T__11);
+      state = 300;
+      statement();
+      state = 310;
       errorHandler.sync(this);
-      switch (tokenStream.LA(1)!) {
-      case TOKEN_T__30:
-        enterOuterAlt(_localctx, 1);
-        state = 302;
-        match(TOKEN_T__30);
-        state = 303;
-        match(TOKEN_T__10);
-        state = 304;
-        expressao(0);
-        state = 305;
-        match(TOKEN_T__11);
-        state = 306;
-        comando();
-        state = 316;
-        errorHandler.sync(this);
-        _alt = interpreter!.adaptivePredict(tokenStream, 42, context);
-        while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
-          if (_alt == 1) {
-            state = 307;
-            match(TOKEN_T__31);
-            state = 308;
-            match(TOKEN_T__30);
-            state = 309;
-            match(TOKEN_T__10);
-            state = 310;
-            expressao(0);
-            state = 311;
-            match(TOKEN_T__11);
-            state = 312;
-            comando(); 
-          }
-          state = 318;
-          errorHandler.sync(this);
-          _alt = interpreter!.adaptivePredict(tokenStream, 42, context);
-        }
-        state = 321;
-        errorHandler.sync(this);
-        switch (interpreter!.adaptivePredict(tokenStream, 43, context)) {
-        case 1:
-          state = 319;
+      _alt = interpreter!.adaptivePredict(tokenStream, 37, context);
+      while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
+        if (_alt == 1) {
+          state = 301;
           match(TOKEN_T__31);
-          state = 320;
-          comando();
-          break;
+          state = 302;
+          match(TOKEN_T__30);
+          state = 303;
+          match(TOKEN_T__10);
+          state = 304;
+          expression(0);
+          state = 305;
+          match(TOKEN_T__11);
+          state = 306;
+          statement(); 
         }
-        break;
-      case TOKEN_T__32:
-        enterOuterAlt(_localctx, 2);
-        state = 323;
-        match(TOKEN_T__32);
-        state = 324;
-        match(TOKEN_T__10);
-        state = 325;
-        expressao(0);
-        state = 326;
-        match(TOKEN_T__11);
-        state = 327;
-        match(TOKEN_T__4);
-        state = 331;
+        state = 312;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        while (_la == TOKEN_T__33) {
-          state = 328;
-          caso();
-          state = 333;
-          errorHandler.sync(this);
-          _la = tokenStream.LA(1)!;
-        }
-        state = 335;
-        errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if (_la == TOKEN_T__35) {
-          state = 334;
-          padrao();
-        }
-
-        state = 337;
-        match(TOKEN_T__5);
+        _alt = interpreter!.adaptivePredict(tokenStream, 37, context);
+      }
+      state = 315;
+      errorHandler.sync(this);
+      switch (interpreter!.adaptivePredict(tokenStream, 38, context)) {
+      case 1:
+        state = 313;
+        match(TOKEN_T__31);
+        state = 314;
+        statement();
         break;
-      default:
-        throw NoViableAltException(this);
       }
     } on RecognitionException catch (re) {
       _localctx.exception = re;
@@ -1222,24 +1125,100 @@ class TralhaParser extends Parser {
     return _localctx;
   }
 
-  CasoContext caso() {
-    dynamic _localctx = CasoContext(context, state);
-    enterRule(_localctx, 46, RULE_caso);
+  SwitchStatementContext switchStatement() {
+    dynamic _localctx = SwitchStatementContext(context, state);
+    enterRule(_localctx, 44, RULE_switchStatement);
     int _la;
     try {
       enterOuterAlt(_localctx, 1);
-      state = 341;
+      state = 317;
+      match(TOKEN_T__32);
+      state = 318;
+      match(TOKEN_T__10);
+      state = 319;
+      expression(0);
+      state = 320;
+      match(TOKEN_T__11);
+      state = 321;
+      match(TOKEN_T__4);
+      state = 325;
+      errorHandler.sync(this);
+      _la = tokenStream.LA(1)!;
+      while (_la == TOKEN_T__33) {
+        state = 322;
+        switchCase();
+        state = 327;
+        errorHandler.sync(this);
+        _la = tokenStream.LA(1)!;
+      }
+      state = 329;
+      errorHandler.sync(this);
+      _la = tokenStream.LA(1)!;
+      if (_la == TOKEN_T__35) {
+        state = 328;
+        defaultCase();
+      }
+
+      state = 331;
+      match(TOKEN_T__5);
+    } on RecognitionException catch (re) {
+      _localctx.exception = re;
+      errorHandler.reportError(this, re);
+      errorHandler.recover(this, re);
+    } finally {
+      exitRule();
+    }
+    return _localctx;
+  }
+
+  SwitchCaseContext switchCase() {
+    dynamic _localctx = SwitchCaseContext(context, state);
+    enterRule(_localctx, 46, RULE_switchCase);
+    int _la;
+    try {
+      enterOuterAlt(_localctx, 1);
+      state = 333;
       match(TOKEN_T__33);
+      state = 334;
+      expression(0);
+      state = 335;
+      match(TOKEN_T__34);
+      state = 339;
+      errorHandler.sync(this);
+      _la = tokenStream.LA(1)!;
+      while ((((_la) & ~0x3f) == 0 && ((1 << _la) & -9223351272300609504) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1 << (_la - 64)) & 8447) != 0)) {
+        state = 336;
+        statement();
+        state = 341;
+        errorHandler.sync(this);
+        _la = tokenStream.LA(1)!;
+      }
+    } on RecognitionException catch (re) {
+      _localctx.exception = re;
+      errorHandler.reportError(this, re);
+      errorHandler.recover(this, re);
+    } finally {
+      exitRule();
+    }
+    return _localctx;
+  }
+
+  DefaultCaseContext defaultCase() {
+    dynamic _localctx = DefaultCaseContext(context, state);
+    enterRule(_localctx, 48, RULE_defaultCase);
+    int _la;
+    try {
+      enterOuterAlt(_localctx, 1);
       state = 342;
-      expressao(0);
+      match(TOKEN_T__35);
       state = 343;
       match(TOKEN_T__34);
       state = 347;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
-      while ((((_la) & ~0x3f) == 0 && ((1 << _la) & -576439987212384224) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1 << (_la - 64)) & 16383) != 0)) {
+      while ((((_la) & ~0x3f) == 0 && ((1 << _la) & -9223351272300609504) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1 << (_la - 64)) & 8447) != 0)) {
         state = 344;
-        comando();
+        statement();
         state = 349;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
@@ -1254,26 +1233,21 @@ class TralhaParser extends Parser {
     return _localctx;
   }
 
-  PadraoContext padrao() {
-    dynamic _localctx = PadraoContext(context, state);
-    enterRule(_localctx, 48, RULE_padrao);
-    int _la;
+  WhileStatementContext whileStatement() {
+    dynamic _localctx = WhileStatementContext(context, state);
+    enterRule(_localctx, 50, RULE_whileStatement);
     try {
       enterOuterAlt(_localctx, 1);
       state = 350;
-      match(TOKEN_T__35);
+      match(TOKEN_T__36);
       state = 351;
-      match(TOKEN_T__34);
-      state = 355;
-      errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while ((((_la) & ~0x3f) == 0 && ((1 << _la) & -576439987212384224) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1 << (_la - 64)) & 16383) != 0)) {
-        state = 352;
-        comando();
-        state = 357;
-        errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-      }
+      match(TOKEN_T__10);
+      state = 352;
+      expression(0);
+      state = 353;
+      match(TOKEN_T__11);
+      state = 354;
+      statement();
     } on RecognitionException catch (re) {
       _localctx.exception = re;
       errorHandler.reportError(this, re);
@@ -1284,149 +1258,155 @@ class TralhaParser extends Parser {
     return _localctx;
   }
 
-  RepeticaoContext repeticao() {
-    dynamic _localctx = RepeticaoContext(context, state);
-    enterRule(_localctx, 50, RULE_repeticao);
-    int _la;
-    try {
-      state = 397;
-      errorHandler.sync(this);
-      switch (interpreter!.adaptivePredict(tokenStream, 53, context)) {
-      case 1:
-        enterOuterAlt(_localctx, 1);
-        state = 358;
-        match(TOKEN_T__36);
-        state = 359;
-        match(TOKEN_T__10);
-        state = 360;
-        expressao(0);
-        state = 361;
-        match(TOKEN_T__11);
-        state = 362;
-        comando();
-        break;
-      case 2:
-        enterOuterAlt(_localctx, 2);
-        state = 364;
-        match(TOKEN_T__37);
-        state = 365;
-        bloco();
-        state = 366;
-        match(TOKEN_T__36);
-        state = 367;
-        match(TOKEN_T__10);
-        state = 368;
-        expressao(0);
-        state = 369;
-        match(TOKEN_T__11);
-        state = 371;
-        errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if (_la == TOKEN_T__1) {
-          state = 370;
-          match(TOKEN_T__1);
-        }
-
-        break;
-      case 3:
-        enterOuterAlt(_localctx, 3);
-        state = 373;
-        match(TOKEN_T__38);
-        state = 374;
-        match(TOKEN_T__10);
-        state = 376;
-        errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if (((((_la - 63)) & ~0x3f) == 0 && ((1 << (_la - 63)) & 16895) != 0)) {
-          state = 375;
-          declaracao();
-        }
-
-        state = 378;
-        match(TOKEN_T__1);
-        state = 380;
-        errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if ((((_la) & ~0x3f) == 0 && ((1 << _la) & 8647157576095500288) != 0) || ((((_la - 72)) & ~0x3f) == 0 && ((1 << (_la - 72)) & 63) != 0)) {
-          state = 379;
-          expressao(0);
-        }
-
-        state = 382;
-        match(TOKEN_T__1);
-        state = 384;
-        errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if (((((_la - 25)) & ~0x3f) == 0 && ((1 << (_la - 25)) & 4503599627370511) != 0)) {
-          state = 383;
-          atribuicao();
-        }
-
-        state = 386;
-        match(TOKEN_T__11);
-        state = 387;
-        comando();
-        break;
-      case 4:
-        enterOuterAlt(_localctx, 4);
-        state = 388;
-        match(TOKEN_T__38);
-        state = 389;
-        match(TOKEN_T__10);
-        state = 390;
-        tipo();
-        state = 391;
-        match(TOKEN_ID);
-        state = 392;
-        match(TOKEN_T__39);
-        state = 393;
-        expressao(0);
-        state = 394;
-        match(TOKEN_T__11);
-        state = 395;
-        comando();
-        break;
-      }
-    } on RecognitionException catch (re) {
-      _localctx.exception = re;
-      errorHandler.reportError(this, re);
-      errorHandler.recover(this, re);
-    } finally {
-      exitRule();
-    }
-    return _localctx;
-  }
-
-  ExcessaoContext excessao() {
-    dynamic _localctx = ExcessaoContext(context, state);
-    enterRule(_localctx, 52, RULE_excessao);
+  DoWhileStatementContext doWhileStatement() {
+    dynamic _localctx = DoWhileStatementContext(context, state);
+    enterRule(_localctx, 52, RULE_doWhileStatement);
     int _la;
     try {
       enterOuterAlt(_localctx, 1);
-      state = 399;
-      match(TOKEN_T__40);
-      state = 400;
-      bloco();
-      state = 401;
-      match(TOKEN_T__41);
-      state = 402;
+      state = 356;
+      match(TOKEN_T__37);
+      state = 357;
+      block();
+      state = 358;
+      match(TOKEN_T__36);
+      state = 359;
       match(TOKEN_T__10);
-      state = 403;
-      tipo();
-      state = 404;
-      match(TOKEN_ID);
-      state = 405;
+      state = 360;
+      expression(0);
+      state = 361;
       match(TOKEN_T__11);
-      state = 406;
-      bloco();
-      state = 409;
+      state = 363;
+      errorHandler.sync(this);
+      _la = tokenStream.LA(1)!;
+      if (_la == TOKEN_T__1) {
+        state = 362;
+        match(TOKEN_T__1);
+      }
+
+    } on RecognitionException catch (re) {
+      _localctx.exception = re;
+      errorHandler.reportError(this, re);
+      errorHandler.recover(this, re);
+    } finally {
+      exitRule();
+    }
+    return _localctx;
+  }
+
+  ForStatementContext forStatement() {
+    dynamic _localctx = ForStatementContext(context, state);
+    enterRule(_localctx, 54, RULE_forStatement);
+    int _la;
+    try {
+      enterOuterAlt(_localctx, 1);
+      state = 365;
+      match(TOKEN_T__38);
+      state = 366;
+      match(TOKEN_T__10);
+      state = 368;
+      errorHandler.sync(this);
+      _la = tokenStream.LA(1)!;
+      if (((((_la - 63)) & ~0x3f) == 0 && ((1 << (_la - 63)) & 16895) != 0)) {
+        state = 367;
+        variableDeclaration();
+      }
+
+      state = 370;
+      match(TOKEN_T__1);
+      state = 372;
+      errorHandler.sync(this);
+      _la = tokenStream.LA(1)!;
+      if ((((_la) & ~0x3f) == 0 && ((1 << _la) & 8962163259406813184) != 0) || ((((_la - 72)) & ~0x3f) == 0 && ((1 << (_la - 72)) & 63) != 0)) {
+        state = 371;
+        expression(0);
+      }
+
+      state = 374;
+      match(TOKEN_T__1);
+      state = 376;
+      errorHandler.sync(this);
+      _la = tokenStream.LA(1)!;
+      if (((((_la - 25)) & ~0x3f) == 0 && ((1 << (_la - 25)) & 4503599627370511) != 0)) {
+        state = 375;
+        assignment();
+      }
+
+      state = 378;
+      match(TOKEN_T__11);
+      state = 379;
+      statement();
+    } on RecognitionException catch (re) {
+      _localctx.exception = re;
+      errorHandler.reportError(this, re);
+      errorHandler.recover(this, re);
+    } finally {
+      exitRule();
+    }
+    return _localctx;
+  }
+
+  ForEachStatementContext forEachStatement() {
+    dynamic _localctx = ForEachStatementContext(context, state);
+    enterRule(_localctx, 56, RULE_forEachStatement);
+    try {
+      enterOuterAlt(_localctx, 1);
+      state = 381;
+      match(TOKEN_T__38);
+      state = 382;
+      match(TOKEN_T__10);
+      state = 383;
+      type();
+      state = 384;
+      match(TOKEN_ID);
+      state = 385;
+      match(TOKEN_T__39);
+      state = 386;
+      expression(0);
+      state = 387;
+      match(TOKEN_T__11);
+      state = 388;
+      statement();
+    } on RecognitionException catch (re) {
+      _localctx.exception = re;
+      errorHandler.reportError(this, re);
+      errorHandler.recover(this, re);
+    } finally {
+      exitRule();
+    }
+    return _localctx;
+  }
+
+  TryStatementContext tryStatement() {
+    dynamic _localctx = TryStatementContext(context, state);
+    enterRule(_localctx, 58, RULE_tryStatement);
+    int _la;
+    try {
+      enterOuterAlt(_localctx, 1);
+      state = 390;
+      match(TOKEN_T__40);
+      state = 391;
+      block();
+      state = 392;
+      match(TOKEN_T__41);
+      state = 393;
+      match(TOKEN_T__10);
+      state = 394;
+      type();
+      state = 395;
+      match(TOKEN_ID);
+      state = 396;
+      match(TOKEN_T__11);
+      state = 397;
+      block();
+      state = 400;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
       if (_la == TOKEN_T__42) {
-        state = 407;
+        state = 398;
         match(TOKEN_T__42);
-        state = 408;
-        bloco();
+        state = 399;
+        block();
       }
 
     } on RecognitionException catch (re) {
@@ -1439,18 +1419,18 @@ class TralhaParser extends Parser {
     return _localctx;
   }
 
-  Comando_ioContext comando_io() {
-    dynamic _localctx = Comando_ioContext(context, state);
-    enterRule(_localctx, 54, RULE_comando_io);
+  PrintStatementContext printStatement() {
+    dynamic _localctx = PrintStatementContext(context, state);
+    enterRule(_localctx, 60, RULE_printStatement);
     try {
       enterOuterAlt(_localctx, 1);
-      state = 411;
+      state = 402;
       match(TOKEN_T__43);
-      state = 412;
+      state = 403;
       match(TOKEN_T__10);
-      state = 413;
-      expressao(0);
-      state = 414;
+      state = 404;
+      expression(0);
+      state = 405;
       match(TOKEN_T__11);
     } on RecognitionException catch (re) {
       _localctx.exception = re;
@@ -1462,20 +1442,35 @@ class TralhaParser extends Parser {
     return _localctx;
   }
 
-  ExpressaoContext expressao([int _p = 0]) {
+  ExpressionContext expression([int _p = 0]) {
     final _parentctx = context;
     final _parentState = state;
-    dynamic _localctx = ExpressaoContext(context, _parentState);
+    dynamic _localctx = ExpressionContext(context, _parentState);
     var _prevctx = _localctx;
-    var _startState = 56;
-    enterRecursionRule(_localctx, 56, RULE_expressao, _p);
+    var _startState = 62;
+    enterRecursionRule(_localctx, 62, RULE_expression, _p);
     int _la;
     try {
       int _alt;
       enterOuterAlt(_localctx, 1);
-      state = 420;
+      state = 411;
       errorHandler.sync(this);
       switch (tokenStream.LA(1)!) {
+      case TOKEN_T__52:
+      case TOKEN_T__53:
+      case TOKEN_T__57:
+        state = 408;
+        _la = tokenStream.LA(1)!;
+        if (!((((_la) & ~0x3f) == 0 && ((1 << _la) & 315251973915934720) != 0))) {
+        errorHandler.recoverInline(this);
+        } else {
+          if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
+          errorHandler.reportMatch(this);
+          consume();
+        }
+        state = 409;
+        expression(5);
+        break;
       case TOKEN_T__10:
       case TOKEN_T__26:
       case TOKEN_T__27:
@@ -1484,54 +1479,82 @@ class TralhaParser extends Parser {
       case TOKEN_T__59:
       case TOKEN_T__60:
       case TOKEN_T__61:
-      case TOKEN_FLOAT_LITERAL:
-      case TOKEN_DOUBLE_LITERAL:
-      case TOKEN_INT_LITERAL:
-      case TOKEN_STRING_LITERAL:
-      case TOKEN_CHAR_LITERAL:
+      case TOKEN_FLOAT:
+      case TOKEN_DOUBLE:
+      case TOKEN_INT:
+      case TOKEN_STRING:
+      case TOKEN_CHAR:
       case TOKEN_ID:
-        state = 417;
-        primary();
-        break;
-      case TOKEN_T__44:
-      case TOKEN_T__45:
-      case TOKEN_T__46:
-        state = 418;
-        _la = tokenStream.LA(1)!;
-        if (!((((_la) & ~0x3f) == 0 && ((1 << _la) & 246290604621824) != 0))) {
-        errorHandler.recoverInline(this);
-        } else {
-          if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
-          errorHandler.reportMatch(this);
-          consume();
-        }
-        state = 419;
-        expressao(7);
+        state = 410;
+        atom();
         break;
       default:
         throw NoViableAltException(this);
       }
       context!.stop = tokenStream.LT(-1);
-      state = 456;
+      state = 447;
       errorHandler.sync(this);
-      _alt = interpreter!.adaptivePredict(tokenStream, 58, context);
+      _alt = interpreter!.adaptivePredict(tokenStream, 51, context);
       while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
         if (_alt == 1) {
           if (parseListeners != null) triggerExitRuleEvent();
           _prevctx = _localctx;
-          state = 454;
+          state = 445;
           errorHandler.sync(this);
-          switch (interpreter!.adaptivePredict(tokenStream, 57, context)) {
+          switch (interpreter!.adaptivePredict(tokenStream, 50, context)) {
           case 1:
-            _localctx = ExpressaoContext(_parentctx, _parentState);
-            pushNewRecursionContext(_localctx, _startState, RULE_expressao);
+            _localctx = ExpressionContext(_parentctx, _parentState);
+            pushNewRecursionContext(_localctx, _startState, RULE_expression);
+            state = 413;
+            if (!(precpred(context, 11))) {
+              throw FailedPredicateException(this, "precpred(context, 11)");
+            }
+            state = 414;
+            match(TOKEN_T__44);
+            state = 415;
+            expression(12);
+            break;
+          case 2:
+            _localctx = ExpressionContext(_parentctx, _parentState);
+            pushNewRecursionContext(_localctx, _startState, RULE_expression);
+            state = 416;
+            if (!(precpred(context, 10))) {
+              throw FailedPredicateException(this, "precpred(context, 10)");
+            }
+            state = 417;
+            match(TOKEN_T__45);
+            state = 418;
+            expression(11);
+            break;
+          case 3:
+            _localctx = ExpressionContext(_parentctx, _parentState);
+            pushNewRecursionContext(_localctx, _startState, RULE_expression);
+            state = 419;
+            if (!(precpred(context, 9))) {
+              throw FailedPredicateException(this, "precpred(context, 9)");
+            }
+            state = 420;
+            _la = tokenStream.LA(1)!;
+            if (!(_la == TOKEN_T__46 || _la == TOKEN_T__47)) {
+            errorHandler.recoverInline(this);
+            } else {
+              if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
+              errorHandler.reportMatch(this);
+              consume();
+            }
+            state = 421;
+            expression(10);
+            break;
+          case 4:
+            _localctx = ExpressionContext(_parentctx, _parentState);
+            pushNewRecursionContext(_localctx, _startState, RULE_expression);
             state = 422;
-            if (!(precpred(context, 6))) {
-              throw FailedPredicateException(this, "precpred(context, 6)");
+            if (!(precpred(context, 8))) {
+              throw FailedPredicateException(this, "precpred(context, 8)");
             }
             state = 423;
             _la = tokenStream.LA(1)!;
-            if (!((((_la) & ~0x3f) == 0 && ((1 << _la) & 1970324836974592) != 0))) {
+            if (!((((_la) & ~0x3f) == 0 && ((1 << _la) & 8444249301319680) != 0))) {
             errorHandler.recoverInline(this);
             } else {
               if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -1539,18 +1562,18 @@ class TralhaParser extends Parser {
               consume();
             }
             state = 424;
-            expressao(7);
+            expression(9);
             break;
-          case 2:
-            _localctx = ExpressaoContext(_parentctx, _parentState);
-            pushNewRecursionContext(_localctx, _startState, RULE_expressao);
+          case 5:
+            _localctx = ExpressionContext(_parentctx, _parentState);
+            pushNewRecursionContext(_localctx, _startState, RULE_expression);
             state = 425;
-            if (!(precpred(context, 5))) {
-              throw FailedPredicateException(this, "precpred(context, 5)");
+            if (!(precpred(context, 7))) {
+              throw FailedPredicateException(this, "precpred(context, 7)");
             }
             state = 426;
             _la = tokenStream.LA(1)!;
-            if (!(_la == TOKEN_T__44 || _la == TOKEN_T__45)) {
+            if (!(_la == TOKEN_T__52 || _la == TOKEN_T__53)) {
             errorHandler.recoverInline(this);
             } else {
               if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -1558,18 +1581,18 @@ class TralhaParser extends Parser {
               consume();
             }
             state = 427;
-            expressao(6);
+            expression(8);
             break;
-          case 3:
-            _localctx = ExpressaoContext(_parentctx, _parentState);
-            pushNewRecursionContext(_localctx, _startState, RULE_expressao);
+          case 6:
+            _localctx = ExpressionContext(_parentctx, _parentState);
+            pushNewRecursionContext(_localctx, _startState, RULE_expression);
             state = 428;
-            if (!(precpred(context, 4))) {
-              throw FailedPredicateException(this, "precpred(context, 4)");
+            if (!(precpred(context, 6))) {
+              throw FailedPredicateException(this, "precpred(context, 6)");
             }
             state = 429;
             _la = tokenStream.LA(1)!;
-            if (!((((_la) & ~0x3f) == 0 && ((1 << _la) & 33776997205278720) != 0))) {
+            if (!((((_la) & ~0x3f) == 0 && ((1 << _la) & 252201579132747776) != 0))) {
             errorHandler.recoverInline(this);
             } else {
               if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -1577,102 +1600,59 @@ class TralhaParser extends Parser {
               consume();
             }
             state = 430;
-            expressao(5);
+            expression(7);
             break;
-          case 4:
-            _localctx = ExpressaoContext(_parentctx, _parentState);
-            pushNewRecursionContext(_localctx, _startState, RULE_expressao);
+          case 7:
+            _localctx = ExpressionContext(_parentctx, _parentState);
+            pushNewRecursionContext(_localctx, _startState, RULE_expression);
             state = 431;
+            if (!(precpred(context, 4))) {
+              throw FailedPredicateException(this, "precpred(context, 4)");
+            }
+            state = 432;
+            match(TOKEN_T__28);
+            state = 433;
+            expression(0);
+            state = 434;
+            match(TOKEN_T__29);
+            break;
+          case 8:
+            _localctx = ExpressionContext(_parentctx, _parentState);
+            pushNewRecursionContext(_localctx, _startState, RULE_expression);
+            state = 436;
             if (!(precpred(context, 3))) {
               throw FailedPredicateException(this, "precpred(context, 3)");
             }
-            state = 432;
-            _la = tokenStream.LA(1)!;
-            if (!(_la == TOKEN_T__54 || _la == TOKEN_T__55)) {
-            errorHandler.recoverInline(this);
-            } else {
-              if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
-              errorHandler.reportMatch(this);
-              consume();
-            }
-            state = 433;
-            expressao(4);
+            state = 437;
+            match(TOKEN_T__2);
+            state = 438;
+            match(TOKEN_ID);
             break;
-          case 5:
-            _localctx = ExpressaoContext(_parentctx, _parentState);
-            pushNewRecursionContext(_localctx, _startState, RULE_expressao);
-            state = 434;
+          case 9:
+            _localctx = ExpressionContext(_parentctx, _parentState);
+            pushNewRecursionContext(_localctx, _startState, RULE_expression);
+            state = 439;
             if (!(precpred(context, 2))) {
               throw FailedPredicateException(this, "precpred(context, 2)");
             }
-            state = 435;
-            match(TOKEN_T__56);
-            state = 436;
-            expressao(3);
-            break;
-          case 6:
-            _localctx = ExpressaoContext(_parentctx, _parentState);
-            pushNewRecursionContext(_localctx, _startState, RULE_expressao);
-            state = 437;
-            if (!(precpred(context, 1))) {
-              throw FailedPredicateException(this, "precpred(context, 1)");
-            }
-            state = 438;
-            match(TOKEN_T__57);
-            state = 439;
-            expressao(2);
-            break;
-          case 7:
-            _localctx = ExpressaoContext(_parentctx, _parentState);
-            pushNewRecursionContext(_localctx, _startState, RULE_expressao);
             state = 440;
-            if (!(precpred(context, 10))) {
-              throw FailedPredicateException(this, "precpred(context, 10)");
-            }
-            state = 441;
-            match(TOKEN_T__2);
-            state = 442;
-            match(TOKEN_ID);
-            break;
-          case 8:
-            _localctx = ExpressaoContext(_parentctx, _parentState);
-            pushNewRecursionContext(_localctx, _startState, RULE_expressao);
-            state = 443;
-            if (!(precpred(context, 9))) {
-              throw FailedPredicateException(this, "precpred(context, 9)");
-            }
-            state = 444;
-            match(TOKEN_T__28);
-            state = 445;
-            expressao(0);
-            state = 446;
-            match(TOKEN_T__29);
-            break;
-          case 9:
-            _localctx = ExpressaoContext(_parentctx, _parentState);
-            pushNewRecursionContext(_localctx, _startState, RULE_expressao);
-            state = 448;
-            if (!(precpred(context, 8))) {
-              throw FailedPredicateException(this, "precpred(context, 8)");
-            }
-            state = 449;
             match(TOKEN_T__10);
-            state = 451;
+            state = 442;
             errorHandler.sync(this);
             _la = tokenStream.LA(1)!;
-            if ((((_la) & ~0x3f) == 0 && ((1 << _la) & 8647157576095500288) != 0) || ((((_la - 72)) & ~0x3f) == 0 && ((1 << (_la - 72)) & 63) != 0)) {
-              state = 450;
-              lista_expressoes();
+            if ((((_la) & ~0x3f) == 0 && ((1 << _la) & 8962163259406813184) != 0) || ((((_la - 72)) & ~0x3f) == 0 && ((1 << (_la - 72)) & 63) != 0)) {
+              state = 441;
+              argumentList();
             }
 
-            state = 453;
+            state = 444;
             match(TOKEN_T__11);
             break;
           } 
         }
-        state = 458;
+        state = 449;
         errorHandler.sync(this);
-        _alt = interpreter!.adaptivePredict(tokenStream, 58, context);
+        _alt = interpreter!.adaptivePredict(tokenStream, 51, context);
       }
     } on RecognitionException catch (re) {
       _localctx.exception = re;
@@ -1684,72 +1664,72 @@ class TralhaParser extends Parser {
     return _localctx;
   }
 
-  PrimaryContext primary() {
-    dynamic _localctx = PrimaryContext(context, state);
-    enterRule(_localctx, 58, RULE_primary);
+  AtomContext atom() {
+    dynamic _localctx = AtomContext(context, state);
+    enterRule(_localctx, 64, RULE_atom);
     int _la;
     try {
-      state = 475;
+      state = 466;
       errorHandler.sync(this);
       switch (tokenStream.LA(1)!) {
-      case TOKEN_ID:
-        enterOuterAlt(_localctx, 1);
-        state = 459;
-        match(TOKEN_ID);
-        break;
-      case TOKEN_T__26:
-        enterOuterAlt(_localctx, 2);
-        state = 460;
-        match(TOKEN_T__26);
-        break;
-      case TOKEN_T__27:
-        enterOuterAlt(_localctx, 3);
-        state = 461;
-        match(TOKEN_T__27);
-        break;
-      case TOKEN_T__58:
-        enterOuterAlt(_localctx, 4);
-        state = 462;
-        match(TOKEN_T__58);
-        state = 463;
-        match(TOKEN_ID);
-        state = 464;
-        match(TOKEN_T__10);
-        state = 466;
-        errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if ((((_la) & ~0x3f) == 0 && ((1 << _la) & 8647157576095500288) != 0) || ((((_la - 72)) & ~0x3f) == 0 && ((1 << (_la - 72)) & 63) != 0)) {
-          state = 465;
-          lista_expressoes();
-        }
-
-        state = 468;
-        match(TOKEN_T__11);
-        break;
-      case TOKEN_T__28:
-        enterOuterAlt(_localctx, 5);
-        state = 469;
-        array_literal();
-        break;
       case TOKEN_T__59:
       case TOKEN_T__60:
       case TOKEN_T__61:
-      case TOKEN_FLOAT_LITERAL:
-      case TOKEN_DOUBLE_LITERAL:
-      case TOKEN_INT_LITERAL:
-      case TOKEN_STRING_LITERAL:
-      case TOKEN_CHAR_LITERAL:
-        enterOuterAlt(_localctx, 6);
-        state = 470;
+      case TOKEN_FLOAT:
+      case TOKEN_DOUBLE:
+      case TOKEN_INT:
+      case TOKEN_STRING:
+      case TOKEN_CHAR:
+        enterOuterAlt(_localctx, 1);
+        state = 450;
         literal();
+        break;
+      case TOKEN_ID:
+        enterOuterAlt(_localctx, 2);
+        state = 451;
+        match(TOKEN_ID);
+        break;
+      case TOKEN_T__26:
+        enterOuterAlt(_localctx, 3);
+        state = 452;
+        match(TOKEN_T__26);
+        break;
+      case TOKEN_T__27:
+        enterOuterAlt(_localctx, 4);
+        state = 453;
+        match(TOKEN_T__27);
+        break;
+      case TOKEN_T__58:
+        enterOuterAlt(_localctx, 5);
+        state = 454;
+        match(TOKEN_T__58);
+        state = 455;
+        match(TOKEN_ID);
+        state = 456;
+        match(TOKEN_T__10);
+        state = 458;
+        errorHandler.sync(this);
+        _la = tokenStream.LA(1)!;
+        if ((((_la) & ~0x3f) == 0 && ((1 << _la) & 8962163259406813184) != 0) || ((((_la - 72)) & ~0x3f) == 0 && ((1 << (_la - 72)) & 63) != 0)) {
+          state = 457;
+          argumentList();
+        }
+
+        state = 460;
+        match(TOKEN_T__11);
+        break;
+      case TOKEN_T__28:
+        enterOuterAlt(_localctx, 6);
+        state = 461;
+        arrayLiteral();
         break;
       case TOKEN_T__10:
         enterOuterAlt(_localctx, 7);
-        state = 471;
+        state = 462;
         match(TOKEN_T__10);
-        state = 472;
-        expressao(0);
-        state = 473;
+        state = 463;
+        expression(0);
+        state = 464;
         match(TOKEN_T__11);
         break;
       default:
@@ -1765,23 +1745,23 @@ class TralhaParser extends Parser {
     return _localctx;
   }
 
-  Array_literalContext array_literal() {
-    dynamic _localctx = Array_literalContext(context, state);
-    enterRule(_localctx, 60, RULE_array_literal);
+  ArrayLiteralContext arrayLiteral() {
+    dynamic _localctx = ArrayLiteralContext(context, state);
+    enterRule(_localctx, 66, RULE_arrayLiteral);
     int _la;
     try {
       enterOuterAlt(_localctx, 1);
-      state = 477;
+      state = 468;
       match(TOKEN_T__28);
-      state = 479;
+      state = 470;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
-      if ((((_la) & ~0x3f) == 0 && ((1 << _la) & 8647157576095500288) != 0) || ((((_la - 72)) & ~0x3f) == 0 && ((1 << (_la - 72)) & 63) != 0)) {
-        state = 478;
-        lista_expressoes();
+      if ((((_la) & ~0x3f) == 0 && ((1 << _la) & 8962163259406813184) != 0) || ((((_la - 72)) & ~0x3f) == 0 && ((1 << (_la - 72)) & 63) != 0)) {
+        state = 469;
+        argumentList();
       }
 
-      state = 481;
+      state = 472;
       match(TOKEN_T__29);
     } on RecognitionException catch (re) {
       _localctx.exception = re;
@@ -1795,11 +1775,11 @@ class TralhaParser extends Parser {
 
   LiteralContext literal() {
     dynamic _localctx = LiteralContext(context, state);
-    enterRule(_localctx, 62, RULE_literal);
+    enterRule(_localctx, 68, RULE_literal);
     int _la;
     try {
       enterOuterAlt(_localctx, 1);
-      state = 483;
+      state = 474;
       _la = tokenStream.LA(1)!;
       if (!(((((_la - 60)) & ~0x3f) == 0 && ((1 << (_la - 60)) & 126983) != 0))) {
       errorHandler.recoverInline(this);
@@ -1818,23 +1798,23 @@ class TralhaParser extends Parser {
     return _localctx;
   }
 
-  TipoContext tipo() {
-    dynamic _localctx = TipoContext(context, state);
-    enterRule(_localctx, 64, RULE_tipo);
+  TypeContext type() {
+    dynamic _localctx = TypeContext(context, state);
+    enterRule(_localctx, 70, RULE_type);
     int _la;
     try {
       enterOuterAlt(_localctx, 1);
-      state = 485;
-      tipo_base();
-      state = 490;
+      state = 476;
+      baseType();
+      state = 481;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
       while (_la == TOKEN_T__28) {
-        state = 486;
+        state = 477;
         match(TOKEN_T__28);
-        state = 487;
+        state = 478;
         match(TOKEN_T__29);
-        state = 492;
+        state = 483;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
       }
@@ -1848,13 +1828,13 @@ class TralhaParser extends Parser {
     return _localctx;
   }
 
-  Tipo_baseContext tipo_base() {
-    dynamic _localctx = Tipo_baseContext(context, state);
-    enterRule(_localctx, 66, RULE_tipo_base);
+  BaseTypeContext baseType() {
+    dynamic _localctx = BaseTypeContext(context, state);
+    enterRule(_localctx, 72, RULE_baseType);
     int _la;
     try {
       enterOuterAlt(_localctx, 1);
-      state = 493;
+      state = 484;
       _la = tokenStream.LA(1)!;
       if (!(((((_la - 63)) & ~0x3f) == 0 && ((1 << (_la - 63)) & 16895) != 0))) {
       errorHandler.recoverInline(this);
@@ -1876,745 +1856,790 @@ class TralhaParser extends Parser {
   @override
   bool sempred(RuleContext? _localctx, int ruleIndex, int predIndex) {
     switch (ruleIndex) {
-    case 28:
-      return _expressao_sempred(_localctx as ExpressaoContext?, predIndex);
+    case 31:
+      return _expression_sempred(_localctx as ExpressionContext?, predIndex);
     }
     return true;
   }
-  bool _expressao_sempred(dynamic _localctx, int predIndex) {
+  bool _expression_sempred(dynamic _localctx, int predIndex) {
     switch (predIndex) {
-      case 0: return precpred(context, 6);
-      case 1: return precpred(context, 5);
-      case 2: return precpred(context, 4);
-      case 3: return precpred(context, 3);
-      case 4: return precpred(context, 2);
-      case 5: return precpred(context, 1);
-      case 6: return precpred(context, 10);
-      case 7: return precpred(context, 9);
-      case 8: return precpred(context, 8);
+      case 0: return precpred(context, 11);
+      case 1: return precpred(context, 10);
+      case 2: return precpred(context, 9);
+      case 3: return precpred(context, 8);
+      case 4: return precpred(context, 7);
+      case 5: return precpred(context, 6);
+      case 6: return precpred(context, 4);
+      case 7: return precpred(context, 3);
+      case 8: return precpred(context, 2);
     }
     return true;
   }
 
   static const List<int> _serializedATN = [
-      4,1,80,496,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,
+      4,1,80,487,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,
       2,7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,2,
       14,7,14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,20,7,20,
       2,21,7,21,2,22,7,22,2,23,7,23,2,24,7,24,2,25,7,25,2,26,7,26,2,27,7,
-      27,2,28,7,28,2,29,7,29,2,30,7,30,2,31,7,31,2,32,7,32,2,33,7,33,1,0,
-      1,0,1,0,5,0,72,8,0,10,0,12,0,75,9,0,1,0,1,0,1,1,1,1,1,1,3,1,82,8,1,
-      1,2,1,2,1,2,5,2,87,8,2,10,2,12,2,90,9,2,1,3,3,3,93,8,3,1,3,1,3,1,3,
-      3,3,98,8,3,1,3,3,3,101,8,3,1,3,1,3,5,3,105,8,3,10,3,12,3,108,9,3,1,
-      3,1,3,1,4,1,4,1,4,1,5,1,5,1,5,1,5,5,5,119,8,5,10,5,12,5,122,9,5,1,
-      6,3,6,125,8,6,1,6,1,6,1,6,3,6,130,8,6,1,6,1,6,1,6,3,6,135,8,6,1,7,
-      1,7,1,7,1,7,3,7,141,8,7,1,7,3,7,144,8,7,1,8,3,8,147,8,8,1,8,1,8,1,
-      8,3,8,152,8,8,1,8,1,8,1,8,3,8,157,8,8,1,8,3,8,160,8,8,1,8,1,8,1,8,
-      3,8,165,8,8,1,8,3,8,168,8,8,1,9,1,9,1,9,3,9,173,8,9,1,9,1,9,1,9,1,
-      10,1,10,1,10,5,10,181,8,10,10,10,12,10,184,9,10,1,11,1,11,1,11,1,12,
-      4,12,190,8,12,11,12,12,12,191,1,13,1,13,1,14,1,14,5,14,198,8,14,10,
-      14,12,14,201,9,14,1,14,1,14,1,15,1,15,3,15,207,8,15,1,15,1,15,3,15,
-      211,8,15,1,15,1,15,3,15,215,8,15,1,15,1,15,1,15,1,15,1,15,3,15,222,
-      8,15,1,15,1,15,3,15,226,8,15,1,15,1,15,3,15,230,8,15,1,15,1,15,3,15,
-      234,8,15,1,15,3,15,237,8,15,1,15,1,15,1,15,3,15,242,8,15,1,15,3,15,
-      245,8,15,1,16,1,16,1,16,1,16,3,16,251,8,16,1,17,1,17,1,17,1,17,1,17,
-      1,17,1,17,1,17,1,17,3,17,262,8,17,1,18,1,18,1,18,1,18,1,18,3,18,269,
-      8,18,1,19,1,19,1,19,1,19,1,19,1,19,1,19,4,19,278,8,19,11,19,12,19,
-      279,1,20,1,20,1,20,1,20,1,20,3,20,287,8,20,1,20,1,20,3,20,291,8,20,
-      1,20,1,20,1,21,1,21,1,21,5,21,298,8,21,10,21,12,21,301,9,21,1,22,1,
-      22,1,22,1,22,1,22,1,22,1,22,1,22,1,22,1,22,1,22,1,22,5,22,315,8,22,
-      10,22,12,22,318,9,22,1,22,1,22,3,22,322,8,22,1,22,1,22,1,22,1,22,1,
-      22,1,22,5,22,330,8,22,10,22,12,22,333,9,22,1,22,3,22,336,8,22,1,22,
-      1,22,3,22,340,8,22,1,23,1,23,1,23,1,23,5,23,346,8,23,10,23,12,23,349,
-      9,23,1,24,1,24,1,24,5,24,354,8,24,10,24,12,24,357,9,24,1,25,1,25,1,
-      25,1,25,1,25,1,25,1,25,1,25,1,25,1,25,1,25,1,25,1,25,3,25,372,8,25,
-      1,25,1,25,1,25,3,25,377,8,25,1,25,1,25,3,25,381,8,25,1,25,1,25,3,25,
-      385,8,25,1,25,1,25,1,25,1,25,1,25,1,25,1,25,1,25,1,25,1,25,1,25,3,
-      25,398,8,25,1,26,1,26,1,26,1,26,1,26,1,26,1,26,1,26,1,26,1,26,3,26,
-      410,8,26,1,27,1,27,1,27,1,27,1,27,1,28,1,28,1,28,1,28,3,28,421,8,28,
-      1,28,1,28,1,28,1,28,1,28,1,28,1,28,1,28,1,28,1,28,1,28,1,28,1,28,1,
-      28,1,28,1,28,1,28,1,28,1,28,1,28,1,28,1,28,1,28,1,28,1,28,1,28,1,28,
-      1,28,1,28,3,28,452,8,28,1,28,5,28,455,8,28,10,28,12,28,458,9,28,1,
-      29,1,29,1,29,1,29,1,29,1,29,1,29,3,29,467,8,29,1,29,1,29,1,29,1,29,
-      1,29,1,29,1,29,3,29,476,8,29,1,30,1,30,3,30,480,8,30,1,30,1,30,1,31,
-      1,31,1,32,1,32,1,32,5,32,489,8,32,10,32,12,32,492,9,32,1,33,1,33,1,
-      33,0,1,56,34,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,
-      40,42,44,46,48,50,52,54,56,58,60,62,64,66,0,10,1,0,13,20,1,0,25,26,
-      2,0,27,28,77,77,1,0,45,47,1,0,48,50,1,0,45,46,1,0,51,54,1,0,55,56,
-      2,0,60,62,72,76,2,0,63,71,77,77,557,0,73,1,0,0,0,2,78,1,0,0,0,4,83,
-      1,0,0,0,6,92,1,0,0,0,8,111,1,0,0,0,10,114,1,0,0,0,12,134,1,0,0,0,14,
-      136,1,0,0,0,16,167,1,0,0,0,18,169,1,0,0,0,20,177,1,0,0,0,22,185,1,
-      0,0,0,24,189,1,0,0,0,26,193,1,0,0,0,28,195,1,0,0,0,30,244,1,0,0,0,
-      32,246,1,0,0,0,34,261,1,0,0,0,36,268,1,0,0,0,38,270,1,0,0,0,40,286,
-      1,0,0,0,42,294,1,0,0,0,44,339,1,0,0,0,46,341,1,0,0,0,48,350,1,0,0,
-      0,50,397,1,0,0,0,52,399,1,0,0,0,54,411,1,0,0,0,56,420,1,0,0,0,58,475,
-      1,0,0,0,60,477,1,0,0,0,62,483,1,0,0,0,64,485,1,0,0,0,66,493,1,0,0,
-      0,68,72,3,2,1,0,69,72,3,6,3,0,70,72,3,30,15,0,71,68,1,0,0,0,71,69,
-      1,0,0,0,71,70,1,0,0,0,72,75,1,0,0,0,73,71,1,0,0,0,73,74,1,0,0,0,74,
-      76,1,0,0,0,75,73,1,0,0,0,76,77,5,0,0,1,77,1,1,0,0,0,78,79,5,1,0,0,
-      79,81,3,4,2,0,80,82,5,2,0,0,81,80,1,0,0,0,81,82,1,0,0,0,82,3,1,0,0,
-      0,83,88,5,77,0,0,84,85,5,3,0,0,85,87,5,77,0,0,86,84,1,0,0,0,87,90,
-      1,0,0,0,88,86,1,0,0,0,88,89,1,0,0,0,89,5,1,0,0,0,90,88,1,0,0,0,91,
-      93,3,24,12,0,92,91,1,0,0,0,92,93,1,0,0,0,93,94,1,0,0,0,94,95,5,4,0,
-      0,95,97,5,77,0,0,96,98,3,8,4,0,97,96,1,0,0,0,97,98,1,0,0,0,98,100,
-      1,0,0,0,99,101,3,10,5,0,100,99,1,0,0,0,100,101,1,0,0,0,101,102,1,0,
-      0,0,102,106,5,5,0,0,103,105,3,12,6,0,104,103,1,0,0,0,105,108,1,0,0,
-      0,106,104,1,0,0,0,106,107,1,0,0,0,107,109,1,0,0,0,108,106,1,0,0,0,
-      109,110,5,6,0,0,110,7,1,0,0,0,111,112,5,7,0,0,112,113,5,77,0,0,113,
-      9,1,0,0,0,114,115,5,8,0,0,115,120,5,77,0,0,116,117,5,9,0,0,117,119,
-      5,77,0,0,118,116,1,0,0,0,119,122,1,0,0,0,120,118,1,0,0,0,120,121,1,
-      0,0,0,121,11,1,0,0,0,122,120,1,0,0,0,123,125,3,24,12,0,124,123,1,0,
-      0,0,124,125,1,0,0,0,125,129,1,0,0,0,126,130,3,16,8,0,127,130,3,14,
-      7,0,128,130,3,18,9,0,129,126,1,0,0,0,129,127,1,0,0,0,129,128,1,0,0,
-      0,130,135,1,0,0,0,131,135,3,16,8,0,132,135,3,14,7,0,133,135,3,18,9,
-      0,134,124,1,0,0,0,134,131,1,0,0,0,134,132,1,0,0,0,134,133,1,0,0,0,
-      135,13,1,0,0,0,136,137,3,64,32,0,137,140,5,77,0,0,138,139,5,10,0,0,
-      139,141,3,56,28,0,140,138,1,0,0,0,140,141,1,0,0,0,141,143,1,0,0,0,
-      142,144,5,2,0,0,143,142,1,0,0,0,143,144,1,0,0,0,144,15,1,0,0,0,145,
-      147,3,64,32,0,146,145,1,0,0,0,146,147,1,0,0,0,147,148,1,0,0,0,148,
-      149,5,77,0,0,149,151,5,11,0,0,150,152,3,20,10,0,151,150,1,0,0,0,151,
-      152,1,0,0,0,152,153,1,0,0,0,153,156,5,12,0,0,154,157,3,28,14,0,155,
-      157,5,2,0,0,156,154,1,0,0,0,156,155,1,0,0,0,157,168,1,0,0,0,158,160,
-      3,64,32,0,159,158,1,0,0,0,159,160,1,0,0,0,160,161,1,0,0,0,161,162,
-      5,77,0,0,162,164,5,11,0,0,163,165,3,20,10,0,164,163,1,0,0,0,164,165,
-      1,0,0,0,165,166,1,0,0,0,166,168,5,12,0,0,167,146,1,0,0,0,167,159,1,
-      0,0,0,168,17,1,0,0,0,169,170,5,77,0,0,170,172,5,11,0,0,171,173,3,20,
-      10,0,172,171,1,0,0,0,172,173,1,0,0,0,173,174,1,0,0,0,174,175,5,12,
-      0,0,175,176,3,28,14,0,176,19,1,0,0,0,177,182,3,22,11,0,178,179,5,9,
-      0,0,179,181,3,22,11,0,180,178,1,0,0,0,181,184,1,0,0,0,182,180,1,0,
-      0,0,182,183,1,0,0,0,183,21,1,0,0,0,184,182,1,0,0,0,185,186,3,64,32,
-      0,186,187,5,77,0,0,187,23,1,0,0,0,188,190,3,26,13,0,189,188,1,0,0,
-      0,190,191,1,0,0,0,191,189,1,0,0,0,191,192,1,0,0,0,192,25,1,0,0,0,193,
-      194,7,0,0,0,194,27,1,0,0,0,195,199,5,5,0,0,196,198,3,30,15,0,197,196,
-      1,0,0,0,198,201,1,0,0,0,199,197,1,0,0,0,199,200,1,0,0,0,200,202,1,
-      0,0,0,201,199,1,0,0,0,202,203,5,6,0,0,203,29,1,0,0,0,204,206,3,32,
-      16,0,205,207,5,2,0,0,206,205,1,0,0,0,206,207,1,0,0,0,207,245,1,0,0,
-      0,208,210,3,34,17,0,209,211,5,2,0,0,210,209,1,0,0,0,210,211,1,0,0,
-      0,211,245,1,0,0,0,212,214,3,40,20,0,213,215,5,2,0,0,214,213,1,0,0,
-      0,214,215,1,0,0,0,215,245,1,0,0,0,216,245,3,44,22,0,217,245,3,50,25,
-      0,218,245,3,52,26,0,219,221,3,54,27,0,220,222,5,2,0,0,221,220,1,0,
-      0,0,221,222,1,0,0,0,222,245,1,0,0,0,223,225,5,21,0,0,224,226,5,2,0,
-      0,225,224,1,0,0,0,225,226,1,0,0,0,226,245,1,0,0,0,227,229,5,22,0,0,
-      228,230,5,2,0,0,229,228,1,0,0,0,229,230,1,0,0,0,230,245,1,0,0,0,231,
-      233,5,23,0,0,232,234,3,56,28,0,233,232,1,0,0,0,233,234,1,0,0,0,234,
-      236,1,0,0,0,235,237,5,2,0,0,236,235,1,0,0,0,236,237,1,0,0,0,237,245,
-      1,0,0,0,238,239,5,24,0,0,239,241,3,56,28,0,240,242,5,2,0,0,241,240,
-      1,0,0,0,241,242,1,0,0,0,242,245,1,0,0,0,243,245,3,28,14,0,244,204,
-      1,0,0,0,244,208,1,0,0,0,244,212,1,0,0,0,244,216,1,0,0,0,244,217,1,
-      0,0,0,244,218,1,0,0,0,244,219,1,0,0,0,244,223,1,0,0,0,244,227,1,0,
-      0,0,244,231,1,0,0,0,244,238,1,0,0,0,244,243,1,0,0,0,245,31,1,0,0,0,
-      246,247,3,64,32,0,247,250,5,77,0,0,248,249,5,10,0,0,249,251,3,56,28,
-      0,250,248,1,0,0,0,250,251,1,0,0,0,251,33,1,0,0,0,252,253,3,36,18,0,
-      253,254,5,10,0,0,254,255,3,56,28,0,255,262,1,0,0,0,256,257,3,36,18,
-      0,257,258,7,1,0,0,258,262,1,0,0,0,259,260,7,1,0,0,260,262,3,36,18,
-      0,261,252,1,0,0,0,261,256,1,0,0,0,261,259,1,0,0,0,262,35,1,0,0,0,263,
-      269,5,77,0,0,264,269,3,38,19,0,265,266,5,27,0,0,266,267,5,3,0,0,267,
-      269,5,77,0,0,268,263,1,0,0,0,268,264,1,0,0,0,268,265,1,0,0,0,269,37,
-      1,0,0,0,270,277,7,2,0,0,271,272,5,3,0,0,272,278,5,77,0,0,273,274,5,
-      29,0,0,274,275,3,56,28,0,275,276,5,30,0,0,276,278,1,0,0,0,277,271,
-      1,0,0,0,277,273,1,0,0,0,278,279,1,0,0,0,279,277,1,0,0,0,279,280,1,
-      0,0,0,280,39,1,0,0,0,281,287,5,77,0,0,282,287,3,38,19,0,283,287,5,
-      27,0,0,284,287,5,28,0,0,285,287,3,58,29,0,286,281,1,0,0,0,286,282,
-      1,0,0,0,286,283,1,0,0,0,286,284,1,0,0,0,286,285,1,0,0,0,287,288,1,
-      0,0,0,288,290,5,11,0,0,289,291,3,42,21,0,290,289,1,0,0,0,290,291,1,
-      0,0,0,291,292,1,0,0,0,292,293,5,12,0,0,293,41,1,0,0,0,294,299,3,56,
-      28,0,295,296,5,9,0,0,296,298,3,56,28,0,297,295,1,0,0,0,298,301,1,0,
-      0,0,299,297,1,0,0,0,299,300,1,0,0,0,300,43,1,0,0,0,301,299,1,0,0,0,
-      302,303,5,31,0,0,303,304,5,11,0,0,304,305,3,56,28,0,305,306,5,12,0,
-      0,306,316,3,30,15,0,307,308,5,32,0,0,308,309,5,31,0,0,309,310,5,11,
-      0,0,310,311,3,56,28,0,311,312,5,12,0,0,312,313,3,30,15,0,313,315,1,
-      0,0,0,314,307,1,0,0,0,315,318,1,0,0,0,316,314,1,0,0,0,316,317,1,0,
-      0,0,317,321,1,0,0,0,318,316,1,0,0,0,319,320,5,32,0,0,320,322,3,30,
-      15,0,321,319,1,0,0,0,321,322,1,0,0,0,322,340,1,0,0,0,323,324,5,33,
-      0,0,324,325,5,11,0,0,325,326,3,56,28,0,326,327,5,12,0,0,327,331,5,
-      5,0,0,328,330,3,46,23,0,329,328,1,0,0,0,330,333,1,0,0,0,331,329,1,
-      0,0,0,331,332,1,0,0,0,332,335,1,0,0,0,333,331,1,0,0,0,334,336,3,48,
-      24,0,335,334,1,0,0,0,335,336,1,0,0,0,336,337,1,0,0,0,337,338,5,6,0,
-      0,338,340,1,0,0,0,339,302,1,0,0,0,339,323,1,0,0,0,340,45,1,0,0,0,341,
-      342,5,34,0,0,342,343,3,56,28,0,343,347,5,35,0,0,344,346,3,30,15,0,
-      345,344,1,0,0,0,346,349,1,0,0,0,347,345,1,0,0,0,347,348,1,0,0,0,348,
-      47,1,0,0,0,349,347,1,0,0,0,350,351,5,36,0,0,351,355,5,35,0,0,352,354,
-      3,30,15,0,353,352,1,0,0,0,354,357,1,0,0,0,355,353,1,0,0,0,355,356,
-      1,0,0,0,356,49,1,0,0,0,357,355,1,0,0,0,358,359,5,37,0,0,359,360,5,
-      11,0,0,360,361,3,56,28,0,361,362,5,12,0,0,362,363,3,30,15,0,363,398,
-      1,0,0,0,364,365,5,38,0,0,365,366,3,28,14,0,366,367,5,37,0,0,367,368,
-      5,11,0,0,368,369,3,56,28,0,369,371,5,12,0,0,370,372,5,2,0,0,371,370,
-      1,0,0,0,371,372,1,0,0,0,372,398,1,0,0,0,373,374,5,39,0,0,374,376,5,
-      11,0,0,375,377,3,32,16,0,376,375,1,0,0,0,376,377,1,0,0,0,377,378,1,
-      0,0,0,378,380,5,2,0,0,379,381,3,56,28,0,380,379,1,0,0,0,380,381,1,
-      0,0,0,381,382,1,0,0,0,382,384,5,2,0,0,383,385,3,34,17,0,384,383,1,
-      0,0,0,384,385,1,0,0,0,385,386,1,0,0,0,386,387,5,12,0,0,387,398,3,30,
-      15,0,388,389,5,39,0,0,389,390,5,11,0,0,390,391,3,64,32,0,391,392,5,
-      77,0,0,392,393,5,40,0,0,393,394,3,56,28,0,394,395,5,12,0,0,395,396,
-      3,30,15,0,396,398,1,0,0,0,397,358,1,0,0,0,397,364,1,0,0,0,397,373,
-      1,0,0,0,397,388,1,0,0,0,398,51,1,0,0,0,399,400,5,41,0,0,400,401,3,
-      28,14,0,401,402,5,42,0,0,402,403,5,11,0,0,403,404,3,64,32,0,404,405,
-      5,77,0,0,405,406,5,12,0,0,406,409,3,28,14,0,407,408,5,43,0,0,408,410,
-      3,28,14,0,409,407,1,0,0,0,409,410,1,0,0,0,410,53,1,0,0,0,411,412,5,
-      44,0,0,412,413,5,11,0,0,413,414,3,56,28,0,414,415,5,12,0,0,415,55,
-      1,0,0,0,416,417,6,28,-1,0,417,421,3,58,29,0,418,419,7,3,0,0,419,421,
-      3,56,28,7,420,416,1,0,0,0,420,418,1,0,0,0,421,456,1,0,0,0,422,423,
-      10,6,0,0,423,424,7,4,0,0,424,455,3,56,28,7,425,426,10,5,0,0,426,427,
-      7,5,0,0,427,455,3,56,28,6,428,429,10,4,0,0,429,430,7,6,0,0,430,455,
-      3,56,28,5,431,432,10,3,0,0,432,433,7,7,0,0,433,455,3,56,28,4,434,435,
-      10,2,0,0,435,436,5,57,0,0,436,455,3,56,28,3,437,438,10,1,0,0,438,439,
-      5,58,0,0,439,455,3,56,28,2,440,441,10,10,0,0,441,442,5,3,0,0,442,455,
-      5,77,0,0,443,444,10,9,0,0,444,445,5,29,0,0,445,446,3,56,28,0,446,447,
-      5,30,0,0,447,455,1,0,0,0,448,449,10,8,0,0,449,451,5,11,0,0,450,452,
-      3,42,21,0,451,450,1,0,0,0,451,452,1,0,0,0,452,453,1,0,0,0,453,455,
-      5,12,0,0,454,422,1,0,0,0,454,425,1,0,0,0,454,428,1,0,0,0,454,431,1,
-      0,0,0,454,434,1,0,0,0,454,437,1,0,0,0,454,440,1,0,0,0,454,443,1,0,
-      0,0,454,448,1,0,0,0,455,458,1,0,0,0,456,454,1,0,0,0,456,457,1,0,0,
-      0,457,57,1,0,0,0,458,456,1,0,0,0,459,476,5,77,0,0,460,476,5,27,0,0,
-      461,476,5,28,0,0,462,463,5,59,0,0,463,464,5,77,0,0,464,466,5,11,0,
-      0,465,467,3,42,21,0,466,465,1,0,0,0,466,467,1,0,0,0,467,468,1,0,0,
-      0,468,476,5,12,0,0,469,476,3,60,30,0,470,476,3,62,31,0,471,472,5,11,
-      0,0,472,473,3,56,28,0,473,474,5,12,0,0,474,476,1,0,0,0,475,459,1,0,
-      0,0,475,460,1,0,0,0,475,461,1,0,0,0,475,462,1,0,0,0,475,469,1,0,0,
-      0,475,470,1,0,0,0,475,471,1,0,0,0,476,59,1,0,0,0,477,479,5,29,0,0,
-      478,480,3,42,21,0,479,478,1,0,0,0,479,480,1,0,0,0,480,481,1,0,0,0,
-      481,482,5,30,0,0,482,61,1,0,0,0,483,484,7,8,0,0,484,63,1,0,0,0,485,
-      490,3,66,33,0,486,487,5,29,0,0,487,489,5,30,0,0,488,486,1,0,0,0,489,
-      492,1,0,0,0,490,488,1,0,0,0,490,491,1,0,0,0,491,65,1,0,0,0,492,490,
-      1,0,0,0,493,494,7,9,0,0,494,67,1,0,0,0,63,71,73,81,88,92,97,100,106,
-      120,124,129,134,140,143,146,151,156,159,164,167,172,182,191,199,206,
-      210,214,221,225,229,233,236,241,244,250,261,268,277,279,286,290,299,
-      316,321,331,335,339,347,355,371,376,380,384,397,409,420,451,454,456,
-      466,475,479,490
+      27,2,28,7,28,2,29,7,29,2,30,7,30,2,31,7,31,2,32,7,32,2,33,7,33,2,34,
+      7,34,2,35,7,35,2,36,7,36,1,0,1,0,1,0,5,0,78,8,0,10,0,12,0,81,9,0,1,
+      0,1,0,1,1,1,1,1,1,3,1,88,8,1,1,2,1,2,1,2,5,2,93,8,2,10,2,12,2,96,9,
+      2,1,3,5,3,99,8,3,10,3,12,3,102,9,3,1,3,1,3,1,3,3,3,107,8,3,1,3,3,3,
+      110,8,3,1,3,1,3,5,3,114,8,3,10,3,12,3,117,9,3,1,3,1,3,1,4,1,4,1,4,
+      1,5,1,5,1,5,1,5,5,5,128,8,5,10,5,12,5,131,9,5,1,6,5,6,134,8,6,10,6,
+      12,6,137,9,6,1,6,1,6,1,6,3,6,142,8,6,1,7,1,7,1,7,1,7,3,7,148,8,7,1,
+      7,3,7,151,8,7,1,8,3,8,154,8,8,1,8,1,8,1,8,3,8,159,8,8,1,8,1,8,1,8,
+      3,8,164,8,8,3,8,166,8,8,1,9,1,9,1,9,3,9,171,8,9,1,9,1,9,1,9,1,10,1,
+      10,1,11,1,11,1,11,5,11,181,8,11,10,11,12,11,184,9,11,1,12,1,12,1,12,
+      1,13,1,13,5,13,191,8,13,10,13,12,13,194,9,13,1,13,1,13,1,14,1,14,3,
+      14,200,8,14,1,14,1,14,3,14,204,8,14,1,14,1,14,3,14,208,8,14,1,14,1,
+      14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,3,14,219,8,14,1,14,1,14,3,14,
+      223,8,14,1,14,1,14,3,14,227,8,14,1,14,1,14,3,14,231,8,14,1,14,1,14,
+      1,14,1,14,3,14,237,8,14,1,14,3,14,240,8,14,1,15,1,15,1,15,1,15,3,15,
+      246,8,15,1,16,1,16,1,16,1,16,1,16,1,16,1,16,1,16,1,16,3,16,257,8,16,
+      1,17,1,17,1,17,1,17,1,17,3,17,264,8,17,1,18,1,18,1,18,1,18,1,18,1,
+      18,1,18,4,18,273,8,18,11,18,12,18,274,1,19,1,19,1,19,1,19,3,19,281,
+      8,19,1,19,1,19,3,19,285,8,19,1,19,1,19,1,20,1,20,1,20,5,20,292,8,20,
+      10,20,12,20,295,9,20,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,
+      1,21,1,21,1,21,5,21,309,8,21,10,21,12,21,312,9,21,1,21,1,21,3,21,316,
+      8,21,1,22,1,22,1,22,1,22,1,22,1,22,5,22,324,8,22,10,22,12,22,327,9,
+      22,1,22,3,22,330,8,22,1,22,1,22,1,23,1,23,1,23,1,23,5,23,338,8,23,
+      10,23,12,23,341,9,23,1,24,1,24,1,24,5,24,346,8,24,10,24,12,24,349,
+      9,24,1,25,1,25,1,25,1,25,1,25,1,25,1,26,1,26,1,26,1,26,1,26,1,26,1,
+      26,3,26,364,8,26,1,27,1,27,1,27,3,27,369,8,27,1,27,1,27,3,27,373,8,
+      27,1,27,1,27,3,27,377,8,27,1,27,1,27,1,27,1,28,1,28,1,28,1,28,1,28,
+      1,28,1,28,1,28,1,28,1,29,1,29,1,29,1,29,1,29,1,29,1,29,1,29,1,29,1,
+      29,3,29,401,8,29,1,30,1,30,1,30,1,30,1,30,1,31,1,31,1,31,1,31,3,31,
+      412,8,31,1,31,1,31,1,31,1,31,1,31,1,31,1,31,1,31,1,31,1,31,1,31,1,
+      31,1,31,1,31,1,31,1,31,1,31,1,31,1,31,1,31,1,31,1,31,1,31,1,31,1,31,
+      1,31,1,31,1,31,1,31,3,31,443,8,31,1,31,5,31,446,8,31,10,31,12,31,449,
+      9,31,1,32,1,32,1,32,1,32,1,32,1,32,1,32,1,32,3,32,459,8,32,1,32,1,
+      32,1,32,1,32,1,32,1,32,3,32,467,8,32,1,33,1,33,3,33,471,8,33,1,33,
+      1,33,1,34,1,34,1,35,1,35,1,35,5,35,480,8,35,10,35,12,35,483,9,35,1,
+      36,1,36,1,36,0,1,62,37,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,
+      32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64,66,68,70,72,0,10,
+      1,0,13,20,1,0,25,26,2,0,27,28,77,77,2,0,53,54,58,58,1,0,47,48,1,0,
+      49,52,1,0,53,54,1,0,55,57,2,0,60,62,72,76,2,0,63,71,77,77,537,0,79,
+      1,0,0,0,2,84,1,0,0,0,4,89,1,0,0,0,6,100,1,0,0,0,8,120,1,0,0,0,10,123,
+      1,0,0,0,12,135,1,0,0,0,14,143,1,0,0,0,16,153,1,0,0,0,18,167,1,0,0,
+      0,20,175,1,0,0,0,22,177,1,0,0,0,24,185,1,0,0,0,26,188,1,0,0,0,28,239,
+      1,0,0,0,30,241,1,0,0,0,32,256,1,0,0,0,34,263,1,0,0,0,36,265,1,0,0,
+      0,38,280,1,0,0,0,40,288,1,0,0,0,42,296,1,0,0,0,44,317,1,0,0,0,46,333,
+      1,0,0,0,48,342,1,0,0,0,50,350,1,0,0,0,52,356,1,0,0,0,54,365,1,0,0,
+      0,56,381,1,0,0,0,58,390,1,0,0,0,60,402,1,0,0,0,62,411,1,0,0,0,64,466,
+      1,0,0,0,66,468,1,0,0,0,68,474,1,0,0,0,70,476,1,0,0,0,72,484,1,0,0,
+      0,74,78,3,2,1,0,75,78,3,6,3,0,76,78,3,28,14,0,77,74,1,0,0,0,77,75,
+      1,0,0,0,77,76,1,0,0,0,78,81,1,0,0,0,79,77,1,0,0,0,79,80,1,0,0,0,80,
+      82,1,0,0,0,81,79,1,0,0,0,82,83,5,0,0,1,83,1,1,0,0,0,84,85,5,1,0,0,
+      85,87,3,4,2,0,86,88,5,2,0,0,87,86,1,0,0,0,87,88,1,0,0,0,88,3,1,0,0,
+      0,89,94,5,77,0,0,90,91,5,3,0,0,91,93,5,77,0,0,92,90,1,0,0,0,93,96,
+      1,0,0,0,94,92,1,0,0,0,94,95,1,0,0,0,95,5,1,0,0,0,96,94,1,0,0,0,97,
+      99,3,20,10,0,98,97,1,0,0,0,99,102,1,0,0,0,100,98,1,0,0,0,100,101,1,
+      0,0,0,101,103,1,0,0,0,102,100,1,0,0,0,103,104,5,4,0,0,104,106,5,77,
+      0,0,105,107,3,8,4,0,106,105,1,0,0,0,106,107,1,0,0,0,107,109,1,0,0,
+      0,108,110,3,10,5,0,109,108,1,0,0,0,109,110,1,0,0,0,110,111,1,0,0,0,
+      111,115,5,5,0,0,112,114,3,12,6,0,113,112,1,0,0,0,114,117,1,0,0,0,115,
+      113,1,0,0,0,115,116,1,0,0,0,116,118,1,0,0,0,117,115,1,0,0,0,118,119,
+      5,6,0,0,119,7,1,0,0,0,120,121,5,7,0,0,121,122,5,77,0,0,122,9,1,0,0,
+      0,123,124,5,8,0,0,124,129,5,77,0,0,125,126,5,9,0,0,126,128,5,77,0,
+      0,127,125,1,0,0,0,128,131,1,0,0,0,129,127,1,0,0,0,129,130,1,0,0,0,
+      130,11,1,0,0,0,131,129,1,0,0,0,132,134,3,20,10,0,133,132,1,0,0,0,134,
+      137,1,0,0,0,135,133,1,0,0,0,135,136,1,0,0,0,136,141,1,0,0,0,137,135,
+      1,0,0,0,138,142,3,16,8,0,139,142,3,14,7,0,140,142,3,18,9,0,141,138,
+      1,0,0,0,141,139,1,0,0,0,141,140,1,0,0,0,142,13,1,0,0,0,143,144,3,70,
+      35,0,144,147,5,77,0,0,145,146,5,10,0,0,146,148,3,62,31,0,147,145,1,
+      0,0,0,147,148,1,0,0,0,148,150,1,0,0,0,149,151,5,2,0,0,150,149,1,0,
+      0,0,150,151,1,0,0,0,151,15,1,0,0,0,152,154,3,70,35,0,153,152,1,0,0,
+      0,153,154,1,0,0,0,154,155,1,0,0,0,155,156,5,77,0,0,156,158,5,11,0,
+      0,157,159,3,22,11,0,158,157,1,0,0,0,158,159,1,0,0,0,159,160,1,0,0,
+      0,160,165,5,12,0,0,161,166,3,26,13,0,162,164,5,2,0,0,163,162,1,0,0,
+      0,163,164,1,0,0,0,164,166,1,0,0,0,165,161,1,0,0,0,165,163,1,0,0,0,
+      166,17,1,0,0,0,167,168,5,77,0,0,168,170,5,11,0,0,169,171,3,22,11,0,
+      170,169,1,0,0,0,170,171,1,0,0,0,171,172,1,0,0,0,172,173,5,12,0,0,173,
+      174,3,26,13,0,174,19,1,0,0,0,175,176,7,0,0,0,176,21,1,0,0,0,177,182,
+      3,24,12,0,178,179,5,9,0,0,179,181,3,24,12,0,180,178,1,0,0,0,181,184,
+      1,0,0,0,182,180,1,0,0,0,182,183,1,0,0,0,183,23,1,0,0,0,184,182,1,0,
+      0,0,185,186,3,70,35,0,186,187,5,77,0,0,187,25,1,0,0,0,188,192,5,5,
+      0,0,189,191,3,28,14,0,190,189,1,0,0,0,191,194,1,0,0,0,192,190,1,0,
+      0,0,192,193,1,0,0,0,193,195,1,0,0,0,194,192,1,0,0,0,195,196,5,6,0,
+      0,196,27,1,0,0,0,197,199,3,30,15,0,198,200,5,2,0,0,199,198,1,0,0,0,
+      199,200,1,0,0,0,200,240,1,0,0,0,201,203,3,32,16,0,202,204,5,2,0,0,
+      203,202,1,0,0,0,203,204,1,0,0,0,204,240,1,0,0,0,205,207,3,38,19,0,
+      206,208,5,2,0,0,207,206,1,0,0,0,207,208,1,0,0,0,208,240,1,0,0,0,209,
+      240,3,42,21,0,210,240,3,44,22,0,211,240,3,50,25,0,212,240,3,52,26,
+      0,213,240,3,54,27,0,214,240,3,56,28,0,215,240,3,58,29,0,216,218,3,
+      60,30,0,217,219,5,2,0,0,218,217,1,0,0,0,218,219,1,0,0,0,219,240,1,
+      0,0,0,220,222,5,21,0,0,221,223,5,2,0,0,222,221,1,0,0,0,222,223,1,0,
+      0,0,223,240,1,0,0,0,224,226,5,22,0,0,225,227,5,2,0,0,226,225,1,0,0,
+      0,226,227,1,0,0,0,227,240,1,0,0,0,228,230,5,23,0,0,229,231,3,62,31,
+      0,230,229,1,0,0,0,230,231,1,0,0,0,231,232,1,0,0,0,232,240,5,2,0,0,
+      233,234,5,24,0,0,234,236,3,62,31,0,235,237,5,2,0,0,236,235,1,0,0,0,
+      236,237,1,0,0,0,237,240,1,0,0,0,238,240,3,26,13,0,239,197,1,0,0,0,
+      239,201,1,0,0,0,239,205,1,0,0,0,239,209,1,0,0,0,239,210,1,0,0,0,239,
+      211,1,0,0,0,239,212,1,0,0,0,239,213,1,0,0,0,239,214,1,0,0,0,239,215,
+      1,0,0,0,239,216,1,0,0,0,239,220,1,0,0,0,239,224,1,0,0,0,239,228,1,
+      0,0,0,239,233,1,0,0,0,239,238,1,0,0,0,240,29,1,0,0,0,241,242,3,70,
+      35,0,242,245,5,77,0,0,243,244,5,10,0,0,244,246,3,62,31,0,245,243,1,
+      0,0,0,245,246,1,0,0,0,246,31,1,0,0,0,247,248,3,34,17,0,248,249,5,10,
+      0,0,249,250,3,62,31,0,250,257,1,0,0,0,251,252,3,34,17,0,252,253,7,
+      1,0,0,253,257,1,0,0,0,254,255,7,1,0,0,255,257,3,34,17,0,256,247,1,
+      0,0,0,256,251,1,0,0,0,256,254,1,0,0,0,257,33,1,0,0,0,258,264,5,77,
+      0,0,259,264,3,36,18,0,260,261,5,27,0,0,261,262,5,3,0,0,262,264,5,77,
+      0,0,263,258,1,0,0,0,263,259,1,0,0,0,263,260,1,0,0,0,264,35,1,0,0,0,
+      265,272,7,2,0,0,266,267,5,3,0,0,267,273,5,77,0,0,268,269,5,29,0,0,
+      269,270,3,62,31,0,270,271,5,30,0,0,271,273,1,0,0,0,272,266,1,0,0,0,
+      272,268,1,0,0,0,273,274,1,0,0,0,274,272,1,0,0,0,274,275,1,0,0,0,275,
+      37,1,0,0,0,276,281,5,77,0,0,277,281,3,36,18,0,278,281,5,27,0,0,279,
+      281,5,28,0,0,280,276,1,0,0,0,280,277,1,0,0,0,280,278,1,0,0,0,280,279,
+      1,0,0,0,281,282,1,0,0,0,282,284,5,11,0,0,283,285,3,40,20,0,284,283,
+      1,0,0,0,284,285,1,0,0,0,285,286,1,0,0,0,286,287,5,12,0,0,287,39,1,
+      0,0,0,288,293,3,62,31,0,289,290,5,9,0,0,290,292,3,62,31,0,291,289,
+      1,0,0,0,292,295,1,0,0,0,293,291,1,0,0,0,293,294,1,0,0,0,294,41,1,0,
+      0,0,295,293,1,0,0,0,296,297,5,31,0,0,297,298,5,11,0,0,298,299,3,62,
+      31,0,299,300,5,12,0,0,300,310,3,28,14,0,301,302,5,32,0,0,302,303,5,
+      31,0,0,303,304,5,11,0,0,304,305,3,62,31,0,305,306,5,12,0,0,306,307,
+      3,28,14,0,307,309,1,0,0,0,308,301,1,0,0,0,309,312,1,0,0,0,310,308,
+      1,0,0,0,310,311,1,0,0,0,311,315,1,0,0,0,312,310,1,0,0,0,313,314,5,
+      32,0,0,314,316,3,28,14,0,315,313,1,0,0,0,315,316,1,0,0,0,316,43,1,
+      0,0,0,317,318,5,33,0,0,318,319,5,11,0,0,319,320,3,62,31,0,320,321,
+      5,12,0,0,321,325,5,5,0,0,322,324,3,46,23,0,323,322,1,0,0,0,324,327,
+      1,0,0,0,325,323,1,0,0,0,325,326,1,0,0,0,326,329,1,0,0,0,327,325,1,
+      0,0,0,328,330,3,48,24,0,329,328,1,0,0,0,329,330,1,0,0,0,330,331,1,
+      0,0,0,331,332,5,6,0,0,332,45,1,0,0,0,333,334,5,34,0,0,334,335,3,62,
+      31,0,335,339,5,35,0,0,336,338,3,28,14,0,337,336,1,0,0,0,338,341,1,
+      0,0,0,339,337,1,0,0,0,339,340,1,0,0,0,340,47,1,0,0,0,341,339,1,0,0,
+      0,342,343,5,36,0,0,343,347,5,35,0,0,344,346,3,28,14,0,345,344,1,0,
+      0,0,346,349,1,0,0,0,347,345,1,0,0,0,347,348,1,0,0,0,348,49,1,0,0,0,
+      349,347,1,0,0,0,350,351,5,37,0,0,351,352,5,11,0,0,352,353,3,62,31,
+      0,353,354,5,12,0,0,354,355,3,28,14,0,355,51,1,0,0,0,356,357,5,38,0,
+      0,357,358,3,26,13,0,358,359,5,37,0,0,359,360,5,11,0,0,360,361,3,62,
+      31,0,361,363,5,12,0,0,362,364,5,2,0,0,363,362,1,0,0,0,363,364,1,0,
+      0,0,364,53,1,0,0,0,365,366,5,39,0,0,366,368,5,11,0,0,367,369,3,30,
+      15,0,368,367,1,0,0,0,368,369,1,0,0,0,369,370,1,0,0,0,370,372,5,2,0,
+      0,371,373,3,62,31,0,372,371,1,0,0,0,372,373,1,0,0,0,373,374,1,0,0,
+      0,374,376,5,2,0,0,375,377,3,32,16,0,376,375,1,0,0,0,376,377,1,0,0,
+      0,377,378,1,0,0,0,378,379,5,12,0,0,379,380,3,28,14,0,380,55,1,0,0,
+      0,381,382,5,39,0,0,382,383,5,11,0,0,383,384,3,70,35,0,384,385,5,77,
+      0,0,385,386,5,40,0,0,386,387,3,62,31,0,387,388,5,12,0,0,388,389,3,
+      28,14,0,389,57,1,0,0,0,390,391,5,41,0,0,391,392,3,26,13,0,392,393,
+      5,42,0,0,393,394,5,11,0,0,394,395,3,70,35,0,395,396,5,77,0,0,396,397,
+      5,12,0,0,397,400,3,26,13,0,398,399,5,43,0,0,399,401,3,26,13,0,400,
+      398,1,0,0,0,400,401,1,0,0,0,401,59,1,0,0,0,402,403,5,44,0,0,403,404,
+      5,11,0,0,404,405,3,62,31,0,405,406,5,12,0,0,406,61,1,0,0,0,407,408,
+      6,31,-1,0,408,409,7,3,0,0,409,412,3,62,31,5,410,412,3,64,32,0,411,
+      407,1,0,0,0,411,410,1,0,0,0,412,447,1,0,0,0,413,414,10,11,0,0,414,
+      415,5,45,0,0,415,446,3,62,31,12,416,417,10,10,0,0,417,418,5,46,0,0,
+      418,446,3,62,31,11,419,420,10,9,0,0,420,421,7,4,0,0,421,446,3,62,31,
+      10,422,423,10,8,0,0,423,424,7,5,0,0,424,446,3,62,31,9,425,426,10,7,
+      0,0,426,427,7,6,0,0,427,446,3,62,31,8,428,429,10,6,0,0,429,430,7,7,
+      0,0,430,446,3,62,31,7,431,432,10,4,0,0,432,433,5,29,0,0,433,434,3,
+      62,31,0,434,435,5,30,0,0,435,446,1,0,0,0,436,437,10,3,0,0,437,438,
+      5,3,0,0,438,446,5,77,0,0,439,440,10,2,0,0,440,442,5,11,0,0,441,443,
+      3,40,20,0,442,441,1,0,0,0,442,443,1,0,0,0,443,444,1,0,0,0,444,446,
+      5,12,0,0,445,413,1,0,0,0,445,416,1,0,0,0,445,419,1,0,0,0,445,422,1,
+      0,0,0,445,425,1,0,0,0,445,428,1,0,0,0,445,431,1,0,0,0,445,436,1,0,
+      0,0,445,439,1,0,0,0,446,449,1,0,0,0,447,445,1,0,0,0,447,448,1,0,0,
+      0,448,63,1,0,0,0,449,447,1,0,0,0,450,467,3,68,34,0,451,467,5,77,0,
+      0,452,467,5,27,0,0,453,467,5,28,0,0,454,455,5,59,0,0,455,456,5,77,
+      0,0,456,458,5,11,0,0,457,459,3,40,20,0,458,457,1,0,0,0,458,459,1,0,
+      0,0,459,460,1,0,0,0,460,467,5,12,0,0,461,467,3,66,33,0,462,463,5,11,
+      0,0,463,464,3,62,31,0,464,465,5,12,0,0,465,467,1,0,0,0,466,450,1,0,
+      0,0,466,451,1,0,0,0,466,452,1,0,0,0,466,453,1,0,0,0,466,454,1,0,0,
+      0,466,461,1,0,0,0,466,462,1,0,0,0,467,65,1,0,0,0,468,470,5,29,0,0,
+      469,471,3,40,20,0,470,469,1,0,0,0,470,471,1,0,0,0,471,472,1,0,0,0,
+      472,473,5,30,0,0,473,67,1,0,0,0,474,475,7,8,0,0,475,69,1,0,0,0,476,
+      481,3,72,36,0,477,478,5,29,0,0,478,480,5,30,0,0,479,477,1,0,0,0,480,
+      483,1,0,0,0,481,479,1,0,0,0,481,482,1,0,0,0,482,71,1,0,0,0,483,481,
+      1,0,0,0,484,485,7,9,0,0,485,73,1,0,0,0,56,77,79,87,94,100,106,109,
+      115,129,135,141,147,150,153,158,163,165,170,182,192,199,203,207,218,
+      222,226,230,236,239,245,256,263,272,274,280,284,293,310,315,325,329,
+      339,347,363,368,372,376,400,411,442,445,447,458,466,470,481
   ];
 
   static final ATN _ATN =
       ATNDeserializer().deserialize(_serializedATN);
 }
-class ProgramaContext extends ParserRuleContext {
+class ProgramContext extends ParserRuleContext {
   TerminalNode? EOF() => getToken(TralhaParser.TOKEN_EOF, 0);
-  List<Import_declContext> import_decls() => getRuleContexts<Import_declContext>();
-  Import_declContext? import_decl(int i) => getRuleContext<Import_declContext>(i);
-  List<Class_declContext> class_decls() => getRuleContexts<Class_declContext>();
-  Class_declContext? class_decl(int i) => getRuleContext<Class_declContext>(i);
-  List<ComandoContext> comandos() => getRuleContexts<ComandoContext>();
-  ComandoContext? comando(int i) => getRuleContext<ComandoContext>(i);
-  ProgramaContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  List<ImportDeclarationContext> importDeclarations() => getRuleContexts<ImportDeclarationContext>();
+  ImportDeclarationContext? importDeclaration(int i) => getRuleContext<ImportDeclarationContext>(i);
+  List<ClassDeclarationContext> classDeclarations() => getRuleContexts<ClassDeclarationContext>();
+  ClassDeclarationContext? classDeclaration(int i) => getRuleContext<ClassDeclarationContext>(i);
+  List<StatementContext> statements() => getRuleContexts<StatementContext>();
+  StatementContext? statement(int i) => getRuleContext<StatementContext>(i);
+  ProgramContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_programa;
+  int get ruleIndex => RULE_program;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitPrograma(this);
+     return visitor.visitProgram(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class Import_declContext extends ParserRuleContext {
-  Qualified_idContext? qualified_id() => getRuleContext<Qualified_idContext>(0);
-  Import_declContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+class ImportDeclarationContext extends ParserRuleContext {
+  QualifiedNameContext? qualifiedName() => getRuleContext<QualifiedNameContext>(0);
+  ImportDeclarationContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_import_decl;
+  int get ruleIndex => RULE_importDeclaration;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitImport_decl(this);
+     return visitor.visitImportDeclaration(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class Qualified_idContext extends ParserRuleContext {
+class QualifiedNameContext extends ParserRuleContext {
   List<TerminalNode> IDs() => getTokens(TralhaParser.TOKEN_ID);
   TerminalNode? ID(int i) => getToken(TralhaParser.TOKEN_ID, i);
-  Qualified_idContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  QualifiedNameContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_qualified_id;
+  int get ruleIndex => RULE_qualifiedName;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitQualified_id(this);
+     return visitor.visitQualifiedName(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class Class_declContext extends ParserRuleContext {
+class ClassDeclarationContext extends ParserRuleContext {
   TerminalNode? ID() => getToken(TralhaParser.TOKEN_ID, 0);
-  ModificadoresContext? modificadores() => getRuleContext<ModificadoresContext>(0);
-  Mamata_clauseContext? mamata_clause() => getRuleContext<Mamata_clauseContext>(0);
-  Bota_clauseContext? bota_clause() => getRuleContext<Bota_clauseContext>(0);
-  List<MembroContext> membros() => getRuleContexts<MembroContext>();
-  MembroContext? membro(int i) => getRuleContext<MembroContext>(i);
-  Class_declContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  List<ModifierContext> modifiers() => getRuleContexts<ModifierContext>();
+  ModifierContext? modifier(int i) => getRuleContext<ModifierContext>(i);
+  ExtendsClauseContext? extendsClause() => getRuleContext<ExtendsClauseContext>(0);
+  ImplementsClauseContext? implementsClause() => getRuleContext<ImplementsClauseContext>(0);
+  List<MemberDeclarationContext> memberDeclarations() => getRuleContexts<MemberDeclarationContext>();
+  MemberDeclarationContext? memberDeclaration(int i) => getRuleContext<MemberDeclarationContext>(i);
+  ClassDeclarationContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_class_decl;
+  int get ruleIndex => RULE_classDeclaration;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitClass_decl(this);
+     return visitor.visitClassDeclaration(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class Mamata_clauseContext extends ParserRuleContext {
+class ExtendsClauseContext extends ParserRuleContext {
   TerminalNode? ID() => getToken(TralhaParser.TOKEN_ID, 0);
-  Mamata_clauseContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ExtendsClauseContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_mamata_clause;
+  int get ruleIndex => RULE_extendsClause;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitMamata_clause(this);
+     return visitor.visitExtendsClause(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class Bota_clauseContext extends ParserRuleContext {
+class ImplementsClauseContext extends ParserRuleContext {
   List<TerminalNode> IDs() => getTokens(TralhaParser.TOKEN_ID);
   TerminalNode? ID(int i) => getToken(TralhaParser.TOKEN_ID, i);
-  Bota_clauseContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ImplementsClauseContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_bota_clause;
+  int get ruleIndex => RULE_implementsClause;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitBota_clause(this);
+     return visitor.visitImplementsClause(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class MembroContext extends ParserRuleContext {
-  Metodo_declContext? metodo_decl() => getRuleContext<Metodo_declContext>(0);
-  Campo_declContext? campo_decl() => getRuleContext<Campo_declContext>(0);
-  Construtor_declContext? construtor_decl() => getRuleContext<Construtor_declContext>(0);
-  ModificadoresContext? modificadores() => getRuleContext<ModificadoresContext>(0);
-  MembroContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+class MemberDeclarationContext extends ParserRuleContext {
+  MethodDeclarationContext? methodDeclaration() => getRuleContext<MethodDeclarationContext>(0);
+  FieldDeclarationContext? fieldDeclaration() => getRuleContext<FieldDeclarationContext>(0);
+  ConstructorDeclarationContext? constructorDeclaration() => getRuleContext<ConstructorDeclarationContext>(0);
+  List<ModifierContext> modifiers() => getRuleContexts<ModifierContext>();
+  ModifierContext? modifier(int i) => getRuleContext<ModifierContext>(i);
+  MemberDeclarationContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_membro;
+  int get ruleIndex => RULE_memberDeclaration;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitMembro(this);
+     return visitor.visitMemberDeclaration(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class Campo_declContext extends ParserRuleContext {
-  TipoContext? tipo() => getRuleContext<TipoContext>(0);
+class FieldDeclarationContext extends ParserRuleContext {
+  TypeContext? type() => getRuleContext<TypeContext>(0);
   TerminalNode? ID() => getToken(TralhaParser.TOKEN_ID, 0);
-  ExpressaoContext? expressao() => getRuleContext<ExpressaoContext>(0);
-  Campo_declContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ExpressionContext? expression() => getRuleContext<ExpressionContext>(0);
+  FieldDeclarationContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_campo_decl;
+  int get ruleIndex => RULE_fieldDeclaration;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitCampo_decl(this);
+     return visitor.visitFieldDeclaration(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class Metodo_declContext extends ParserRuleContext {
+class MethodDeclarationContext extends ParserRuleContext {
   TerminalNode? ID() => getToken(TralhaParser.TOKEN_ID, 0);
-  BlocoContext? bloco() => getRuleContext<BlocoContext>(0);
-  TipoContext? tipo() => getRuleContext<TipoContext>(0);
-  ParametrosContext? parametros() => getRuleContext<ParametrosContext>(0);
-  Metodo_declContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  BlockContext? block() => getRuleContext<BlockContext>(0);
+  TypeContext? type() => getRuleContext<TypeContext>(0);
+  ParameterListContext? parameterList() => getRuleContext<ParameterListContext>(0);
+  MethodDeclarationContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_metodo_decl;
+  int get ruleIndex => RULE_methodDeclaration;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitMetodo_decl(this);
+     return visitor.visitMethodDeclaration(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class Construtor_declContext extends ParserRuleContext {
+class ConstructorDeclarationContext extends ParserRuleContext {
   TerminalNode? ID() => getToken(TralhaParser.TOKEN_ID, 0);
-  BlocoContext? bloco() => getRuleContext<BlocoContext>(0);
-  ParametrosContext? parametros() => getRuleContext<ParametrosContext>(0);
-  Construtor_declContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  BlockContext? block() => getRuleContext<BlockContext>(0);
+  ParameterListContext? parameterList() => getRuleContext<ParameterListContext>(0);
+  ConstructorDeclarationContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_construtor_decl;
+  int get ruleIndex => RULE_constructorDeclaration;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitConstrutor_decl(this);
+     return visitor.visitConstructorDeclaration(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class ParametrosContext extends ParserRuleContext {
-  List<ParametroContext> parametros() => getRuleContexts<ParametroContext>();
-  ParametroContext? parametro(int i) => getRuleContext<ParametroContext>(i);
-  ParametrosContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+class ModifierContext extends ParserRuleContext {
+  ModifierContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_parametros;
+  int get ruleIndex => RULE_modifier;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitParametros(this);
+     return visitor.visitModifier(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class ParametroContext extends ParserRuleContext {
-  TipoContext? tipo() => getRuleContext<TipoContext>(0);
+class ParameterListContext extends ParserRuleContext {
+  List<ParameterContext> parameters() => getRuleContexts<ParameterContext>();
+  ParameterContext? parameter(int i) => getRuleContext<ParameterContext>(i);
+  ParameterListContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  @override
+  int get ruleIndex => RULE_parameterList;
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is TralhaVisitor<T>) {
+     return visitor.visitParameterList(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
+  }
+}
+
+class ParameterContext extends ParserRuleContext {
+  TypeContext? type() => getRuleContext<TypeContext>(0);
   TerminalNode? ID() => getToken(TralhaParser.TOKEN_ID, 0);
-  ParametroContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ParameterContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_parametro;
+  int get ruleIndex => RULE_parameter;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitParametro(this);
+     return visitor.visitParameter(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class ModificadoresContext extends ParserRuleContext {
-  List<ModificadorContext> modificadors() => getRuleContexts<ModificadorContext>();
-  ModificadorContext? modificador(int i) => getRuleContext<ModificadorContext>(i);
-  ModificadoresContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+class BlockContext extends ParserRuleContext {
+  List<StatementContext> statements() => getRuleContexts<StatementContext>();
+  StatementContext? statement(int i) => getRuleContext<StatementContext>(i);
+  BlockContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_modificadores;
+  int get ruleIndex => RULE_block;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitModificadores(this);
+     return visitor.visitBlock(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class ModificadorContext extends ParserRuleContext {
-  ModificadorContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+class StatementContext extends ParserRuleContext {
+  VariableDeclarationContext? variableDeclaration() => getRuleContext<VariableDeclarationContext>(0);
+  AssignmentContext? assignment() => getRuleContext<AssignmentContext>(0);
+  MethodCallContext? methodCall() => getRuleContext<MethodCallContext>(0);
+  IfStatementContext? ifStatement() => getRuleContext<IfStatementContext>(0);
+  SwitchStatementContext? switchStatement() => getRuleContext<SwitchStatementContext>(0);
+  WhileStatementContext? whileStatement() => getRuleContext<WhileStatementContext>(0);
+  DoWhileStatementContext? doWhileStatement() => getRuleContext<DoWhileStatementContext>(0);
+  ForStatementContext? forStatement() => getRuleContext<ForStatementContext>(0);
+  ForEachStatementContext? forEachStatement() => getRuleContext<ForEachStatementContext>(0);
+  TryStatementContext? tryStatement() => getRuleContext<TryStatementContext>(0);
+  PrintStatementContext? printStatement() => getRuleContext<PrintStatementContext>(0);
+  ExpressionContext? expression() => getRuleContext<ExpressionContext>(0);
+  BlockContext? block() => getRuleContext<BlockContext>(0);
+  StatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_modificador;
+  int get ruleIndex => RULE_statement;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitModificador(this);
+     return visitor.visitStatement(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class BlocoContext extends ParserRuleContext {
-  List<ComandoContext> comandos() => getRuleContexts<ComandoContext>();
-  ComandoContext? comando(int i) => getRuleContext<ComandoContext>(i);
-  BlocoContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
-  @override
-  int get ruleIndex => RULE_bloco;
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is TralhaVisitor<T>) {
-     return visitor.visitBloco(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
-  }
-}
-
-class ComandoContext extends ParserRuleContext {
-  DeclaracaoContext? declaracao() => getRuleContext<DeclaracaoContext>(0);
-  AtribuicaoContext? atribuicao() => getRuleContext<AtribuicaoContext>(0);
-  Chamada_metodoContext? chamada_metodo() => getRuleContext<Chamada_metodoContext>(0);
-  CondicionalContext? condicional() => getRuleContext<CondicionalContext>(0);
-  RepeticaoContext? repeticao() => getRuleContext<RepeticaoContext>(0);
-  ExcessaoContext? excessao() => getRuleContext<ExcessaoContext>(0);
-  Comando_ioContext? comando_io() => getRuleContext<Comando_ioContext>(0);
-  ExpressaoContext? expressao() => getRuleContext<ExpressaoContext>(0);
-  BlocoContext? bloco() => getRuleContext<BlocoContext>(0);
-  ComandoContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
-  @override
-  int get ruleIndex => RULE_comando;
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is TralhaVisitor<T>) {
-     return visitor.visitComando(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
-  }
-}
-
-class DeclaracaoContext extends ParserRuleContext {
-  TipoContext? tipo() => getRuleContext<TipoContext>(0);
+class VariableDeclarationContext extends ParserRuleContext {
+  TypeContext? type() => getRuleContext<TypeContext>(0);
   TerminalNode? ID() => getToken(TralhaParser.TOKEN_ID, 0);
-  ExpressaoContext? expressao() => getRuleContext<ExpressaoContext>(0);
-  DeclaracaoContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ExpressionContext? expression() => getRuleContext<ExpressionContext>(0);
+  VariableDeclarationContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_declaracao;
+  int get ruleIndex => RULE_variableDeclaration;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitDeclaracao(this);
+     return visitor.visitVariableDeclaration(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class AtribuicaoContext extends ParserRuleContext {
-  LvalueContext? lvalue() => getRuleContext<LvalueContext>(0);
-  ExpressaoContext? expressao() => getRuleContext<ExpressaoContext>(0);
-  AtribuicaoContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+class AssignmentContext extends ParserRuleContext {
+  AssignableContext? assignable() => getRuleContext<AssignableContext>(0);
+  ExpressionContext? expression() => getRuleContext<ExpressionContext>(0);
+  AssignmentContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_atribuicao;
+  int get ruleIndex => RULE_assignment;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitAtribuicao(this);
+     return visitor.visitAssignment(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class LvalueContext extends ParserRuleContext {
+class AssignableContext extends ParserRuleContext {
   TerminalNode? ID() => getToken(TralhaParser.TOKEN_ID, 0);
-  AcessoContext? acesso() => getRuleContext<AcessoContext>(0);
-  LvalueContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  MemberAccessContext? memberAccess() => getRuleContext<MemberAccessContext>(0);
+  AssignableContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_lvalue;
+  int get ruleIndex => RULE_assignable;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitLvalue(this);
+     return visitor.visitAssignable(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class AcessoContext extends ParserRuleContext {
+class MemberAccessContext extends ParserRuleContext {
   List<TerminalNode> IDs() => getTokens(TralhaParser.TOKEN_ID);
   TerminalNode? ID(int i) => getToken(TralhaParser.TOKEN_ID, i);
-  List<ExpressaoContext> expressaos() => getRuleContexts<ExpressaoContext>();
-  ExpressaoContext? expressao(int i) => getRuleContext<ExpressaoContext>(i);
-  AcessoContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  List<ExpressionContext> expressions() => getRuleContexts<ExpressionContext>();
+  ExpressionContext? expression(int i) => getRuleContext<ExpressionContext>(i);
+  MemberAccessContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_acesso;
+  int get ruleIndex => RULE_memberAccess;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitAcesso(this);
+     return visitor.visitMemberAccess(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class Chamada_metodoContext extends ParserRuleContext {
+class MethodCallContext extends ParserRuleContext {
   TerminalNode? ID() => getToken(TralhaParser.TOKEN_ID, 0);
-  AcessoContext? acesso() => getRuleContext<AcessoContext>(0);
-  PrimaryContext? primary() => getRuleContext<PrimaryContext>(0);
-  Lista_expressoesContext? lista_expressoes() => getRuleContext<Lista_expressoesContext>(0);
-  Chamada_metodoContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  MemberAccessContext? memberAccess() => getRuleContext<MemberAccessContext>(0);
+  ArgumentListContext? argumentList() => getRuleContext<ArgumentListContext>(0);
+  MethodCallContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_chamada_metodo;
+  int get ruleIndex => RULE_methodCall;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitChamada_metodo(this);
+     return visitor.visitMethodCall(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class Lista_expressoesContext extends ParserRuleContext {
-  List<ExpressaoContext> expressaos() => getRuleContexts<ExpressaoContext>();
-  ExpressaoContext? expressao(int i) => getRuleContext<ExpressaoContext>(i);
-  Lista_expressoesContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+class ArgumentListContext extends ParserRuleContext {
+  List<ExpressionContext> expressions() => getRuleContexts<ExpressionContext>();
+  ExpressionContext? expression(int i) => getRuleContext<ExpressionContext>(i);
+  ArgumentListContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_lista_expressoes;
+  int get ruleIndex => RULE_argumentList;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitLista_expressoes(this);
+     return visitor.visitArgumentList(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class CondicionalContext extends ParserRuleContext {
-  List<ExpressaoContext> expressaos() => getRuleContexts<ExpressaoContext>();
-  ExpressaoContext? expressao(int i) => getRuleContext<ExpressaoContext>(i);
-  List<ComandoContext> comandos() => getRuleContexts<ComandoContext>();
-  ComandoContext? comando(int i) => getRuleContext<ComandoContext>(i);
-  List<CasoContext> casos() => getRuleContexts<CasoContext>();
-  CasoContext? caso(int i) => getRuleContext<CasoContext>(i);
-  PadraoContext? padrao() => getRuleContext<PadraoContext>(0);
-  CondicionalContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+class IfStatementContext extends ParserRuleContext {
+  List<ExpressionContext> expressions() => getRuleContexts<ExpressionContext>();
+  ExpressionContext? expression(int i) => getRuleContext<ExpressionContext>(i);
+  List<StatementContext> statements() => getRuleContexts<StatementContext>();
+  StatementContext? statement(int i) => getRuleContext<StatementContext>(i);
+  IfStatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_condicional;
+  int get ruleIndex => RULE_ifStatement;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitCondicional(this);
+     return visitor.visitIfStatement(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class CasoContext extends ParserRuleContext {
-  ExpressaoContext? expressao() => getRuleContext<ExpressaoContext>(0);
-  List<ComandoContext> comandos() => getRuleContexts<ComandoContext>();
-  ComandoContext? comando(int i) => getRuleContext<ComandoContext>(i);
-  CasoContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+class SwitchStatementContext extends ParserRuleContext {
+  ExpressionContext? expression() => getRuleContext<ExpressionContext>(0);
+  List<SwitchCaseContext> switchCases() => getRuleContexts<SwitchCaseContext>();
+  SwitchCaseContext? switchCase(int i) => getRuleContext<SwitchCaseContext>(i);
+  DefaultCaseContext? defaultCase() => getRuleContext<DefaultCaseContext>(0);
+  SwitchStatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_caso;
+  int get ruleIndex => RULE_switchStatement;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitCaso(this);
+     return visitor.visitSwitchStatement(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class PadraoContext extends ParserRuleContext {
-  List<ComandoContext> comandos() => getRuleContexts<ComandoContext>();
-  ComandoContext? comando(int i) => getRuleContext<ComandoContext>(i);
-  PadraoContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+class SwitchCaseContext extends ParserRuleContext {
+  ExpressionContext? expression() => getRuleContext<ExpressionContext>(0);
+  List<StatementContext> statements() => getRuleContexts<StatementContext>();
+  StatementContext? statement(int i) => getRuleContext<StatementContext>(i);
+  SwitchCaseContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_padrao;
+  int get ruleIndex => RULE_switchCase;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitPadrao(this);
+     return visitor.visitSwitchCase(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class RepeticaoContext extends ParserRuleContext {
-  ExpressaoContext? expressao() => getRuleContext<ExpressaoContext>(0);
-  ComandoContext? comando() => getRuleContext<ComandoContext>(0);
-  BlocoContext? bloco() => getRuleContext<BlocoContext>(0);
-  DeclaracaoContext? declaracao() => getRuleContext<DeclaracaoContext>(0);
-  AtribuicaoContext? atribuicao() => getRuleContext<AtribuicaoContext>(0);
-  TipoContext? tipo() => getRuleContext<TipoContext>(0);
+class DefaultCaseContext extends ParserRuleContext {
+  List<StatementContext> statements() => getRuleContexts<StatementContext>();
+  StatementContext? statement(int i) => getRuleContext<StatementContext>(i);
+  DefaultCaseContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  @override
+  int get ruleIndex => RULE_defaultCase;
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is TralhaVisitor<T>) {
+     return visitor.visitDefaultCase(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
+  }
+}
+
+class WhileStatementContext extends ParserRuleContext {
+  ExpressionContext? expression() => getRuleContext<ExpressionContext>(0);
+  StatementContext? statement() => getRuleContext<StatementContext>(0);
+  WhileStatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  @override
+  int get ruleIndex => RULE_whileStatement;
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is TralhaVisitor<T>) {
+     return visitor.visitWhileStatement(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
+  }
+}
+
+class DoWhileStatementContext extends ParserRuleContext {
+  BlockContext? block() => getRuleContext<BlockContext>(0);
+  ExpressionContext? expression() => getRuleContext<ExpressionContext>(0);
+  DoWhileStatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  @override
+  int get ruleIndex => RULE_doWhileStatement;
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is TralhaVisitor<T>) {
+     return visitor.visitDoWhileStatement(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
+  }
+}
+
+class ForStatementContext extends ParserRuleContext {
+  StatementContext? statement() => getRuleContext<StatementContext>(0);
+  VariableDeclarationContext? variableDeclaration() => getRuleContext<VariableDeclarationContext>(0);
+  ExpressionContext? expression() => getRuleContext<ExpressionContext>(0);
+  AssignmentContext? assignment() => getRuleContext<AssignmentContext>(0);
+  ForStatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  @override
+  int get ruleIndex => RULE_forStatement;
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is TralhaVisitor<T>) {
+     return visitor.visitForStatement(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
+  }
+}
+
+class ForEachStatementContext extends ParserRuleContext {
+  TypeContext? type() => getRuleContext<TypeContext>(0);
   TerminalNode? ID() => getToken(TralhaParser.TOKEN_ID, 0);
-  RepeticaoContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ExpressionContext? expression() => getRuleContext<ExpressionContext>(0);
+  StatementContext? statement() => getRuleContext<StatementContext>(0);
+  ForEachStatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_repeticao;
+  int get ruleIndex => RULE_forEachStatement;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitRepeticao(this);
+     return visitor.visitForEachStatement(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class ExcessaoContext extends ParserRuleContext {
-  List<BlocoContext> blocos() => getRuleContexts<BlocoContext>();
-  BlocoContext? bloco(int i) => getRuleContext<BlocoContext>(i);
-  TipoContext? tipo() => getRuleContext<TipoContext>(0);
+class TryStatementContext extends ParserRuleContext {
+  List<BlockContext> blocks() => getRuleContexts<BlockContext>();
+  BlockContext? block(int i) => getRuleContext<BlockContext>(i);
+  TypeContext? type() => getRuleContext<TypeContext>(0);
   TerminalNode? ID() => getToken(TralhaParser.TOKEN_ID, 0);
-  ExcessaoContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  TryStatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_excessao;
+  int get ruleIndex => RULE_tryStatement;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitExcessao(this);
+     return visitor.visitTryStatement(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class Comando_ioContext extends ParserRuleContext {
-  ExpressaoContext? expressao() => getRuleContext<ExpressaoContext>(0);
-  Comando_ioContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+class PrintStatementContext extends ParserRuleContext {
+  ExpressionContext? expression() => getRuleContext<ExpressionContext>(0);
+  PrintStatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_comando_io;
+  int get ruleIndex => RULE_printStatement;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitComando_io(this);
+     return visitor.visitPrintStatement(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class ExpressaoContext extends ParserRuleContext {
-  PrimaryContext? primary() => getRuleContext<PrimaryContext>(0);
-  List<ExpressaoContext> expressaos() => getRuleContexts<ExpressaoContext>();
-  ExpressaoContext? expressao(int i) => getRuleContext<ExpressaoContext>(i);
+class ExpressionContext extends ParserRuleContext {
+  List<ExpressionContext> expressions() => getRuleContexts<ExpressionContext>();
+  ExpressionContext? expression(int i) => getRuleContext<ExpressionContext>(i);
+  AtomContext? atom() => getRuleContext<AtomContext>(0);
   TerminalNode? ID() => getToken(TralhaParser.TOKEN_ID, 0);
-  Lista_expressoesContext? lista_expressoes() => getRuleContext<Lista_expressoesContext>(0);
-  ExpressaoContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ArgumentListContext? argumentList() => getRuleContext<ArgumentListContext>(0);
+  ExpressionContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_expressao;
+  int get ruleIndex => RULE_expression;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitExpressao(this);
+     return visitor.visitExpression(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class PrimaryContext extends ParserRuleContext {
-  TerminalNode? ID() => getToken(TralhaParser.TOKEN_ID, 0);
-  Lista_expressoesContext? lista_expressoes() => getRuleContext<Lista_expressoesContext>(0);
-  Array_literalContext? array_literal() => getRuleContext<Array_literalContext>(0);
+class AtomContext extends ParserRuleContext {
   LiteralContext? literal() => getRuleContext<LiteralContext>(0);
-  ExpressaoContext? expressao() => getRuleContext<ExpressaoContext>(0);
-  PrimaryContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  TerminalNode? ID() => getToken(TralhaParser.TOKEN_ID, 0);
+  ArgumentListContext? argumentList() => getRuleContext<ArgumentListContext>(0);
+  ArrayLiteralContext? arrayLiteral() => getRuleContext<ArrayLiteralContext>(0);
+  ExpressionContext? expression() => getRuleContext<ExpressionContext>(0);
+  AtomContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_primary;
+  int get ruleIndex => RULE_atom;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitPrimary(this);
+     return visitor.visitAtom(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class Array_literalContext extends ParserRuleContext {
-  Lista_expressoesContext? lista_expressoes() => getRuleContext<Lista_expressoesContext>(0);
-  Array_literalContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+class ArrayLiteralContext extends ParserRuleContext {
+  ArgumentListContext? argumentList() => getRuleContext<ArgumentListContext>(0);
+  ArrayLiteralContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_array_literal;
+  int get ruleIndex => RULE_arrayLiteral;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitArray_literal(this);
+     return visitor.visitArrayLiteral(this);
     } else {
     	return visitor.visitChildren(this);
     }
@@ -2622,11 +2647,11 @@ class Array_literalContext extends ParserRuleContext {
 }
 
 class LiteralContext extends ParserRuleContext {
-  TerminalNode? STRING_LITERAL() => getToken(TralhaParser.TOKEN_STRING_LITERAL, 0);
-  TerminalNode? INT_LITERAL() => getToken(TralhaParser.TOKEN_INT_LITERAL, 0);
-  TerminalNode? FLOAT_LITERAL() => getToken(TralhaParser.TOKEN_FLOAT_LITERAL, 0);
-  TerminalNode? DOUBLE_LITERAL() => getToken(TralhaParser.TOKEN_DOUBLE_LITERAL, 0);
-  TerminalNode? CHAR_LITERAL() => getToken(TralhaParser.TOKEN_CHAR_LITERAL, 0);
+  TerminalNode? INT() => getToken(TralhaParser.TOKEN_INT, 0);
+  TerminalNode? FLOAT() => getToken(TralhaParser.TOKEN_FLOAT, 0);
+  TerminalNode? DOUBLE() => getToken(TralhaParser.TOKEN_DOUBLE, 0);
+  TerminalNode? STRING() => getToken(TralhaParser.TOKEN_STRING, 0);
+  TerminalNode? CHAR() => getToken(TralhaParser.TOKEN_CHAR, 0);
   LiteralContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
   int get ruleIndex => RULE_literal;
@@ -2640,30 +2665,30 @@ class LiteralContext extends ParserRuleContext {
   }
 }
 
-class TipoContext extends ParserRuleContext {
-  Tipo_baseContext? tipo_base() => getRuleContext<Tipo_baseContext>(0);
-  TipoContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+class TypeContext extends ParserRuleContext {
+  BaseTypeContext? baseType() => getRuleContext<BaseTypeContext>(0);
+  TypeContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_tipo;
+  int get ruleIndex => RULE_type;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitTipo(this);
+     return visitor.visitType(this);
     } else {
     	return visitor.visitChildren(this);
     }
   }
 }
 
-class Tipo_baseContext extends ParserRuleContext {
+class BaseTypeContext extends ParserRuleContext {
   TerminalNode? ID() => getToken(TralhaParser.TOKEN_ID, 0);
-  Tipo_baseContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  BaseTypeContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_tipo_base;
+  int get ruleIndex => RULE_baseType;
   @override
   T? accept<T>(ParseTreeVisitor<T> visitor) {
     if (visitor is TralhaVisitor<T>) {
-     return visitor.visitTipo_base(this);
+     return visitor.visitBaseType(this);
     } else {
     	return visitor.visitChildren(this);
     }
