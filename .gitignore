@@ -4,7 +4,6 @@
 build/
 
 # IDE e Editores
-.vscode/
 .idea/
 *.iml
 

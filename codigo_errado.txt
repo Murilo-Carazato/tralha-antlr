@@ -1,5 +1,9 @@
 trazPraca br.cafe.Sobrevivencia
 
-todo TREM Vantinigay{
+todo TREM {
+    receba
+}
+
+TREM errado{
     naoFracionado valor receba 10 receba
 }

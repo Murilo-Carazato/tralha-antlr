@@ -27,15 +27,15 @@ program
 // ------------------------------------------------------------
 
 /// importDeclaration :
-///     trazPraca qualifiedName ;?
+///     IMPORT qualifiedName SEMI?
 importDeclaration
-    : 'trazPraca' qualifiedName ';'?
+    : IMPORT qualifiedName SEMI?
     ;
 
 /// qualifiedName :
-///     ID ( . ID )*
+///     ID ( DOT ID )*
 qualifiedName
-    : ID ('.' ID)*
+    : ID (DOT ID)*
     ;
 
 // ------------------------------------------------------------
@@ -43,21 +43,21 @@ qualifiedName
 // ------------------------------------------------------------
 
 /// classDeclaration :
-///     modifier* TREM ClassName extendsClause? implementsClause? { memberDeclaration* }
+///     modifier* CLASS ID extendsClause? implementsClause? LBRACE memberDeclaration* RBRACE
 classDeclaration
-    : modifier* 'TREM' ID extendsClause? implementsClause? '{' memberDeclaration* '}'
+    : modifier* CLASS ID extendsClause? implementsClause? LBRACE memberDeclaration* RBRACE
     ;
 
 /// extendsClause :
-///     mamata ClassName      (herança — equivale a extends)
+///     EXTENDS ID      (herança — equivale a extends)
 extendsClause
-    : 'mamata' ID
+    : EXTENDS ID
     ;
 
 /// implementsClause :
-///     bota Interface (, Interface)*   (equivale a implements)
+///     IMPLEMENTS ID (COMMA ID)*   (equivale a implements)
 implementsClause
-    : 'bota' ID (',' ID)*
+    : IMPLEMENTS ID (COMMA ID)*
     ;
 
 /// memberDeclaration :
@@ -67,38 +67,37 @@ memberDeclaration
     ;
 
 /// fieldDeclaration :
-///     type name receba value? ;?
+///     type ID (ASSIGN expression)? SEMI?
 fieldDeclaration
-    : type ID ('receba' expression)? ';'?
+    : type ID (ASSIGN expression)? SEMI?
     ;
 
 /// methodDeclaration :
-///     type? name ( params? ) block       (método concreto)
-///     type? name ( params? ) ;           (método abstrato)
+///     type? ID LPAREN parameterList? RPAREN (block | SEMI?)
 methodDeclaration
-    : type? ID '(' parameterList? ')' (block | ';'?)
+    : type? ID LPAREN parameterList? RPAREN (block | SEMI?)
     ;
 
 /// constructorDeclaration :
-///     ClassName ( params? ) block
+///     ID LPAREN parameterList? RPAREN block
 constructorDeclaration
-    : ID '(' parameterList? ')' block
+    : ID LPAREN parameterList? RPAREN block
     ;
 
 // ------------------------------------------------------------
 // Modificadores
 // ------------------------------------------------------------
 
-/// modifier : todo | sou | nepotismo | baiano | teimoso | cravado | politico | override
+/// modifier : PUBLIC | PRIVATE | PROTECTED | STATIC | FINAL | CONST | ABSTRACT | OVERRIDE
 modifier
-    : 'todo'        // public
-    | 'sou'         // private
-    | 'nepotismo'   // protected
-    | 'baiano'      // static
-    | 'teimoso'     // final
-    | 'cravado'     // const
-    | 'politico'    // abstract
-    | 'override'    // @Override
+    : PUBLIC      // todo
+    | PRIVATE     // sou
+    | PROTECTED   // nepotismo
+    | STATIC      // baiano
+    | FINAL       // teimoso
+    | CONST       // cravado
+    | ABSTRACT    // politico
+    | OVERRIDE    // override
     ;
 
 // ------------------------------------------------------------
@@ -106,13 +105,13 @@ modifier
 // ------------------------------------------------------------
 
 /// parameterList :
-///     parameter (, parameter)*
+///     parameter (COMMA parameter)*
 parameterList
-    : parameter (',' parameter)*
+    : parameter (COMMA parameter)*
     ;
 
 /// parameter :
-///     type name
+///     type ID
 parameter
     : type ID
     ;
@@ -122,29 +121,29 @@ parameter
 // ------------------------------------------------------------
 
 /// block :
-///     { statement* }
+///     LBRACE statement* RBRACE
 block
-    : '{' statement* '}'
+    : LBRACE statement* RBRACE
     ;
 
 /// statement :
-///     variableDeclaration                  declaração de variável local
-///     assignment                           atribuição
-///     methodCall                           chamada de método como comando
-///     ifStatement                          if / else if / else
-///     switchStatement                      switch / case / default
-///     whileStatement                       while
-///     doWhileStatement                     do-while
-///     forStatement                         for clássico
-///     forEachStatement                     for-each
-///     tryStatement                         try / catch / finally
-///     printStatement                       saída (whatsapp)
-///     break / continue / return / throw
-///     block                                bloco aninhado
+///     variableDeclaration SEMI?        declaração de variável local
+///     assignment SEMI?                 atribuição
+///     methodCall SEMI?                 chamada de método como comando
+///     ifStatement                      if / else if / else
+///     switchStatement                  switch / case / default
+///     whileStatement                   while
+///     doWhileStatement                 do-while
+///     forStatement                     for clássico
+///     forEachStatement                 for-each
+///     tryStatement                     try / catch / finally
+///     printStatement SEMI?             saída (whatsapp)
+///     BREAK / CONTINUE / RETURN / THROW
+///     block                            bloco aninhado
 statement
-    : variableDeclaration ';'?
-    | assignment ';'?
-    | methodCall ';'?
+    : variableDeclaration SEMI?
+    | assignment SEMI?
+    | methodCall SEMI?
     | ifStatement
     | switchStatement
     | whileStatement
@@ -152,11 +151,11 @@ statement
     | forStatement
     | forEachStatement
     | tryStatement
-    | printStatement ';'?
-    | 'chega' ';'?            // break
-    | 'pula' ';'?             // continue
-    | 'manda' expression? ';' // return
-    | 'taca' expression ';'?  // throw
+    | printStatement SEMI?
+    | BREAK SEMI?              // chega
+    | CONTINUE SEMI?           // pula
+    | RETURN expression? SEMI  // manda
+    | THROW expression SEMI?   // taca
     | block
     ;
 
@@ -165,28 +164,27 @@ statement
 // ------------------------------------------------------------
 
 /// variableDeclaration :
-///     type name ( receba expression )?
+///     type ID (ASSIGN expression)?
 variableDeclaration
-    : type ID ('receba' expression)?
+    : type ID (ASSIGN expression)?
     ;
 
 /// assignment :
-///     assignable receba expression
-///     assignable ++  |  assignable --
-///     ++ assignable  |  -- assignable
+///     assignable ASSIGN expression
+///     assignable (INC | DEC)
+///     (INC | DEC) assignable
 assignment
-    : assignable 'receba' expression
-    | assignable ('++' | '--')
-    | ('++' | '--') assignable
+    : assignable ASSIGN expression
+    | assignable (INC | DEC)
+    | (INC | DEC) assignable
     ;
 
 /// assignable :
-///     variável simples | acesso encadeado | this.campo
-///     (lado esquerdo de uma atribuição)
+///     ID | memberAccess | THIS DOT ID
 assignable
     : ID
     | memberAccess
-    | 'nessaBomba' '.' ID
+    | THIS DOT ID
     ;
 
 // ------------------------------------------------------------
@@ -194,21 +192,21 @@ assignable
 // ------------------------------------------------------------
 
 /// memberAccess :
-///     target ( .campo | [indice] )+      (acesso encadeado)
+///     (ID | THIS | NULL_REF) (DOT ID | LBRACK expression RBRACK)+
 memberAccess
-    : (ID | 'nessaBomba' | 'deuErro') ('.' ID | '[' expression ']')+
+    : (ID | THIS | NULL_REF) (DOT ID | LBRACK expression RBRACK)+
     ;
 
 /// methodCall :
-///     target ( args? )
+///     (ID | memberAccess | THIS | NULL_REF) LPAREN argumentList? RPAREN
 methodCall
-    : (ID | memberAccess | 'nessaBomba' | 'deuErro') '(' argumentList? ')'
+    : (ID | memberAccess | THIS | NULL_REF) LPAREN argumentList? RPAREN
     ;
 
 /// argumentList :
-///     expression (, expression)*
+///     expression (COMMA expression)*
 argumentList
-    : expression (',' expression)*
+    : expression (COMMA expression)*
     ;
 
 // ------------------------------------------------------------
@@ -216,67 +214,67 @@ argumentList
 // ------------------------------------------------------------
 
 /// ifStatement :
-///     sePa ( cond ) stmt
-///     ( ouSeDeusQuiser sePa ( cond ) stmt )*
-///     ( ouSeDeusQuiser stmt )?
+///     IF LPAREN expression RPAREN statement
+///     (ELSE IF LPAREN expression RPAREN statement)*
+///     (ELSE statement)?
 ifStatement
-    : 'sePa' '(' expression ')' statement
-      ('ouSeDeusQuiser' 'sePa' '(' expression ')' statement)*
-      ('ouSeDeusQuiser' statement)?
+    : IF LPAREN expression RPAREN statement
+      (ELSE IF LPAREN expression RPAREN statement)*
+      (ELSE statement)?
     ;
 
 /// switchStatement :
-///     dependendo ( expr ) { switchCase* defaultCase? }
+///     SWITCH LPAREN expression RPAREN LBRACE switchCase* defaultCase? RBRACE
 switchStatement
-    : 'dependendo' '(' expression ')' '{' switchCase* defaultCase? '}'
+    : SWITCH LPAREN expression RPAREN LBRACE switchCase* defaultCase? RBRACE
     ;
 
 /// switchCase :
-///     nesseCaso value : statement*
+///     CASE expression COLON statement*
 switchCase
-    : 'nesseCaso' expression ':' statement*
+    : CASE expression COLON statement*
     ;
 
 /// defaultCase :
-///     naDuvida : statement*
+///     DEFAULT COLON statement*
 defaultCase
-    : 'naDuvida' ':' statement*
+    : DEFAULT COLON statement*
     ;
 
 /// whileStatement :
-///     ateDarCerto ( cond ) stmt
+///     WHILE LPAREN expression RPAREN statement
 whileStatement
-    : 'ateDarCerto' '(' expression ')' statement
+    : WHILE LPAREN expression RPAREN statement
     ;
 
 /// doWhileStatement :
-///     vaiNaFe block ateDarCerto ( cond ) ;?
+///     DO block WHILE LPAREN expression RPAREN SEMI?
 doWhileStatement
-    : 'vaiNaFe' block 'ateDarCerto' '(' expression ')' ';'?
+    : DO block WHILE LPAREN expression RPAREN SEMI?
     ;
 
 /// forStatement :
-///     vaiVolta ( init? ; cond? ; update? ) stmt
+///     FOR LPAREN variableDeclaration? SEMI expression? SEMI assignment? RPAREN statement
 forStatement
-    : 'vaiVolta' '(' variableDeclaration? ';' expression? ';' assignment? ')' statement
+    : FOR LPAREN variableDeclaration? SEMI expression? SEMI assignment? RPAREN statement
     ;
 
 /// forEachStatement :
-///     vaiVolta ( type name laEle collection ) stmt
+///     FOR LPAREN type ID IN expression RPAREN statement
 forEachStatement
-    : 'vaiVolta' '(' type ID 'laEle' expression ')' statement
+    : FOR LPAREN type ID IN expression RPAREN statement
     ;
 
 /// tryStatement :
-///     gambiarra block deuPau ( type name ) block ( fitaIsolante block )?
+///     TRY block CATCH LPAREN type ID RPAREN block (FINALLY block)?
 tryStatement
-    : 'gambiarra' block 'deuPau' '(' type ID ')' block ('fitaIsolante' block)?
+    : TRY block CATCH LPAREN type ID RPAREN block (FINALLY block)?
     ;
 
 /// printStatement :
-///     whatsapp ( expr )       (equivalente a System.out.println)
+///     PRINT LPAREN expression RPAREN
 printStatement
-    : 'whatsapp' '(' expression ')'
+    : PRINT LPAREN expression RPAREN
     ;
 
 // ------------------------------------------------------------
@@ -298,36 +296,36 @@ printStatement
 ///     Nível 10                    → chamada de função/método
 ///     Nível 11 (maior)            → valor primário
 expression
-    : expression '||' expression                        // ou lógico
-    | expression '&&' expression                        // e lógico
-    | expression ('==' | '!=') expression               // igualdade
-    | expression ('<' | '<=' | '>' | '>=') expression   // relacional
-    | expression ('+' | '-') expression                 // adição
-    | expression ('*' | '/' | '%') expression           // multiplicação
-    | ('+' | '-' | '!') expression                      // unário
-    | expression '[' expression ']'                     // índice de array
-    | expression '.' ID                                 // acesso a membro
-    | expression '(' argumentList? ')'                  // chamada
-    | atom                                              // valor primário
+    : expression OR expression                           // ou lógico
+    | expression AND expression                          // e lógico
+    | expression (EQ | NEQ) expression                   // igualdade
+    | expression (LT | LE | GT | GE) expression          // relacional
+    | expression (PLUS | MINUS) expression               // adição
+    | expression (STAR | SLASH | PERCENT) expression     // multiplicação
+    | (PLUS | MINUS | NOT) expression                    // unário
+    | expression LBRACK expression RBRACK                // índice de array
+    | expression DOT ID                                  // acesso a membro
+    | expression LPAREN argumentList? RPAREN             // chamada
+    | atom                                               // valor primário
     ;
 
 /// atom :
 ///     unidade mínima de uma expressão
-///     literal | variável | this | null | new | array | ( expr )
+///     literal | variável | THIS | NULL_REF | NEW | array | ( expr )
 atom
     : literal
     | ID
-    | 'nessaBomba'                              // this
-    | 'deuErro'                                 // null
-    | 'meteUm' ID '(' argumentList? ')'         // new Objeto(args)
+    | THIS                                      // nessaBomba
+    | NULL_REF                                  // deuErro
+    | NEW ID LPAREN argumentList? RPAREN        // meteUm Objeto(args)
     | arrayLiteral
-    | '(' expression ')'
+    | LPAREN expression RPAREN
     ;
 
 /// arrayLiteral :
-///     [ argumentList? ]
+///     LBRACK argumentList? RBRACK
 arrayLiteral
-    : '[' argumentList? ']'
+    : LBRACK argumentList? RBRACK
     ;
 
 // ------------------------------------------------------------
@@ -342,9 +340,9 @@ literal
     | DOUBLE
     | STRING
     | CHAR
-    | 'confia'      // true
-    | 'fakeNews'    // false
-    | 'oco'         // null
+    | TRUE    // confia
+    | FALSE   // fakeNews
+    | NULL    // oco
     ;
 
 // ------------------------------------------------------------
@@ -352,29 +350,113 @@ literal
 // ------------------------------------------------------------
 
 /// type :
-///     baseType ( [] )*      suporte a arrays: int[], String[][], etc.
+///     baseType (LBRACK RBRACK)*      suporte a arrays: int[], String[][], etc.
 type
-    : baseType ('[' ']')*
+    : baseType (LBRACK RBRACK)*
     ;
 
 /// baseType :
 ///     tipos primitivos | void | var | nome de classe (ID)
 baseType
-    : 'naoFracionado'   // int
-    | 'fracionado'      // float
-    | 'fracionadao'     // double
-    | 'letrinha'        // char
-    | 'bipolar'         // boolean
-    | 'testao'          // String
-    | 'rouba'           // void
-    | 'mutante'         // var  (tipo inferido)
-    | 'adivinha'        // dynamic / Object
-    | ID                // nome de classe definida pelo usuário
+    : INT_TYPE      // naoFracionado
+    | FLOAT_TYPE    // fracionado
+    | DOUBLE_TYPE   // fracionadao
+    | CHAR_TYPE     // letrinha
+    | BOOL_TYPE     // bipolar
+    | STRING_TYPE   // testao
+    | VOID_TYPE     // rouba
+    | VAR_TYPE      // mutante
+    | DYNAMIC_TYPE  // adivinha
+    | ID            // nome de classe definida pelo usuário
     ;
 
 // ============================================================
 // LEXER — tokens (UPPER_SNAKE_CASE)
+// Nome = conceito real em inglês | Valor = palavra da linguagem Tralha
 // ============================================================
+
+// ------------------------------------------------------------
+// Palavras-chave da linguagem
+// ------------------------------------------------------------
+IMPORT      : 'trazPraca'       ;   // import
+CLASS       : 'TREM'            ;   // class
+EXTENDS     : 'mamata'          ;   // extends
+IMPLEMENTS  : 'bota'            ;   // implements
+ASSIGN      : 'receba'          ;   // = (atribuição)
+PUBLIC      : 'todo'            ;   // public
+PRIVATE     : 'sou'             ;   // private
+PROTECTED   : 'nepotismo'       ;   // protected
+STATIC      : 'baiano'          ;   // static
+FINAL       : 'teimoso'         ;   // final
+CONST       : 'cravado'         ;   // const
+ABSTRACT    : 'politico'        ;   // abstract
+OVERRIDE    : 'override'        ;   // @Override
+BREAK       : 'chega'           ;   // break
+CONTINUE    : 'pula'            ;   // continue
+RETURN      : 'manda'           ;   // return
+THROW       : 'taca'            ;   // throw
+THIS        : 'nessaBomba'      ;   // this
+NULL_REF    : 'deuErro'         ;   // null (referência de objeto)
+IF          : 'sePa'            ;   // if
+ELSE        : 'ouSeDeusQuiser'  ;   // else / else if
+SWITCH      : 'dependendo'      ;   // switch
+CASE        : 'nesseCaso'       ;   // case
+DEFAULT     : 'naDuvida'        ;   // default
+WHILE       : 'ateDarCerto'     ;   // while
+DO          : 'vaiNaFe'         ;   // do
+FOR         : 'vaiVolta'        ;   // for
+IN          : 'laEle'           ;   // : (for-each)
+TRY         : 'gambiarra'       ;   // try
+CATCH       : 'deuPau'          ;   // catch
+FINALLY     : 'fitaIsolante'    ;   // finally
+PRINT       : 'whatsapp'        ;   // System.out.println
+NEW         : 'meteUm'          ;   // new
+TRUE        : 'confia'          ;   // true
+FALSE       : 'fakeNews'        ;   // false
+NULL        : 'oco'             ;   // null (literal)
+INT_TYPE    : 'naoFracionado'   ;   // int
+FLOAT_TYPE  : 'fracionado'      ;   // float
+DOUBLE_TYPE : 'fracionadao'     ;   // double
+CHAR_TYPE   : 'letrinha'        ;   // char
+BOOL_TYPE   : 'bipolar'         ;   // boolean
+STRING_TYPE : 'testao'          ;   // String
+VOID_TYPE   : 'rouba'           ;   // void
+VAR_TYPE    : 'mutante'         ;   // var  (tipo inferido)
+DYNAMIC_TYPE: 'adivinha'        ;   // dynamic / Object
+
+// ------------------------------------------------------------
+// Operadores
+// ------------------------------------------------------------
+OR      : '||'  ;
+AND     : '&&'  ;
+EQ      : '=='  ;
+NEQ     : '!='  ;
+LE      : '<='  ;
+GE      : '>='  ;
+LT      : '<'   ;
+GT      : '>'   ;
+INC     : '++'  ;
+DEC     : '--'  ;
+PLUS    : '+'   ;
+MINUS   : '-'   ;
+STAR    : '*'   ;
+SLASH   : '/'   ;
+PERCENT : '%'   ;
+NOT     : '!'   ;
+
+// ------------------------------------------------------------
+// Pontuação
+// ------------------------------------------------------------
+SEMI    : ';'   ;
+COMMA   : ','   ;
+DOT     : '.'   ;
+COLON   : ':'   ;
+LPAREN  : '('   ;
+RPAREN  : ')'   ;
+LBRACE  : '{'   ;
+RBRACE  : '}'   ;
+LBRACK  : '['   ;
+RBRACK  : ']'   ;
 
 // ------------------------------------------------------------
 // Literais numéricos

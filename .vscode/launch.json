@@ -1,0 +1,25 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Testar TRALHA (Correto)",
+            "type": "antlr-debug",
+            "request": "launch",
+            "input": "${workspaceFolder}/codigo_errado_corrigido.txt",
+            "grammar": "${workspaceFolder}/grammar/Tralha.g4",
+            "startRule": "program",
+            "printParseTree": true,
+            "visualParseTree": true
+        },
+        {
+            "name": "Testar TRALHA (Errado)",
+            "type": "antlr-debug",
+            "request": "launch",
+            "input": "${workspaceFolder}/codigo_errado.txt",
+            "grammar": "${workspaceFolder}/grammar/Tralha.g4",
+            "startRule": "program",
+            "printParseTree": true,
+            "visualParseTree": true
+        }
+    ]
+}
