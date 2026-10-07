@@ -5,5 +5,5 @@ todo TREM {
 }
 
 TREM errado{
-    naoFracionado valor receba 10 receba
+    naoFracionado valor receba 10
 }

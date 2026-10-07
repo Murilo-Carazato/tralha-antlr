@@ -1,5 +1,5 @@
 trazPraca br.cafe.Sobrevivencia
 
 todo TREM Normal {
-    naoFracionado valor receba 10
+    naoFracionado _1valor receba 10
 }
