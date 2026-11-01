@@ -168,15 +168,15 @@ bool parse(List<Token> tokens, {bool passoAPasso = false}) {
       
       int? nextState = gotoTable[topState]?[rule.lhs];
       if (nextState == null) {
-        print("\n❌ Erro de transição GOTO após a redução da regra $ruleIndex.");
+        print("\nErro de transição GOTO após a redução da regra $ruleIndex.");
         return false;
       }
       stateStack.add(nextState);
     } else if (action == 'acc') {
-      print("\n✅ Análise Sintática Concluída com Sucesso! O código é válido.");
+      print("\nAnálise Sintática Concluída com Sucesso! O código é válido.");
       return true;
     } else {
-      print("\n❌ Erro Sintático! Token inesperado '${token.value}' no estado $state.");
+      print("\nErro Sintático! Token inesperado '${token.value}' no estado $state.");
       return false;
     }
   }
@@ -184,7 +184,7 @@ bool parse(List<Token> tokens, {bool passoAPasso = false}) {
 
 void main() {
   print("==================================================");
-  print("🤖 Analisador Sintático Botton Up Interativo");
+  print("Analisador Sintático Botton Up Interativo");
   print("==================================================");
   
   while (true) {

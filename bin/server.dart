@@ -200,14 +200,14 @@ void main() async {
     server = await HttpServer.bind(InternetAddress.anyIPv4, port);
   } on SocketException catch (_) {
     print('==================================================================');
-    print('ℹ️ O SERVIDOR JÁ ESTÁ ATIVO E RODANDO NA PORTA $port!');
-    print('🌐 Basta abrir o navegador e acessar: http://localhost:$port');
+    print('O SERVIDOR JÁ ESTÁ ATIVO E RODANDO NA PORTA $port!');
+    print('Basta abrir o navegador e acessar: http://localhost:$port');
     print('==================================================================');
     return;
   }
   print('==================================================================');
-  print('🚀 DASHBOARD DO COMPILADOR TRALHA (BRASILSCRIPT)');
-  print('🌐 Acesse no seu navegador: http://localhost:$port');
+  print('DASHBOARD DO COMPILADOR TRALHA');
+  print('Acesse no seu navegador: http://localhost:$port');
   print('==================================================================');
 
   await for (HttpRequest request in server) {

@@ -27,12 +27,12 @@ void main(List<String> args) async {
 
   final arquivo = args[0];
   if (!File(arquivo).existsSync()) {
-    print("❌ Erro: O arquivo '$arquivo' não foi encontrado na pasta!");
+    print("Erro: O arquivo '$arquivo' não foi encontrado na pasta!");
     return;
   }
 
   print("==================================================");
-  print(" COMPILADOR TRALHA (BRASILSCRIPT)");
+  print(" COMPILADOR TRALHA");
   print(" Arquivo analisado: $arquivo");
   print("==================================================\n");
 
@@ -66,12 +66,12 @@ void main(List<String> args) async {
   print("----------------------------------------------------------------------");
 
   if (lexErrorListener.errors.isNotEmpty) {
-    print("\n❌ Erros Léxicos encontrados:");
+    print("\nErros Léxicos encontrados:");
     for (final err in lexErrorListener.errors) {
       print("   -> $err");
     }
   } else {
-    print("✅ Análise Léxica: Todos os tokens foram reconhecidos com sucesso!\n");
+    print("Análise Léxica: Todos os tokens foram reconhecidos com sucesso!\n");
   }
 
   // --------------------------------------------------
@@ -88,13 +88,13 @@ void main(List<String> args) async {
   final tree = parser.program();
 
   if (parseErrorListener.errors.isNotEmpty) {
-    print("\n❌ ANÁLISE SINTÁTICA FALHOU: A entrada foi REJEITADA pela gramática.");
+    print("\nANÁLISE SINTÁTICA FALHOU: A entrada foi REJEITADA pela gramática.");
     print("Erros detectados:");
     for (final err in parseErrorListener.errors) {
       print("   -> $err");
     }
   } else {
-    print("\n✅ ANÁLISE SINTÁTICA BEM-SUCEDIDA: A entrada foi ACEITA pela gramática!");
+    print("\nANÁLISE SINTÁTICA BEM-SUCEDIDA: A entrada foi ACEITA pela gramática!");
     print("\nÁrvore de Derivação Sintática (Hierárquica):");
     printAsciiTree(tree, parser);
   }

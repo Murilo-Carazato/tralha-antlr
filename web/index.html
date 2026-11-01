@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Compilador Tralha (BrasilScript) — Dashboard Acadêmico</title>
+  <title>Compilador Tralha — Dashboard Acadêmico</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -177,7 +177,7 @@
     }
 
     .btn-action {
-      background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+      background: var(--primary);
       color: white;
       border: none;
       padding: 0.65rem 1.5rem;
@@ -188,13 +188,6 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-      transition: all 0.2s;
-    }
-
-    .btn-action:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
     }
 
     .tabs-header {
@@ -267,15 +260,7 @@
 
     .error-list li {
       margin-bottom: 0.25rem;
-      padding-left: 1rem;
-      position: relative;
     }
-    .error-list li::before {
-      content: '↳';
-      position: absolute;
-      left: 0;
-    }
-
     /* Tokens Table */
     .token-table {
       width: 100%;
@@ -375,9 +360,8 @@
 
   <header>
     <div class="brand">
-      <span style="font-size: 1.5rem;">⚙️</span>
       <div>
-        <h1>Compilador TRALHA (BrasilScript)</h1>
+        <h1>Compilador TRALHA</h1>
         <div style="font-size: 0.75rem; color: var(--text-muted);">Analisador Léxico & Sintático Formal (ANTLR4 + SLR1)</div>
       </div>
     </div>
@@ -390,17 +374,17 @@
     <!-- Left Column: Code Input -->
     <div class="panel">
       <div class="panel-header">
-        <span class="panel-title"><span>📝</span> Programa de Entrada</span>
+        <span class="panel-title">Programa de Entrada</span>
       </div>
 
       <!-- Quick Preset Buttons -->
       <div class="presets-bar">
         <span class="preset-label">Exemplos Prontos:</span>
-        <button class="btn-preset" onclick="loadPreset('validoCompleto')">🟢 1. Completo Válido</button>
-        <button class="btn-preset" onclick="loadPreset('validoBasico')">🟢 2. Básico Válido</button>
-        <button class="btn-preset" onclick="loadPreset('erroSintatico')">🔴 3. Erro Sintático</button>
-        <button class="btn-preset" onclick="loadPreset('erroLexico')">🟡 4. Erro Léxico</button>
-        <button class="btn-preset" onclick="loadPreset('bottomUp')">🔵 5. Expressão SLR(1)</button>
+        <button class="btn-preset" onclick="loadPreset('validoCompleto')">1. Completo Válido</button>
+        <button class="btn-preset" onclick="loadPreset('validoBasico')">2. Básico Válido</button>
+        <button class="btn-preset" onclick="loadPreset('erroSintatico')">3. Erro Sintático</button>
+        <button class="btn-preset" onclick="loadPreset('erroLexico')">4. Erro Léxico</button>
+        <button class="btn-preset" onclick="loadPreset('bottomUp')">5. Expressão SLR(1)</button>
       </div>
 
       <div class="editor-container">
@@ -412,7 +396,7 @@
           Dica: use os botões acima para demonstrar os casos para a banca.
         </span>
         <button class="btn-action" onclick="runAnalysis()">
-          <span>⚡</span> Compilar & Analisar
+          Compilar e Analisar
         </button>
       </div>
     </div>
@@ -421,13 +405,13 @@
     <div class="panel">
       <div class="tabs-header">
         <button class="tab-btn active" onclick="switchTab('tab-sintatico')">
-          <span>🌳</span> 2º Passo: Análise Sintática
+          2º Passo: Análise Sintática
         </button>
         <button class="tab-btn" onclick="switchTab('tab-lexico')">
-          <span>🔎</span> 1º Passo: Análise Léxica
+          1º Passo: Análise Léxica
         </button>
         <button class="tab-btn" onclick="switchTab('tab-bottomup')">
-          <span>📚</span> Módulo Teórico: Bottom-Up (SLR 1)
+          Módulo Teórico: Bottom-Up (SLR 1)
         </button>
       </div>
 
@@ -564,10 +548,10 @@ TREM Incompleto {
         
         if (data.lexical.success) {
           lexStatus.className = 'status-banner success';
-          lexStatus.innerHTML = `✅ Análise Léxica: Todos os ${data.lexical.tokens.length} tokens foram reconhecidos com sucesso!`;
+          lexStatus.innerHTML = `Análise Léxica: Todos os ${data.lexical.tokens.length} tokens foram reconhecidos com sucesso!`;
         } else {
           lexStatus.className = 'status-banner error';
-          let errHtml = `❌ Erros Léxicos detectados (${data.lexical.errors.length}):<ul class="error-list">`;
+          let errHtml = `Erros Léxicos detectados (${data.lexical.errors.length}):<ul class="error-list">`;
           data.lexical.errors.forEach(e => errHtml += `<li>${e}</li>`);
           errHtml += `</ul>`;
           lexStatus.innerHTML = errHtml;
@@ -590,11 +574,11 @@ TREM Incompleto {
 
         if (data.syntax.success) {
           syntaxStatus.className = 'status-banner success';
-          syntaxStatus.innerHTML = `✅ A ENTRADA FOI ACEITA PELA GRAMÁTICA COM SUCESSO!`;
+          syntaxStatus.innerHTML = `A ENTRADA FOI ACEITA PELA GRAMÁTICA COM SUCESSO!`;
           treeContainer.innerHTML = renderTreeHtml(data.syntax.tree);
         } else {
           syntaxStatus.className = 'status-banner error';
-          let errHtml = `❌ A ENTRADA FOI REJEITADA PELA GRAMÁTICA (${data.syntax.errors.length} erro(s)):<ul class="error-list">`;
+          let errHtml = `A ENTRADA FOI REJEITADA PELA GRAMÁTICA (${data.syntax.errors.length} erro(s)):<ul class="error-list">`;
           data.syntax.errors.forEach(e => errHtml += `<li>${e}</li>`);
           errHtml += `</ul>`;
           syntaxStatus.innerHTML = errHtml;
@@ -639,10 +623,10 @@ TREM Incompleto {
 
           if (data.success) {
             buStatus.className = 'status-banner success';
-            buStatus.innerHTML = `✅ SLR(1): ${data.message}`;
+            buStatus.innerHTML = `SLR(1): ${data.message}`;
           } else {
             buStatus.className = 'status-banner error';
-            buStatus.innerHTML = `❌ SLR(1): ${data.error}`;
+            buStatus.innerHTML = `SLR(1): ${data.error}`;
           }
         }
       } catch (e) {
@@ -654,11 +638,8 @@ TREM Incompleto {
       if (!node) return '';
       const isTerminal = node.isTerminal;
       const labelClass = isTerminal ? 'node-terminal' : 'node-rule';
-      const icon = isTerminal ? '•' : '▼';
-
       let html = `<div class="tree-node">`;
       html += `<div class="node-header">`;
-      if (!isTerminal) html += `<span class="node-toggle">${icon}</span>`;
       html += `<span class="${labelClass}">${escapeHtml(node.label)}</span>`;
       html += `</div>`;
 
