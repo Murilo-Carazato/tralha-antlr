@@ -167,6 +167,11 @@
       outline: none;
     }
 
+    textarea#codeEditor::selection {
+      background: rgba(251, 191, 36, 0.55);
+      color: #ffffff;
+    }
+
     .editor-footer {
       padding: 0.85rem 1.25rem;
       border-top: 1px solid var(--card-border);
@@ -327,6 +332,17 @@
 
     .node-rule { color: #38bdf8; font-weight: 600; }
     .node-terminal { color: #fbbf24; font-weight: 500; }
+
+    .tree-source-range {
+      padding: 0.1rem 0.3rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .tree-source-range:hover {
+      background: rgba(251, 191, 36, 0.15);
+      outline: 1px solid rgba(251, 191, 36, 0.35);
+    }
 
     /* Bottom-up table */
     .bu-table {
@@ -511,6 +527,7 @@ TREM Incompleto {
     };
 
     function loadPreset(key) {
+      clearTreeHighlight();
       document.getElementById('codeEditor').value = presets[key];
       document.getElementById('presetSelect').value = key;
       if (key === 'bottomUpValido' || key === 'bottomUpInvalido') {
@@ -580,6 +597,7 @@ TREM Incompleto {
           syntaxStatus.className = 'status-banner success';
           syntaxStatus.innerHTML = `A ENTRADA FOI ACEITA PELA GRAMÁTICA COM SUCESSO!`;
           treeContainer.innerHTML = renderTreeHtml(data.syntax.tree);
+          bindTreeHighlights();
         } else {
           syntaxStatus.className = 'status-banner error';
           let errHtml = `A ENTRADA FOI REJEITADA PELA GRAMÁTICA (${data.syntax.errors.length} erro(s)):<ul class="error-list">`;
@@ -642,9 +660,15 @@ TREM Incompleto {
       if (!node) return '';
       const isTerminal = node.isTerminal;
       const labelClass = isTerminal ? 'node-terminal' : 'node-rule';
+      const hasSourceRange = Number.isInteger(node.startIndex) &&
+        Number.isInteger(node.stopIndex) && node.stopIndex >= node.startIndex;
+      const sourceRangeClass = hasSourceRange ? ' tree-source-range' : '';
+      const positionAttributes = hasSourceRange
+        ? ` data-start-index="${node.startIndex}" data-stop-index="${node.stopIndex}"`
+        : '';
       let html = `<div class="tree-node">`;
       html += `<div class="node-header">`;
-      html += `<span class="${labelClass}">${escapeHtml(node.label)}</span>`;
+      html += `<span class="${labelClass}${sourceRangeClass}"${positionAttributes}>${escapeHtml(node.label)}</span>`;
       html += `</div>`;
 
       if (node.children && node.children.length > 0) {
@@ -654,6 +678,62 @@ TREM Incompleto {
       }
       html += `</div>`;
       return html;
+    }
+
+    let treeHoverState = null;
+
+    function codePointIndexToCodeUnitOffset(text, index) {
+      return Array.from(text).slice(0, index).join('').length;
+    }
+
+    function highlightTreeRange(startIndex, stopIndex) {
+      const editor = document.getElementById('codeEditor');
+      if (!Number.isInteger(startIndex) || !Number.isInteger(stopIndex)) return;
+
+      treeHoverState = {
+        selectionStart: editor.selectionStart,
+        selectionEnd: editor.selectionEnd,
+        selectionDirection: editor.selectionDirection,
+        scrollTop: editor.scrollTop,
+        scrollLeft: editor.scrollLeft,
+        wasFocused: document.activeElement === editor,
+      };
+
+      const start = codePointIndexToCodeUnitOffset(editor.value, startIndex);
+      const end = codePointIndexToCodeUnitOffset(editor.value, stopIndex + 1);
+      editor.focus({ preventScroll: true });
+      editor.setSelectionRange(start, end);
+    }
+
+    function clearTreeHighlight() {
+      if (!treeHoverState) return;
+
+      const editor = document.getElementById('codeEditor');
+      editor.setSelectionRange(
+        treeHoverState.selectionStart,
+        treeHoverState.selectionEnd,
+        treeHoverState.selectionDirection,
+      );
+      editor.scrollTop = treeHoverState.scrollTop;
+      editor.scrollLeft = treeHoverState.scrollLeft;
+      if (!treeHoverState.wasFocused) editor.blur();
+      treeHoverState = null;
+    }
+
+    function bindTreeHighlights() {
+      const treeItems = document.querySelectorAll(
+        '#treeContainer .tree-source-range[data-start-index][data-stop-index]'
+      );
+
+      treeItems.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+          highlightTreeRange(
+            Number(item.dataset.startIndex),
+            Number(item.dataset.stopIndex),
+          );
+        });
+        item.addEventListener('mouseleave', clearTreeHighlight);
+      });
     }
 
     function escapeHtml(str) {

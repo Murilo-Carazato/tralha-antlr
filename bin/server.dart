@@ -22,6 +22,10 @@ class CustomErrorListener extends BaseErrorListener {
 
 Map<String, dynamic> buildTreeData(Tree node, Parser parser) {
   final label = Trees.getNodeText(node, recog: parser);
+  final terminal = node is TerminalNode ? node : null;
+  final ruleContext = node is ParserRuleContext ? node : null;
+  final startToken = terminal?.symbol ?? ruleContext?.start;
+  final stopToken = terminal?.symbol ?? ruleContext?.stop;
   final List<Map<String, dynamic>> children = [];
   final count = node.childCount;
   for (int i = 0; i < count; i++) {
@@ -33,6 +37,10 @@ Map<String, dynamic> buildTreeData(Tree node, Parser parser) {
   return {
     'label': label,
     'isTerminal': count == 0,
+    if (startToken != null && startToken.startIndex >= 0)
+      'startIndex': startToken.startIndex,
+    if (stopToken != null && stopToken.stopIndex >= 0)
+      'stopIndex': stopToken.stopIndex,
     if (children.isNotEmpty) 'children': children,
   };
 }
