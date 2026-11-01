@@ -20,6 +20,12 @@
             "startRule": "program",
             "printParseTree": true,
             "visualParseTree": true
+        },
+        {
+            "name": "Rodar front-end TRALHA",
+            "type": "dart",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/server.dart"
         }
     ]
 }
