@@ -195,7 +195,16 @@ Map<String, dynamic> runBottomUp(String code) {
 
 void main() async {
   final port = 8080;
-  final server = await HttpServer.bind(InternetAddress.anyIPv4, port);
+  HttpServer server;
+  try {
+    server = await HttpServer.bind(InternetAddress.anyIPv4, port);
+  } on SocketException catch (_) {
+    print('==================================================================');
+    print('ℹ️ O SERVIDOR JÁ ESTÁ ATIVO E RODANDO NA PORTA $port!');
+    print('🌐 Basta abrir o navegador e acessar: http://localhost:$port');
+    print('==================================================================');
+    return;
+  }
   print('==================================================================');
   print('🚀 DASHBOARD DO COMPILADOR TRALHA (BRASILSCRIPT)');
   print('🌐 Acesse no seu navegador: http://localhost:$port');
