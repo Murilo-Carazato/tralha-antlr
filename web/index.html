@@ -130,21 +130,21 @@
       font-weight: 500;
     }
 
-    .btn-preset {
-      font-size: 0.75rem;
-      padding: 0.35rem 0.75rem;
+    .preset-select {
+      min-width: 240px;
+      font-family: inherit;
+      font-size: 0.8rem;
+      padding: 0.45rem 0.7rem;
       border-radius: 6px;
       background: #1f293d;
       border: 1px solid #374151;
       color: #e5e7eb;
       cursor: pointer;
-      transition: all 0.2s;
     }
 
-    .btn-preset:hover {
-      background: #374151;
-      border-color: #4b5563;
-      transform: translateY(-1px);
+    .preset-select:focus {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
 
     .editor-container {
@@ -327,7 +327,6 @@
 
     .node-rule { color: #38bdf8; font-weight: 600; }
     .node-terminal { color: #fbbf24; font-weight: 500; }
-    .node-toggle { font-size: 0.7rem; color: var(--text-muted); width: 14px; text-align: center; }
 
     /* Bottom-up table */
     .bu-table {
@@ -377,14 +376,17 @@
         <span class="panel-title">Programa de Entrada</span>
       </div>
 
-      <!-- Quick Preset Buttons -->
+      <!-- Preset Selector -->
       <div class="presets-bar">
-        <span class="preset-label">Exemplos Prontos:</span>
-        <button class="btn-preset" onclick="loadPreset('validoCompleto')">1. Completo Válido</button>
-        <button class="btn-preset" onclick="loadPreset('validoBasico')">2. Básico Válido</button>
-        <button class="btn-preset" onclick="loadPreset('erroSintatico')">3. Erro Sintático</button>
-        <button class="btn-preset" onclick="loadPreset('erroLexico')">4. Erro Léxico</button>
-        <button class="btn-preset" onclick="loadPreset('bottomUp')">5. Expressão SLR(1)</button>
+        <label class="preset-label" for="presetSelect">Exemplos Prontos:</label>
+        <select id="presetSelect" class="preset-select" onchange="loadPreset(this.value)">
+          <option value="validoCompleto">1. Completo Válido</option>
+          <option value="validoBasico">2. Básico Válido</option>
+          <option value="erroSintatico">3. Erro Sintático</option>
+          <option value="erroLexico">4. Erro Léxico</option>
+          <option value="bottomUpValido">5. SLR(1) Válido</option>
+          <option value="bottomUpInvalido">6. SLR(1) Inválido</option>
+        </select>
       </div>
 
       <div class="editor-container">
@@ -462,7 +464,7 @@
             </tr>
           </thead>
           <tbody id="buTableBody">
-            <tr><td colspan="4" style="text-align: center; color: var(--text-muted);">Carregue o "Exemplo 5 (Expressão SLR 1)" e clique em analisar.</td></tr>
+            <tr><td colspan="4" style="text-align: center; color: var(--text-muted);">Selecione um dos exemplos SLR(1) e clique em analisar.</td></tr>
           </tbody>
         </table>
       </div>
@@ -504,12 +506,14 @@ TREM Incompleto {
     // '@' e '$' não são caracteres válidos no alfabeto da linguagem Tralha
     naoFracionado valor receba @100;
 }`,
-      bottomUp: `a receba 10 + 20 * 3 ;`
+      bottomUpValido: `a receba 10 + 20 * 3 ;`,
+      bottomUpInvalido: `a receba 10 + ;`
     };
 
     function loadPreset(key) {
       document.getElementById('codeEditor').value = presets[key];
-      if (key === 'bottomUp') {
+      document.getElementById('presetSelect').value = key;
+      if (key === 'bottomUpValido' || key === 'bottomUpInvalido') {
         switchTab('tab-bottomup');
       } else {
         switchTab('tab-sintatico');
@@ -644,8 +648,8 @@ TREM Incompleto {
       html += `</div>`;
 
       if (node.children && node.children.length > 0) {
-        node.children.forEach(c => {
-          html += renderTreeHtml(c);
+        node.children.forEach(child => {
+          html += renderTreeHtml(child);
         });
       }
       html += `</div>`;
