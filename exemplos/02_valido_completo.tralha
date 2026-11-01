@@ -1,0 +1,14 @@
+todo TREM Calculadora {
+    naoFracionado total receba 0;
+
+    rouba executar() {
+        sePa (total == 0) {
+            total receba total + 10;
+        }
+
+        ateDarCerto (total < 15) {
+            total receba total + 1;
+            whatsapp(total);
+        }
+    }
+}

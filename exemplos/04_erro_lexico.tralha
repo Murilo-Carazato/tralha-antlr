@@ -1,0 +1,4 @@
+todo TREM ExemploLexico {
+    // '@' e '$' não são reconhecidos pelo léxico de BrasilScript/Tralha
+    naoFracionado valor receba @100;
+}

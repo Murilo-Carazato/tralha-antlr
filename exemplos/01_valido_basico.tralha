@@ -1,0 +1,5 @@
+trazPraca br.cafe.Sobrevivencia;
+
+todo TREM Normal {
+    naoFracionado _1valor receba 10;
+}

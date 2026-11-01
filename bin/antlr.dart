@@ -1,13 +1,27 @@
 import 'dart:io';
 import 'package:antlr4/antlr4.dart';
-import '../lib/src/generated/grammar/TralhaLexer.dart';
-import '../lib/src/generated/grammar/TralhaParser.dart';
-import '../lib/src/visitor/tralha_visitor.dart';
+import 'package:antlr/src/generated/grammar/TralhaLexer.dart';
+import 'package:antlr/src/generated/grammar/TralhaParser.dart';
+
+class CustomErrorListener extends BaseErrorListener {
+  final List<String> errors = [];
+
+  @override
+  void syntaxError(
+    Recognizer recognizer,
+    Object? offendingSymbol,
+    int? line,
+    int? charPositionInLine,
+    String msg,
+    RecognitionException? e,
+  ) {
+    errors.add('Linha $line:$charPositionInLine -> $msg');
+  }
+}
 
 void main(List<String> args) async {
   if (args.isEmpty) {
-    print("Erro: Você precisa passar o nome do arquivo texto como argumento!");
-    print("Exemplo de uso: dart run bin/antlr.dart codigo_certo.txt");
+    print("Uso: dart run bin/antlr.dart <caminho_do_arquivo>");
     return;
   }
 
@@ -18,33 +32,83 @@ void main(List<String> args) async {
   }
 
   print("==================================================");
-  print("Analisando o código TRALHA do arquivo: $arquivo");
+  print(" COMPILADOR TRALHA (BRASILSCRIPT)");
+  print(" Arquivo analisado: $arquivo");
   print("==================================================\n");
 
   // 1. Lê o arquivo
   final input = await InputStream.fromPath(arquivo);
 
-  // 2. O Lexer quebra o texto em Tokens
+  // --------------------------------------------------
+  // ETAPA 1: ANÁLISE LÉXICA
+  // --------------------------------------------------
+  print("--- [1º PASSO: ANÁLISE LÉXICA] ---");
+  final lexErrorListener = CustomErrorListener();
   final lexer = TralhaLexer(input);
+  lexer.removeErrorListeners();
+  lexer.addErrorListener(lexErrorListener);
+
   final tokens = CommonTokenStream(lexer);
+  tokens.fill();
 
-  // 3. O Parser tenta montar a árvore com os Tokens
-  final parser = TralhaParser(tokens);
-  
-  // Captura a árvore
-  final tree = parser.programa();
+  print("Tabela de Tokens Gerados:");
+  print("----------------------------------------------------------------------");
+  print(" ${'Posição'.padRight(10)} | ${'Token'.padRight(22)} | Lexema");
+  print("----------------------------------------------------------------------");
+  for (final t in tokens.tokens) {
+    if (t.type == Token.EOF) continue;
+    final tokenName = TralhaLexer.VOCABULARY.getSymbolicName(t.type) ?? 'DESCONHECIDO';
+    final pos = "${t.line}:${t.charPositionInLine}".padRight(10);
+    final tokStr = tokenName.padRight(22);
+    final lexema = t.text?.replaceAll("\n", "\\n").replaceAll("\r", "") ?? '';
+    print(" $pos | $tokStr | '$lexema'");
+  }
+  print("----------------------------------------------------------------------");
 
-  // 4. Verifica se o Parser encontrou erros de sintaxe
-  if (parser.numberOfSyntaxErrors > 0) {
-    print("\nANÁLISE FALHOU: O código contém erros de sintaxe.");
-    print("O TRALHA não entendeu o que você escreveu.");
+  if (lexErrorListener.errors.isNotEmpty) {
+    print("\n❌ Erros Léxicos encontrados:");
+    for (final err in lexErrorListener.errors) {
+      print("   -> $err");
+    }
   } else {
-    print("\nANÁLISE BEM-SUCEDIDA: O código TRALHA é totalmente válido!\n");
-    // print("Imprimindo a Árvore de Sintaxe Abstrata (AST) extraída:\n");
-    
-    // 5. O Visitor limpa a árvore
-    final visitor = TralhaVisitor();
-    final ast = visitor.visit(tree);
-    // print(ast);
+    print("✅ Análise Léxica: Todos os tokens foram reconhecidos com sucesso!\n");
+  }
+
+  // --------------------------------------------------
+  // ETAPA 2: ANÁLISE SINTÁTICA
+  // --------------------------------------------------
+  print("--- [2º PASSO: ANÁLISE SINTÁTICA] ---");
+  tokens.seek(0);
+  final parser = TralhaParser(tokens);
+  final parseErrorListener = CustomErrorListener();
+  parser.removeErrorListeners();
+  parser.addErrorListener(parseErrorListener);
+
+  // Captura a árvore sintática
+  final tree = parser.program();
+
+  if (parseErrorListener.errors.isNotEmpty) {
+    print("\n❌ ANÁLISE SINTÁTICA FALHOU: A entrada foi REJEITADA pela gramática.");
+    print("Erros detectados:");
+    for (final err in parseErrorListener.errors) {
+      print("   -> $err");
+    }
+  } else {
+    print("\n✅ ANÁLISE SINTÁTICA BEM-SUCEDIDA: A entrada foi ACEITA pela gramática!");
+    print("\nÁrvore de Derivação Sintática (Hierárquica):");
+    printAsciiTree(tree, parser);
+  }
+}
+
+void printAsciiTree(Tree node, Parser parser, [String prefix = '', bool isLast = true]) {
+  final label = Trees.getNodeText(node, recog: parser);
+  print('$prefix${isLast ? "└── " : "├── "}$label');
+  final childPrefix = prefix + (isLast ? "    " : "│   ");
+  final count = node.childCount;
+  for (int i = 0; i < count; i++) {
+    final child = node.getChild(i);
+    if (child != null) {
+      printAsciiTree(child, parser, childPrefix, i == count - 1);
+    }
   }
 }

@@ -1,0 +1,9 @@
+// Erro 1: Classe sem identificador
+// Erro 2: Comando solto fora de contexto
+todo TREM {
+    receba
+}
+
+TREM Errado {
+    naoFracionado valor receba 10
+    // Faltou o fechamento da classe e métodos inválidos
