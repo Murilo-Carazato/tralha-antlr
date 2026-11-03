@@ -885,49 +885,7 @@
           <!-- Visualização 1: Grafo Mermaid -->
           <div id="automatonGraphView" style="background: rgba(0, 0, 0, 0.3); border: 1px solid var(--card-border); border-radius: 8px; overflow: auto; max-height: 520px; padding: 1.25rem 0.75rem; position: relative;">
             <div id="automatonGraphContainer" style="display: flex; justify-content: center; transform-origin: top center; transition: transform 0.15s ease;">
-              <pre class="mermaid" id="mermaidDiagram" style="background: transparent; text-align: center;">
-flowchart TD
-  classDef startState fill:#1e1b4b,stroke:#818cf8,stroke-width:2px,color:#fff
-  classDef accState fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#fff
-  classDef normalState fill:#111827,stroke:#374151,stroke-width:1px,color:#cbd5e1
-  classDef exprState fill:#312e81,stroke:#6366f1,stroke-width:2px,color:#fff
-
-  I0(("I0 (Início)")):::startState -->|S| I1(("I1")):::normalState
-  I0 -->|lista| I2(("I2")):::normalState
-  I0 -->|comando| I3(("I3")):::normalState
-  I0 -->|ID| I4(("I4")):::normalState
-  I1 -->|"$"| ACC(["acc (Aceito)"]):::accState
-  I2 -->|comando| I5(("I5")):::normalState
-  I2 -->|ID| I4
-  I4 -->|"receba"| I6(("I6 (Expressão)")):::exprState
-  I6 -->|expr| I7(("I7")):::normalState
-  I6 -->|termo| I8(("I8")):::normalState
-  I6 -->|fator| I9(("I9")):::normalState
-  I6 -->|"("| I10(("I10")):::normalState
-  I6 -->|NUM| I11(("I11")):::normalState
-  I6 -->|ID| I12(("I12")):::normalState
-  I7 -->|";"| I13(("I13")):::normalState
-  I7 -->|"+"| I14(("I14")):::normalState
-  I8 -->|"*"| I15(("I15")):::normalState
-  I10 -->|expr| I16(("I16")):::normalState
-  I10 -->|termo| I8
-  I10 -->|fator| I9
-  I10 -->|"("| I10
-  I10 -->|NUM| I11
-  I10 -->|ID| I12
-  I14 -->|termo| I17(("I17")):::normalState
-  I14 -->|fator| I9
-  I14 -->|"("| I10
-  I14 -->|NUM| I11
-  I14 -->|ID| I12
-  I15 -->|fator| I18(("I18")):::normalState
-  I15 -->|"("| I10
-  I15 -->|NUM| I11
-  I15 -->|ID| I12
-  I16 -->|")"| I19(("I19")):::normalState
-  I16 -->|"+"| I14
-  I17 -->|"*"| I15
-              </pre>
+              <div id="mermaidRenderOutput" style="text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 2rem;">Carregando diagrama do autômato...</div>
             </div>
           </div>
 
@@ -1184,6 +1142,45 @@ TREM Incompleto {
 
     let mermaidInitialized = false;
     let automatonZoomLevel = 1;
+    let automatonRendered = false;
+
+    const graphDef = `flowchart TD
+  I0["I0: Início"] -->|S| I1["I1: S' → S•"]
+  I0 -->|lista| I2["I2"]
+  I0 -->|comando| I3["I3"]
+  I0 -->|ID| I4["I4"]
+  I1 -->|EOF: $| ACC["acc: Aceito"]
+  I2 -->|comando| I5["I5"]
+  I2 -->|ID| I4
+  I4 -->|receba| I6["I6: Início Expr"]
+  I6 -->|expr| I7["I7"]
+  I6 -->|termo| I8["I8"]
+  I6 -->|fator| I9["I9"]
+  I6 -->|ABRE_PAR: &#40;| I10["I10"]
+  I6 -->|NUM| I11["I11"]
+  I6 -->|ID| I12["I12"]
+  I7 -->|PONTO_VIRGULA: &#59;| I13["I13"]
+  I7 -->|SOMA: &#43;| I14["I14"]
+  I8 -->|MULT: &#42;| I15["I15"]
+  I10 -->|expr| I16["I16"]
+  I10 -->|termo| I8
+  I10 -->|fator| I9
+  I10 -->|ABRE_PAR: &#40;| I10
+  I10 -->|NUM| I11
+  I10 -->|ID| I12
+  I14 -->|termo| I17["I17"]
+  I14 -->|fator| I9
+  I14 -->|ABRE_PAR: &#40;| I10
+  I14 -->|NUM| I11
+  I14 -->|ID| I12
+  I15 -->|fator| I18["I18"]
+  I15 -->|ABRE_PAR: &#40;| I10
+  I15 -->|NUM| I11
+  I15 -->|ID| I12
+  I16 -->|FECHA_PAR: &#41;| I19["I19"]
+  I16 -->|SOMA: &#43;| I14
+  I17 -->|MULT: &#42;| I15
+`;
 
     function initMermaidIfNeeded() {
       if (typeof mermaid !== 'undefined' && !mermaidInitialized) {
@@ -1211,16 +1208,22 @@ TREM Incompleto {
     }
 
     function renderAutomatonGraph() {
+      if (automatonRendered) return;
       initMermaidIfNeeded();
       if (typeof mermaid !== 'undefined') {
-        const el = document.getElementById('mermaidDiagram');
-        if (el && !el.getAttribute('data-processed')) {
-          try {
-            mermaid.run({ nodes: [el] });
-          } catch (e) {
-            console.error('Mermaid run error:', e);
+        mermaid.render('automatonSvgGraph', graphDef).then(res => {
+          const container = document.getElementById('automatonGraphContainer');
+          if (container) {
+            container.innerHTML = res.svg;
+            automatonRendered = true;
           }
-        }
+        }).catch(err => {
+          console.error('Mermaid render error:', err);
+          const container = document.getElementById('automatonGraphContainer');
+          if (container) {
+            container.innerHTML = `<div style="color: #f87171; padding: 1rem;">Erro ao renderizar diagrama: ${err.message}</div>`;
+          }
+        });
       }
     }
 
