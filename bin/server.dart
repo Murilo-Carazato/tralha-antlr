@@ -242,6 +242,15 @@ void main() async {
         request.response.write('web/index.html não encontrado');
         await request.response.close();
       }
+    } else if (path == '/mermaid.min.js') {
+      final file = File('web/mermaid.min.js');
+      if (await file.exists()) {
+        request.response.headers.contentType = ContentType('application', 'javascript', charset: 'utf-8');
+        await file.openRead().pipe(request.response);
+      } else {
+        request.response.statusCode = HttpStatus.notFound;
+        await request.response.close();
+      }
     } else if (path == '/api/analyze' && request.method == 'POST') {
       try {
         final bodyStr = await utf8.decoder.bind(request).join();

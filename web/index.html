@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="/mermaid.min.js"></script>
   <style>
     :root {
       --bg: #090d16;
@@ -759,85 +760,183 @@
 
         <!-- 3. FIRST & FOLLOW -->
         <div id="bu-sub-firstfollow" class="bu-subtab-pane">
-          <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.65rem;">
-            No analisador <strong>SLR(1)</strong>, os conjuntos <strong>FOLLOW</strong> determinam rigorosamente em quais colunas de terminais as ações de redução (<strong>rN</strong>) são inseridas.
+          <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.85rem;">
+            No analisador <strong>SLR(1)</strong>, os conjuntos <strong>FIRST</strong> identificam os símbolos que iniciam cada não-terminal, enquanto os conjuntos <strong>FOLLOW</strong> determinam rigorosamente em quais colunas de terminais as ações de redução (<strong>rN</strong>) são inseridas.
           </div>
-          <div class="theory-grid">
-            <div class="theory-card">
-              <div class="theory-card-header">
-                <span>Não-Terminal: S</span>
-                <span style="font-size:0.7rem; color:#38bdf8;">Símbolo Inicial</span>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; align-items: start;">
+            <!-- Tabela 1: FIRST -->
+            <div style="background: rgba(0, 0, 0, 0.25); border: 1px solid var(--card-border); border-radius: 8px; overflow: hidden;">
+              <div style="background: rgba(59, 130, 246, 0.12); border-bottom: 1px solid var(--card-border); padding: 0.6rem 0.85rem; font-weight: 700; color: #93c5fd; font-size: 0.85rem; display: flex; align-items: center; gap: 0.4rem;">
+                <span>🎯</span> Tabela do Conjunto FIRST
               </div>
-              <ul class="theory-list">
-                <li><strong style="color:#60a5fa;">FIRST(S):</strong> { ID }</li>
-                <li><strong style="color:#34d399;">FOLLOW(S):</strong> { $ }</li>
-                <li style="margin-top:0.35rem; font-size:0.7rem; color:#94a3b8;">Reduz para S apenas quando encontra o fim da entrada ($).</li>
-              </ul>
+              <table class="bu-table" style="font-size: 0.8rem;">
+                <thead>
+                  <tr>
+                    <th style="width: 100px; color: #93c5fd;">Não-Terminal</th>
+                    <th style="width: 150px; color: #60a5fa;">Conjunto FIRST</th>
+                    <th style="color: #cbd5e1;">Derivação / Significado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong style="color: #a5b4fc;">S</strong></td>
+                    <td><span class="tok-badge" style="background: rgba(59,130,246,0.15); color: #93c5fd;">{ ID }</span></td>
+                    <td style="color: var(--text-muted); font-size: 0.75rem;">Inicia com identificador de comando.</td>
+                  </tr>
+                  <tr>
+                    <td><strong style="color: #a5b4fc;">lista</strong></td>
+                    <td><span class="tok-badge" style="background: rgba(59,130,246,0.15); color: #93c5fd;">{ ID }</span></td>
+                    <td style="color: var(--text-muted); font-size: 0.75rem;">Inicia com o ID do primeiro comando.</td>
+                  </tr>
+                  <tr>
+                    <td><strong style="color: #a5b4fc;">comando</strong></td>
+                    <td><span class="tok-badge" style="background: rgba(59,130,246,0.15); color: #93c5fd;">{ ID }</span></td>
+                    <td style="color: var(--text-muted); font-size: 0.75rem;">Sempre inicia com variável (ID).</td>
+                  </tr>
+                  <tr>
+                    <td><strong style="color: #a5b4fc;">expr</strong></td>
+                    <td><span class="tok-badge" style="background: rgba(59,130,246,0.15); color: #93c5fd;">{ (, NUM, ID }</span></td>
+                    <td style="color: var(--text-muted); font-size: 0.75rem;">Pode iniciar com '(', número ou ID.</td>
+                  </tr>
+                  <tr>
+                    <td><strong style="color: #a5b4fc;">termo</strong></td>
+                    <td><span class="tok-badge" style="background: rgba(59,130,246,0.15); color: #93c5fd;">{ (, NUM, ID }</span></td>
+                    <td style="color: var(--text-muted); font-size: 0.75rem;">Deriva em fator: '(', número ou ID.</td>
+                  </tr>
+                  <tr>
+                    <td><strong style="color: #a5b4fc;">fator</strong></td>
+                    <td><span class="tok-badge" style="background: rgba(59,130,246,0.15); color: #93c5fd;">{ (, NUM, ID }</span></td>
+                    <td style="color: var(--text-muted); font-size: 0.75rem;">Operando base: parênteses, NUM ou ID.</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            <div class="theory-card">
-              <div class="theory-card-header">
-                <span>Não-Terminal: lista</span>
-                <span style="font-size:0.7rem; color:#a78bfa;">Sequência</span>
+
+            <!-- Tabela 2: FOLLOW -->
+            <div style="background: rgba(0, 0, 0, 0.25); border: 1px solid var(--card-border); border-radius: 8px; overflow: hidden;">
+              <div style="background: rgba(16, 185, 129, 0.12); border-bottom: 1px solid var(--card-border); padding: 0.6rem 0.85rem; font-weight: 700; color: #6ee7b7; font-size: 0.85rem; display: flex; align-items: center; gap: 0.4rem;">
+                <span>🎯</span> Tabela do Conjunto FOLLOW
               </div>
-              <ul class="theory-list">
-                <li><strong style="color:#60a5fa;">FIRST(lista):</strong> { ID }</li>
-                <li><strong style="color:#34d399;">FOLLOW(lista):</strong> { ID, $ }</li>
-                <li style="margin-top:0.35rem; font-size:0.7rem; color:#94a3b8;">Permite encadear outro comando (ID) ou finalizar ($).</li>
-              </ul>
-            </div>
-            <div class="theory-card">
-              <div class="theory-card-header">
-                <span>Não-Terminal: comando</span>
-                <span style="font-size:0.7rem; color:#a78bfa;">Atribuição</span>
-              </div>
-              <ul class="theory-list">
-                <li><strong style="color:#60a5fa;">FIRST(comando):</strong> { ID }</li>
-                <li><strong style="color:#34d399;">FOLLOW(comando):</strong> { ID, $ }</li>
-                <li style="margin-top:0.35rem; font-size:0.7rem; color:#94a3b8;">Inicia sempre com o identificador da variável (ID).</li>
-              </ul>
-            </div>
-            <div class="theory-card">
-              <div class="theory-card-header">
-                <span>Não-Terminal: expr</span>
-                <span style="font-size:0.7rem; color:#f472b6;">Adição</span>
-              </div>
-              <ul class="theory-list">
-                <li><strong style="color:#60a5fa;">FIRST(expr):</strong> { (, NUM, ID }</li>
-                <li><strong style="color:#34d399;">FOLLOW(expr):</strong> { ;, +, ) }</li>
-                <li style="margin-top:0.35rem; font-size:0.7rem; color:#94a3b8;">Reduções r5 e r6 inseridas apenas em ;, +, ).</li>
-              </ul>
-            </div>
-            <div class="theory-card">
-              <div class="theory-card-header">
-                <span>Não-Terminal: termo</span>
-                <span style="font-size:0.7rem; color:#f472b6;">Multiplicação</span>
-              </div>
-              <ul class="theory-list">
-                <li><strong style="color:#60a5fa;">FIRST(termo):</strong> { (, NUM, ID }</li>
-                <li><strong style="color:#34d399;">FOLLOW(termo):</strong> { ;, +, *, ) }</li>
-                <li style="margin-top:0.35rem; font-size:0.7rem; color:#94a3b8;">Reduções r7 e r8 inseridas em ;, +, *, ).</li>
-              </ul>
-            </div>
-            <div class="theory-card">
-              <div class="theory-card-header">
-                <span>Não-Terminal: fator</span>
-                <span style="font-size:0.7rem; color:#f472b6;">Base / Operando</span>
-              </div>
-              <ul class="theory-list">
-                <li><strong style="color:#60a5fa;">FIRST(fator):</strong> { (, NUM, ID }</li>
-                <li><strong style="color:#34d399;">FOLLOW(fator):</strong> { ;, +, *, ) }</li>
-                <li style="margin-top:0.35rem; font-size:0.7rem; color:#94a3b8;">Reduções r9, r10 e r11 inseridas em ;, +, *, ).</li>
-              </ul>
+              <table class="bu-table" style="font-size: 0.8rem;">
+                <thead>
+                  <tr>
+                    <th style="width: 100px; color: #6ee7b7;">Não-Terminal</th>
+                    <th style="width: 150px; color: #34d399;">Conjunto FOLLOW</th>
+                    <th style="color: #cbd5e1;">Impacto no SLR(1) / Reduções</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong style="color: #a5b4fc;">S</strong></td>
+                    <td><span class="tok-badge" style="background: rgba(16,185,129,0.15); color: #6ee7b7;">{ $ }</span></td>
+                    <td style="color: var(--text-muted); font-size: 0.75rem;">Aceita (acc) apenas com fim de entrada ($).</td>
+                  </tr>
+                  <tr>
+                    <td><strong style="color: #a5b4fc;">lista</strong></td>
+                    <td><span class="tok-badge" style="background: rgba(16,185,129,0.15); color: #6ee7b7;">{ ID, $ }</span></td>
+                    <td style="color: var(--text-muted); font-size: 0.75rem;">Redução r1 em $; encadeia comando com ID.</td>
+                  </tr>
+                  <tr>
+                    <td><strong style="color: #a5b4fc;">comando</strong></td>
+                    <td><span class="tok-badge" style="background: rgba(16,185,129,0.15); color: #6ee7b7;">{ ID, $ }</span></td>
+                    <td style="color: var(--text-muted); font-size: 0.75rem;">Reduções r2, r3, r4 apenas em ID e $.</td>
+                  </tr>
+                  <tr>
+                    <td><strong style="color: #a5b4fc;">expr</strong></td>
+                    <td><span class="tok-badge" style="background: rgba(16,185,129,0.15); color: #6ee7b7;">{ ;, +, ) }</span></td>
+                    <td style="color: var(--text-muted); font-size: 0.75rem;">Reduções r5 e r6 inseridas em ;, + e ).</td>
+                  </tr>
+                  <tr>
+                    <td><strong style="color: #a5b4fc;">termo</strong></td>
+                    <td><span class="tok-badge" style="background: rgba(16,185,129,0.15); color: #6ee7b7;">{ ;, +, *, ) }</span></td>
+                    <td style="color: var(--text-muted); font-size: 0.75rem;">Reduções r7 e r8 em ;, +, *, e ).</td>
+                  </tr>
+                  <tr>
+                    <td><strong style="color: #a5b4fc;">fator</strong></td>
+                    <td><span class="tok-badge" style="background: rgba(16,185,129,0.15); color: #6ee7b7;">{ ;, +, *, ) }</span></td>
+                    <td style="color: var(--text-muted); font-size: 0.75rem;">Reduções r9, r10 e r11 em ;, +, *, e ).</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
 
-        <!-- 4. Autômato LR(0) / Itens Canônicos -->
+        <!-- 4. Autômato LR(0) / Grafo de Estados -->
         <div id="bu-sub-itens" class="bu-subtab-pane">
-          <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.65rem;">
-            Coleção Canônica de Itens LR(0). O ponto (<span class="item-dot">•</span>) indica a posição exata da cabeça de leitura do autômato determinístico.
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+            <div style="display: flex; gap: 0.4rem;">
+              <button id="btnViewGraph" class="btn-preset active" style="font-weight: 700; background: rgba(99, 102, 241, 0.25); border-color: #6366f1; color: #fff;" onclick="toggleAutomatonView('graph')">
+                🕸️ Grafo do Autômato (Diagrama)
+              </button>
+              <button id="btnViewItems" class="btn-preset" onclick="toggleAutomatonView('items')">
+                📋 Coleção de Itens LR(0) (20 Estados)
+              </button>
+            </div>
+            <div id="graphZoomControls" style="display: flex; gap: 0.35rem; align-items: center;">
+              <span style="font-size: 0.75rem; color: var(--text-muted); margin-right: 0.25rem;">Zoom:</span>
+              <button class="btn-preset" style="padding: 0.25rem 0.5rem;" onclick="zoomAutomaton(0.15)">➕</button>
+              <button class="btn-preset" style="padding: 0.25rem 0.5rem;" onclick="zoomAutomaton(-0.15)">➖</button>
+              <button class="btn-preset" style="padding: 0.25rem 0.5rem;" onclick="resetAutomatonZoom()">🔄 100%</button>
+            </div>
           </div>
-          <div class="theory-grid">
+
+          <!-- Visualização 1: Grafo Mermaid -->
+          <div id="automatonGraphView" style="background: rgba(0, 0, 0, 0.3); border: 1px solid var(--card-border); border-radius: 8px; overflow: auto; max-height: 520px; padding: 1.25rem 0.75rem; position: relative;">
+            <div id="automatonGraphContainer" style="display: flex; justify-content: center; transform-origin: top center; transition: transform 0.15s ease;">
+              <pre class="mermaid" id="mermaidDiagram" style="background: transparent; text-align: center;">
+flowchart TD
+  classDef startState fill:#1e1b4b,stroke:#818cf8,stroke-width:2px,color:#fff
+  classDef accState fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#fff
+  classDef normalState fill:#111827,stroke:#374151,stroke-width:1px,color:#cbd5e1
+  classDef exprState fill:#312e81,stroke:#6366f1,stroke-width:2px,color:#fff
+
+  I0(("I0 (Início)")):::startState -->|S| I1(("I1")):::normalState
+  I0 -->|lista| I2(("I2")):::normalState
+  I0 -->|comando| I3(("I3")):::normalState
+  I0 -->|ID| I4(("I4")):::normalState
+  I1 -->|"$"| ACC(["acc (Aceito)"]):::accState
+  I2 -->|comando| I5(("I5")):::normalState
+  I2 -->|ID| I4
+  I4 -->|"receba"| I6(("I6 (Expressão)")):::exprState
+  I6 -->|expr| I7(("I7")):::normalState
+  I6 -->|termo| I8(("I8")):::normalState
+  I6 -->|fator| I9(("I9")):::normalState
+  I6 -->|"("| I10(("I10")):::normalState
+  I6 -->|NUM| I11(("I11")):::normalState
+  I6 -->|ID| I12(("I12")):::normalState
+  I7 -->|";"| I13(("I13")):::normalState
+  I7 -->|"+"| I14(("I14")):::normalState
+  I8 -->|"*"| I15(("I15")):::normalState
+  I10 -->|expr| I16(("I16")):::normalState
+  I10 -->|termo| I8
+  I10 -->|fator| I9
+  I10 -->|"("| I10
+  I10 -->|NUM| I11
+  I10 -->|ID| I12
+  I14 -->|termo| I17(("I17")):::normalState
+  I14 -->|fator| I9
+  I14 -->|"("| I10
+  I14 -->|NUM| I11
+  I14 -->|ID| I12
+  I15 -->|fator| I18(("I18")):::normalState
+  I15 -->|"("| I10
+  I15 -->|NUM| I11
+  I15 -->|ID| I12
+  I16 -->|")"| I19(("I19")):::normalState
+  I16 -->|"+"| I14
+  I17 -->|"*"| I15
+              </pre>
+            </div>
+          </div>
+
+          <!-- Visualização 2: Cards de Itens LR(0) -->
+          <div id="automatonItemsView" style="display: none;">
+            <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.65rem;">
+              Coleção Canônica de Itens LR(0). O ponto (<span class="item-dot">•</span>) indica a posição exata da cabeça de leitura do autômato determinístico.
+            </div>
+            <div class="theory-grid">
             <div class="theory-card">
               <div class="theory-card-header"><span>Estado I0 (Inicial)</span><span style="font-size:0.7rem; color:#94a3b8;">Closure inicial</span></div>
               <ul class="theory-list">
@@ -982,6 +1081,7 @@
             </div>
           </div>
         </div>
+      </div>
 
         <!-- 5. Regras da Gramática -->
         <div id="bu-sub-gramatica" class="bu-subtab-pane">
@@ -1076,6 +1176,95 @@ TREM Incompleto {
       if (targetBtn) targetBtn.classList.add('active');
       const targetPane = document.getElementById(subtabId);
       if (targetPane) targetPane.classList.add('active');
+
+      if (subtabId === 'bu-sub-itens') {
+        setTimeout(() => renderAutomatonGraph(), 60);
+      }
+    }
+
+    let mermaidInitialized = false;
+    let automatonZoomLevel = 1;
+
+    function initMermaidIfNeeded() {
+      if (typeof mermaid !== 'undefined' && !mermaidInitialized) {
+        try {
+          mermaid.initialize({
+            startOnLoad: false,
+            theme: 'dark',
+            securityLevel: 'loose',
+            themeVariables: {
+              darkMode: true,
+              background: 'transparent',
+              primaryColor: '#1e1b4b',
+              primaryTextColor: '#e0e7ff',
+              primaryBorderColor: '#6366f1',
+              lineColor: '#818cf8',
+              secondaryColor: '#111827',
+              tertiaryColor: '#0f172a'
+            }
+          });
+          mermaidInitialized = true;
+        } catch (e) {
+          console.error('Mermaid init error:', e);
+        }
+      }
+    }
+
+    function renderAutomatonGraph() {
+      initMermaidIfNeeded();
+      if (typeof mermaid !== 'undefined') {
+        const el = document.getElementById('mermaidDiagram');
+        if (el && !el.getAttribute('data-processed')) {
+          try {
+            mermaid.run({ nodes: [el] });
+          } catch (e) {
+            console.error('Mermaid run error:', e);
+          }
+        }
+      }
+    }
+
+    function toggleAutomatonView(view) {
+      const graphView = document.getElementById('automatonGraphView');
+      const itemsView = document.getElementById('automatonItemsView');
+      const btnGraph = document.getElementById('btnViewGraph');
+      const btnItems = document.getElementById('btnViewItems');
+      const zoomControls = document.getElementById('graphZoomControls');
+
+      if (view === 'graph') {
+        graphView.style.display = 'block';
+        itemsView.style.display = 'none';
+        zoomControls.style.display = 'flex';
+        btnGraph.style.background = 'rgba(99, 102, 241, 0.25)';
+        btnGraph.style.borderColor = '#6366f1';
+        btnGraph.style.color = '#fff';
+        btnItems.style.background = '#1f293d';
+        btnItems.style.borderColor = '#374151';
+        btnItems.style.color = '#e5e7eb';
+        setTimeout(() => renderAutomatonGraph(), 50);
+      } else {
+        graphView.style.display = 'none';
+        itemsView.style.display = 'block';
+        zoomControls.style.display = 'none';
+        btnItems.style.background = 'rgba(99, 102, 241, 0.25)';
+        btnItems.style.borderColor = '#6366f1';
+        btnItems.style.color = '#fff';
+        btnGraph.style.background = '#1f293d';
+        btnGraph.style.borderColor = '#374151';
+        btnGraph.style.color = '#e5e7eb';
+      }
+    }
+
+    function zoomAutomaton(delta) {
+      automatonZoomLevel = Math.max(0.4, Math.min(2.5, automatonZoomLevel + delta));
+      const el = document.getElementById('automatonGraphContainer');
+      if (el) el.style.transform = `scale(${automatonZoomLevel})`;
+    }
+
+    function resetAutomatonZoom() {
+      automatonZoomLevel = 1;
+      const el = document.getElementById('automatonGraphContainer');
+      if (el) el.style.transform = 'scale(1)';
     }
 
     async function runAnalysis() {
