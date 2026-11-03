@@ -369,6 +369,126 @@
     .bu-action-r { color: #f472b6; font-weight: 600; }
     .bu-action-acc { color: #34d399; font-weight: 700; }
     .bu-action-err { color: #f87171; font-weight: 700; }
+
+    /* Bottom-up subtabs */
+    .bu-subtabs {
+      display: flex;
+      gap: 0.4rem;
+      margin-bottom: 0.85rem;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 0.65rem;
+      overflow-x: auto;
+    }
+    .bu-subtab-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 0.4rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .bu-subtab-btn:hover {
+      background: rgba(99, 102, 241, 0.15);
+      color: #e0e7ff;
+      border-color: rgba(99, 102, 241, 0.3);
+    }
+    .bu-subtab-btn.active {
+      background: rgba(99, 102, 241, 0.25);
+      color: #ffffff;
+      border-color: #6366f1;
+      box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+    }
+    .bu-subtab-pane {
+      display: none;
+    }
+    .bu-subtab-pane.active {
+      display: block;
+    }
+
+    /* SLR Matrix Table */
+    .slr-matrix-container {
+      overflow-x: auto;
+      max-height: 540px;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.25);
+    }
+    .slr-matrix {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.74rem;
+      font-family: 'Fira Code', monospace;
+      text-align: center;
+    }
+    .slr-matrix th {
+      padding: 0.5rem 0.4rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(17, 24, 39, 0.95);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .slr-matrix td {
+      padding: 0.38rem 0.3rem;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .slr-matrix tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.015);
+    }
+    .slr-matrix tr:hover {
+      background: rgba(99, 102, 241, 0.1);
+    }
+    .cell-s { color: #60a5fa; font-weight: 700; background: rgba(59, 130, 246, 0.12); padding: 0.15rem 0.35rem; border-radius: 3px; }
+    .cell-r { color: #f472b6; font-weight: 700; background: rgba(236, 72, 153, 0.12); padding: 0.15rem 0.35rem; border-radius: 3px; }
+    .cell-acc { color: #34d399; font-weight: 800; background: rgba(16, 185, 129, 0.25); padding: 0.15rem 0.35rem; border-radius: 3px; }
+    .cell-goto { color: #f59e0b; font-weight: 700; }
+
+    /* Theory Cards */
+    .theory-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 0.75rem;
+      max-height: 540px;
+      overflow-y: auto;
+      padding-right: 0.25rem;
+    }
+    .theory-card {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 0.75rem;
+      font-size: 0.8rem;
+    }
+    .theory-card-header {
+      font-weight: 700;
+      color: #a5b4fc;
+      margin-bottom: 0.4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding-bottom: 0.3rem;
+    }
+    .theory-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.75rem;
+      line-height: 1.5;
+    }
+    .theory-list li {
+      margin-bottom: 0.25rem;
+      color: #cbd5e1;
+    }
+    .item-dot {
+      color: #fbbf24;
+      font-weight: 900;
+    }
   </style>
 </head>
 <body>
@@ -467,22 +587,422 @@
 
       <!-- Tab: Bottom-up SLR(1) -->
       <div id="tab-bottomup" class="tab-content">
-        <div id="buStatus" class="status-banner success" style="margin-bottom: 0.75rem;">
-          Demonstração da Pilha de Estados e Ações Shift/Reduce (Tabela SLR 1 de 20 Estados).
+        <!-- Sub-navegação Teórica -->
+        <div class="bu-subtabs">
+          <button class="bu-subtab-btn active" onclick="switchBuSubtab('bu-sub-pilha')">⚡ Execução da Pilha</button>
+          <button class="bu-subtab-btn" onclick="switchBuSubtab('bu-sub-tabela')">📊 Tabela ACTION & GOTO</button>
+          <button class="bu-subtab-btn" onclick="switchBuSubtab('bu-sub-firstfollow')">🎯 FIRST & FOLLOW</button>
+          <button class="bu-subtab-btn" onclick="switchBuSubtab('bu-sub-itens')">🤖 Autômato LR(0) (20 Estados)</button>
+          <button class="bu-subtab-btn" onclick="switchBuSubtab('bu-sub-gramatica')">📜 Regras da Gramática</button>
         </div>
-        <table class="bu-table">
-          <thead>
-            <tr>
-              <th style="width: 120px;">Pilha Estados</th>
-              <th style="width: 180px;">Pilha Símbolos</th>
-              <th style="width: 100px;">Token</th>
-              <th>Ação</th>
-            </tr>
-          </thead>
-          <tbody id="buTableBody">
-            <tr><td colspan="4" style="text-align: center; color: var(--text-muted);">Selecione um dos exemplos SLR(1) e clique em analisar.</td></tr>
-          </tbody>
-        </table>
+
+        <!-- 1. Execução Passo a Passo -->
+        <div id="bu-sub-pilha" class="bu-subtab-pane active">
+          <div id="buStatus" class="status-banner success" style="margin-bottom: 0.75rem;">
+            Demonstração da Pilha de Estados e Ações Shift/Reduce (Tabela SLR 1 de 20 Estados).
+          </div>
+          <table class="bu-table">
+            <thead>
+              <tr>
+                <th style="width: 120px;">Pilha Estados</th>
+                <th style="width: 180px;">Pilha Símbolos</th>
+                <th style="width: 100px;">Token</th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+            <tbody id="buTableBody">
+              <tr><td colspan="4" style="text-align: center; color: var(--text-muted);">Selecione um dos exemplos SLR(1) e clique em analisar.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 2. Tabela ACTION & GOTO -->
+        <div id="bu-sub-tabela" class="bu-subtab-pane">
+          <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
+            <span>Matriz Canônica SLR(1) — 20 Estados (<span style="color:#60a5fa;">s: shift</span>, <span style="color:#f472b6;">r: reduce</span>, <span style="color:#34d399;">acc: aceito</span>, <span style="color:#f59e0b;">goto</span>)</span>
+            <span style="font-size: 0.75rem; color:#94a3b8;">Célula vazia = Erro Sintático</span>
+          </div>
+          <div class="slr-matrix-container">
+            <table class="slr-matrix">
+              <thead>
+                <tr>
+                  <th rowspan="2" style="background:#1e1b4b; color:#a5b4fc; border-right:2px solid #6366f1; width:50px;">Estado</th>
+                  <th colspan="9" style="background:rgba(59,130,246,0.15); color:#93c5fd; border-bottom:1px solid rgba(59,130,246,0.3);">TABELA ACTION (Terminais)</th>
+                  <th colspan="6" style="background:rgba(245,158,11,0.15); color:#fcd34d; border-bottom:1px solid rgba(245,158,11,0.3); border-left:2px solid #6366f1;">TABELA GOTO (Não-Terminais)</th>
+                </tr>
+                <tr>
+                  <th style="color:#93c5fd;">ID</th>
+                  <th style="color:#93c5fd;">NUM</th>
+                  <th style="color:#93c5fd;">receba/=</th>
+                  <th style="color:#93c5fd;">;</th>
+                  <th style="color:#93c5fd;">+</th>
+                  <th style="color:#93c5fd;">*</th>
+                  <th style="color:#93c5fd;">(</th>
+                  <th style="color:#93c5fd;">)</th>
+                  <th style="color:#93c5fd;">$</th>
+                  <th style="border-left:2px solid #6366f1; color:#fcd34d;">S</th>
+                  <th style="color:#fcd34d;">lista</th>
+                  <th style="color:#fcd34d;">comando</th>
+                  <th style="color:#fcd34d;">expr</th>
+                  <th style="color:#fcd34d;">termo</th>
+                  <th style="color:#fcd34d;">fator</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">0</td>
+                  <td><span class="cell-s">s4</span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                  <td style="border-left:2px solid #6366f1;"><span class="cell-goto">1</span></td>
+                  <td><span class="cell-goto">2</span></td>
+                  <td><span class="cell-goto">3</span></td>
+                  <td></td><td></td><td></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">1</td>
+                  <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><span class="cell-acc">acc</span></td>
+                  <td style="border-left:2px solid #6366f1;"></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">2</td>
+                  <td><span class="cell-s">s4</span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><span class="cell-r">r1</span></td>
+                  <td style="border-left:2px solid #6366f1;"></td><td></td><td><span class="cell-goto">5</span></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">3</td>
+                  <td><span class="cell-r">r3</span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><span class="cell-r">r3</span></td>
+                  <td style="border-left:2px solid #6366f1;"></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">4</td>
+                  <td></td><td></td><td><span class="cell-s">s6</span></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                  <td style="border-left:2px solid #6366f1;"></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">5</td>
+                  <td><span class="cell-r">r2</span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><span class="cell-r">r2</span></td>
+                  <td style="border-left:2px solid #6366f1;"></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">6</td>
+                  <td><span class="cell-s">s12</span></td><td><span class="cell-s">s11</span></td><td></td><td></td><td></td><td></td><td><span class="cell-s">s10</span></td><td></td><td></td>
+                  <td style="border-left:2px solid #6366f1;"></td><td></td><td></td><td><span class="cell-goto">7</span></td><td><span class="cell-goto">8</span></td><td><span class="cell-goto">9</span></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">7</td>
+                  <td></td><td></td><td></td><td><span class="cell-s">s13</span></td><td><span class="cell-s">s14</span></td><td></td><td></td><td></td><td></td>
+                  <td style="border-left:2px solid #6366f1;"></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">8</td>
+                  <td></td><td></td><td></td><td><span class="cell-r">r6</span></td><td><span class="cell-r">r6</span></td><td><span class="cell-s">s15</span></td><td></td><td><span class="cell-r">r6</span></td><td></td>
+                  <td style="border-left:2px solid #6366f1;"></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">9</td>
+                  <td></td><td></td><td></td><td><span class="cell-r">r8</span></td><td><span class="cell-r">r8</span></td><td><span class="cell-r">r8</span></td><td></td><td><span class="cell-r">r8</span></td><td></td>
+                  <td style="border-left:2px solid #6366f1;"></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">10</td>
+                  <td><span class="cell-s">s12</span></td><td><span class="cell-s">s11</span></td><td></td><td></td><td></td><td></td><td><span class="cell-s">s10</span></td><td></td><td></td>
+                  <td style="border-left:2px solid #6366f1;"></td><td></td><td></td><td><span class="cell-goto">16</span></td><td><span class="cell-goto">8</span></td><td><span class="cell-goto">9</span></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">11</td>
+                  <td></td><td></td><td></td><td><span class="cell-r">r10</span></td><td><span class="cell-r">r10</span></td><td><span class="cell-r">r10</span></td><td></td><td><span class="cell-r">r10</span></td><td></td>
+                  <td style="border-left:2px solid #6366f1;"></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">12</td>
+                  <td></td><td></td><td></td><td><span class="cell-r">r11</span></td><td><span class="cell-r">r11</span></td><td><span class="cell-r">r11</span></td><td></td><td><span class="cell-r">r11</span></td><td></td>
+                  <td style="border-left:2px solid #6366f1;"></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">13</td>
+                  <td><span class="cell-r">r4</span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><span class="cell-r">r4</span></td>
+                  <td style="border-left:2px solid #6366f1;"></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">14</td>
+                  <td><span class="cell-s">s12</span></td><td><span class="cell-s">s11</span></td><td></td><td></td><td></td><td></td><td><span class="cell-s">s10</span></td><td></td><td></td>
+                  <td style="border-left:2px solid #6366f1;"></td><td></td><td></td><td></td><td><span class="cell-goto">17</span></td><td><span class="cell-goto">9</span></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">15</td>
+                  <td><span class="cell-s">s12</span></td><td><span class="cell-s">s11</span></td><td></td><td></td><td></td><td></td><td><span class="cell-s">s10</span></td><td></td><td></td>
+                  <td style="border-left:2px solid #6366f1;"></td><td></td><td></td><td></td><td></td><td><span class="cell-goto">18</span></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">16</td>
+                  <td></td><td></td><td></td><td></td><td><span class="cell-s">s14</span></td><td></td><td></td><td><span class="cell-s">s19</span></td><td></td>
+                  <td style="border-left:2px solid #6366f1;"></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">17</td>
+                  <td></td><td></td><td></td><td><span class="cell-r">r5</span></td><td><span class="cell-r">r5</span></td><td><span class="cell-s">s15</span></td><td></td><td><span class="cell-r">r5</span></td><td></td>
+                  <td style="border-left:2px solid #6366f1;"></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">18</td>
+                  <td></td><td></td><td></td><td><span class="cell-r">r7</span></td><td><span class="cell-r">r7</span></td><td><span class="cell-r">r7</span></td><td></td><td><span class="cell-r">r7</span></td><td></td>
+                  <td style="border-left:2px solid #6366f1;"></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">19</td>
+                  <td></td><td></td><td></td><td><span class="cell-r">r9</span></td><td><span class="cell-r">r9</span></td><td><span class="cell-r">r9</span></td><td></td><td><span class="cell-r">r9</span></td><td></td>
+                  <td style="border-left:2px solid #6366f1;"></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 3. FIRST & FOLLOW -->
+        <div id="bu-sub-firstfollow" class="bu-subtab-pane">
+          <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.65rem;">
+            No analisador <strong>SLR(1)</strong>, os conjuntos <strong>FOLLOW</strong> determinam rigorosamente em quais colunas de terminais as ações de redução (<strong>rN</strong>) são inseridas.
+          </div>
+          <div class="theory-grid">
+            <div class="theory-card">
+              <div class="theory-card-header">
+                <span>Não-Terminal: S</span>
+                <span style="font-size:0.7rem; color:#38bdf8;">Símbolo Inicial</span>
+              </div>
+              <ul class="theory-list">
+                <li><strong style="color:#60a5fa;">FIRST(S):</strong> { ID }</li>
+                <li><strong style="color:#34d399;">FOLLOW(S):</strong> { $ }</li>
+                <li style="margin-top:0.35rem; font-size:0.7rem; color:#94a3b8;">Reduz para S apenas quando encontra o fim da entrada ($).</li>
+              </ul>
+            </div>
+            <div class="theory-card">
+              <div class="theory-card-header">
+                <span>Não-Terminal: lista</span>
+                <span style="font-size:0.7rem; color:#a78bfa;">Sequência</span>
+              </div>
+              <ul class="theory-list">
+                <li><strong style="color:#60a5fa;">FIRST(lista):</strong> { ID }</li>
+                <li><strong style="color:#34d399;">FOLLOW(lista):</strong> { ID, $ }</li>
+                <li style="margin-top:0.35rem; font-size:0.7rem; color:#94a3b8;">Permite encadear outro comando (ID) ou finalizar ($).</li>
+              </ul>
+            </div>
+            <div class="theory-card">
+              <div class="theory-card-header">
+                <span>Não-Terminal: comando</span>
+                <span style="font-size:0.7rem; color:#a78bfa;">Atribuição</span>
+              </div>
+              <ul class="theory-list">
+                <li><strong style="color:#60a5fa;">FIRST(comando):</strong> { ID }</li>
+                <li><strong style="color:#34d399;">FOLLOW(comando):</strong> { ID, $ }</li>
+                <li style="margin-top:0.35rem; font-size:0.7rem; color:#94a3b8;">Inicia sempre com o identificador da variável (ID).</li>
+              </ul>
+            </div>
+            <div class="theory-card">
+              <div class="theory-card-header">
+                <span>Não-Terminal: expr</span>
+                <span style="font-size:0.7rem; color:#f472b6;">Adição</span>
+              </div>
+              <ul class="theory-list">
+                <li><strong style="color:#60a5fa;">FIRST(expr):</strong> { (, NUM, ID }</li>
+                <li><strong style="color:#34d399;">FOLLOW(expr):</strong> { ;, +, ) }</li>
+                <li style="margin-top:0.35rem; font-size:0.7rem; color:#94a3b8;">Reduções r5 e r6 inseridas apenas em ;, +, ).</li>
+              </ul>
+            </div>
+            <div class="theory-card">
+              <div class="theory-card-header">
+                <span>Não-Terminal: termo</span>
+                <span style="font-size:0.7rem; color:#f472b6;">Multiplicação</span>
+              </div>
+              <ul class="theory-list">
+                <li><strong style="color:#60a5fa;">FIRST(termo):</strong> { (, NUM, ID }</li>
+                <li><strong style="color:#34d399;">FOLLOW(termo):</strong> { ;, +, *, ) }</li>
+                <li style="margin-top:0.35rem; font-size:0.7rem; color:#94a3b8;">Reduções r7 e r8 inseridas em ;, +, *, ).</li>
+              </ul>
+            </div>
+            <div class="theory-card">
+              <div class="theory-card-header">
+                <span>Não-Terminal: fator</span>
+                <span style="font-size:0.7rem; color:#f472b6;">Base / Operando</span>
+              </div>
+              <ul class="theory-list">
+                <li><strong style="color:#60a5fa;">FIRST(fator):</strong> { (, NUM, ID }</li>
+                <li><strong style="color:#34d399;">FOLLOW(fator):</strong> { ;, +, *, ) }</li>
+                <li style="margin-top:0.35rem; font-size:0.7rem; color:#94a3b8;">Reduções r9, r10 e r11 inseridas em ;, +, *, ).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Autômato LR(0) / Itens Canônicos -->
+        <div id="bu-sub-itens" class="bu-subtab-pane">
+          <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.65rem;">
+            Coleção Canônica de Itens LR(0). O ponto (<span class="item-dot">•</span>) indica a posição exata da cabeça de leitura do autômato determinístico.
+          </div>
+          <div class="theory-grid">
+            <div class="theory-card">
+              <div class="theory-card-header"><span>Estado I0 (Inicial)</span><span style="font-size:0.7rem; color:#94a3b8;">Closure inicial</span></div>
+              <ul class="theory-list">
+                <li>S' → <span class="item-dot">•</span> S</li>
+                <li>S → <span class="item-dot">•</span> lista</li>
+                <li>lista → <span class="item-dot">•</span> lista comando</li>
+                <li>lista → <span class="item-dot">•</span> comando</li>
+                <li>comando → <span class="item-dot">•</span> ID receba expr ;</li>
+              </ul>
+            </div>
+            <div class="theory-card">
+              <div class="theory-card-header"><span>Estado I1 (Aceitação)</span><span style="font-size:0.7rem; color:#34d399;">Goto(I0, S)</span></div>
+              <ul class="theory-list">
+                <li>S' → S <span class="item-dot">•</span></li>
+                <li style="color:#34d399; font-weight:600; margin-top:0.25rem;">Ação: acc com token $</li>
+              </ul>
+            </div>
+            <div class="theory-card">
+              <div class="theory-card-header"><span>Estado I2</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(I0, lista)</span></div>
+              <ul class="theory-list">
+                <li>S → lista <span class="item-dot">•</span></li>
+                <li>lista → lista <span class="item-dot">•</span> comando</li>
+                <li>comando → <span class="item-dot">•</span> ID receba expr ;</li>
+              </ul>
+            </div>
+            <div class="theory-card">
+              <div class="theory-card-header"><span>Estado I3</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(I0, comando)</span></div>
+              <ul class="theory-list">
+                <li>lista → comando <span class="item-dot">•</span></li>
+              </ul>
+            </div>
+            <div class="theory-card">
+              <div class="theory-card-header"><span>Estado I4</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(I0/I2, ID)</span></div>
+              <ul class="theory-list">
+                <li>comando → ID <span class="item-dot">•</span> receba expr ;</li>
+              </ul>
+            </div>
+            <div class="theory-card">
+              <div class="theory-card-header"><span>Estado I5</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(I2, comando)</span></div>
+              <ul class="theory-list">
+                <li>lista → lista comando <span class="item-dot">•</span></li>
+              </ul>
+            </div>
+            <div class="theory-card">
+              <div class="theory-card-header"><span>Estado I6</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(I4, receba)</span></div>
+              <ul class="theory-list">
+                <li>comando → ID receba <span class="item-dot">•</span> expr ;</li>
+                <li>expr → <span class="item-dot">•</span> expr + termo</li>
+                <li>expr → <span class="item-dot">•</span> termo</li>
+                <li>termo → <span class="item-dot">•</span> termo * fator</li>
+                <li>termo → <span class="item-dot">•</span> fator</li>
+                <li>fator → <span class="item-dot">•</span> ( expr ) | <span class="item-dot">•</span> NUM | <span class="item-dot">•</span> ID</li>
+              </ul>
+            </div>
+            <div class="theory-card">
+              <div class="theory-card-header"><span>Estado I7</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(I6, expr)</span></div>
+              <ul class="theory-list">
+                <li>comando → ID receba expr <span class="item-dot">•</span> ;</li>
+                <li>expr → expr <span class="item-dot">•</span> + termo</li>
+              </ul>
+            </div>
+            <div class="theory-card">
+              <div class="theory-card-header"><span>Estado I8</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(I6/I10, termo)</span></div>
+              <ul class="theory-list">
+                <li>expr → termo <span class="item-dot">•</span></li>
+                <li>termo → termo <span class="item-dot">•</span> * fator</li>
+              </ul>
+            </div>
+            <div class="theory-card">
+              <div class="theory-card-header"><span>Estado I9</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(fator)</span></div>
+              <ul class="theory-list">
+                <li>termo → fator <span class="item-dot">•</span></li>
+              </ul>
+            </div>
+            <div class="theory-card">
+              <div class="theory-card-header"><span>Estado I10</span><span style="font-size:0.7rem; color:#94a3b8;">Goto('(')</span></div>
+              <ul class="theory-list">
+                <li>fator → ( <span class="item-dot">•</span> expr )</li>
+                <li>expr → <span class="item-dot">•</span> expr + termo | <span class="item-dot">•</span> termo</li>
+                <li>termo → <span class="item-dot">•</span> termo * fator | <span class="item-dot">•</span> fator</li>
+                <li>fator → <span class="item-dot">•</span> ( expr ) | <span class="item-dot">•</span> NUM | <span class="item-dot">•</span> ID</li>
+              </ul>
+            </div>
+            <div class="theory-card">
+              <div class="theory-card-header"><span>Estado I11</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(NUM)</span></div>
+              <ul class="theory-list">
+                <li>fator → NUM <span class="item-dot">•</span></li>
+              </ul>
+            </div>
+            <div class="theory-card">
+              <div class="theory-card-header"><span>Estado I12</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(ID)</span></div>
+              <ul class="theory-list">
+                <li>fator → ID <span class="item-dot">•</span></li>
+              </ul>
+            </div>
+            <div class="theory-card">
+              <div class="theory-card-header"><span>Estado I13</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(I7, ';')</span></div>
+              <ul class="theory-list">
+                <li>comando → ID receba expr ; <span class="item-dot">•</span></li>
+              </ul>
+            </div>
+            <div class="theory-card">
+              <div class="theory-card-header"><span>Estado I14</span><span style="font-size:0.7rem; color:#94a3b8;">Goto('+')</span></div>
+              <ul class="theory-list">
+                <li>expr → expr + <span class="item-dot">•</span> termo</li>
+                <li>termo → <span class="item-dot">•</span> termo * fator | <span class="item-dot">•</span> fator</li>
+                <li>fator → <span class="item-dot">•</span> ( expr ) | <span class="item-dot">•</span> NUM | <span class="item-dot">•</span> ID</li>
+              </ul>
+            </div>
+            <div class="theory-card">
+              <div class="theory-card-header"><span>Estado I15</span><span style="font-size:0.7rem; color:#94a3b8;">Goto('*')</span></div>
+              <ul class="theory-list">
+                <li>termo → termo * <span class="item-dot">•</span> fator</li>
+                <li>fator → <span class="item-dot">•</span> ( expr ) | <span class="item-dot">•</span> NUM | <span class="item-dot">•</span> ID</li>
+              </ul>
+            </div>
+            <div class="theory-card">
+              <div class="theory-card-header"><span>Estado I16</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(I10, expr)</span></div>
+              <ul class="theory-list">
+                <li>fator → ( expr <span class="item-dot">•</span> )</li>
+                <li>expr → expr <span class="item-dot">•</span> + termo</li>
+              </ul>
+            </div>
+            <div class="theory-card">
+              <div class="theory-card-header"><span>Estado I17</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(I14, termo)</span></div>
+              <ul class="theory-list">
+                <li>expr → expr + termo <span class="item-dot">•</span></li>
+                <li>termo → termo <span class="item-dot">•</span> * fator</li>
+              </ul>
+            </div>
+            <div class="theory-card">
+              <div class="theory-card-header"><span>Estado I18</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(I15, fator)</span></div>
+              <ul class="theory-list">
+                <li>termo → termo * fator <span class="item-dot">•</span></li>
+              </ul>
+            </div>
+            <div class="theory-card">
+              <div class="theory-card-header"><span>Estado I19</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(I16, ')')</span></div>
+              <ul class="theory-list">
+                <li>fator → ( expr ) <span class="item-dot">•</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Regras da Gramática -->
+        <div id="bu-sub-gramatica" class="bu-subtab-pane">
+          <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.65rem;">
+            Gramática Aumentada com 11 regras. A estrutura em camadas (<strong>expr → termo → fator</strong>) implementa nativamente a precedência de operadores e associatividade à esquerda.
+          </div>
+          <div style="background:rgba(0,0,0,0.3); border:1px solid var(--card-border); border-radius:8px; padding:1rem; font-family:'Fira Code', monospace; font-size:0.82rem; line-height:1.7;">
+            <div><strong style="color:#818cf8;">0.</strong> S' → S <span style="color:#64748b; font-size:0.75rem;">// Regra aumentada para parada segura</span></div>
+            <div><strong style="color:#818cf8;">1.</strong> S → lista</div>
+            <div><strong style="color:#818cf8;">2.</strong> lista → lista comando <span style="color:#64748b; font-size:0.75rem;">// Recursão à esquerda: múltiplos comandos</span></div>
+            <div><strong style="color:#818cf8;">3.</strong> lista → comando</div>
+            <div><strong style="color:#818cf8;">4.</strong> comando → ID receba expr ; <span style="color:#64748b; font-size:0.75rem;">// Atribuição de valor</span></div>
+            <div><strong style="color:#818cf8;">5.</strong> expr → expr + termo <span style="color:#64748b; font-size:0.75rem;">// Adição (associativa à esquerda)</span></div>
+            <div><strong style="color:#818cf8;">6.</strong> expr → termo</div>
+            <div><strong style="color:#818cf8;">7.</strong> termo → termo * fator <span style="color:#64748b; font-size:0.75rem;">// Multiplicação (maior precedência)</span></div>
+            <div><strong style="color:#818cf8;">8.</strong> termo → fator</div>
+            <div><strong style="color:#818cf8;">9.</strong> fator → ( expr ) <span style="color:#64748b; font-size:0.75rem;">// Parênteses: isolamento de subexpressão</span></div>
+            <div><strong style="color:#818cf8;">10.</strong> fator → NUM <span style="color:#64748b; font-size:0.75rem;">// Constante numérica</span></div>
+            <div><strong style="color:#818cf8;">11.</strong> fator → ID <span style="color:#64748b; font-size:0.75rem;">// Variável / Identificador</span></div>
+          </div>
+        </div>
       </div>
     </div>
   </main>
@@ -546,6 +1066,16 @@ TREM Incompleto {
       if (targetBtn) targetBtn.classList.add('active');
       const targetTab = document.getElementById(tabId);
       if (targetTab) targetTab.classList.add('active');
+    }
+
+    function switchBuSubtab(subtabId) {
+      document.querySelectorAll('.bu-subtab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.bu-subtab-pane').forEach(p => p.classList.remove('active'));
+      
+      const targetBtn = Array.from(document.querySelectorAll('.bu-subtab-btn')).find(b => b.getAttribute('onclick').includes(subtabId));
+      if (targetBtn) targetBtn.classList.add('active');
+      const targetPane = document.getElementById(subtabId);
+      if (targetPane) targetPane.classList.add('active');
     }
 
     async function runAnalysis() {
