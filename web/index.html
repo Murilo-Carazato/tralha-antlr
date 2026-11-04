@@ -676,19 +676,63 @@
 
     /* Native SVG Automaton Diagram */
     .automaton-canvas-wrapper {
-      background: radial-gradient(circle at center, rgba(30, 27, 75, 0.35) 0%, rgba(10, 15, 29, 0.95) 100%);
+      height: clamp(420px, 58vh, 620px);
+      background:
+        linear-gradient(rgba(99, 102, 241, 0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99, 102, 241, 0.055) 1px, transparent 1px),
+        radial-gradient(circle at center, rgba(30, 27, 75, 0.38) 0%, rgba(10, 15, 29, 0.98) 72%);
+      background-size: 24px 24px, 24px 24px, auto;
       border: 1px solid var(--card-border);
       border-radius: 8px;
-      overflow-x: auto;
-      overflow-y: hidden;
+      overflow: hidden;
       position: relative;
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+      outline: none;
+      overscroll-behavior: contain;
+    }
+    .automaton-canvas-wrapper:focus-visible {
+      border-color: #818cf8;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.22);
+    }
+    .automaton-canvas-wrapper.is-panning {
+      cursor: grabbing;
+    }
+    #automatonGraphContainer {
+      position: absolute;
+      inset: 0 auto auto 0;
+      width: 1100px;
+      height: 540px;
+      transform-origin: 0 0;
+      will-change: transform;
     }
     .automaton-svg-inner {
       display: block;
-      margin: 0 auto;
-      transform-origin: top center;
-      transition: transform 0.15s ease;
-      min-width: 1080px;
+      width: 1100px;
+      height: 540px;
+      min-width: 1100px;
+    }
+    .canvas-help {
+      position: absolute;
+      left: 0.75rem;
+      bottom: 0.75rem;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.38rem 0.55rem;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 6px;
+      background: rgba(8, 13, 27, 0.82);
+      color: #94a3b8;
+      font-size: 0.68rem;
+      pointer-events: none;
+      backdrop-filter: blur(8px);
+    }
+    .canvas-help .lucide {
+      width: 13px;
+      height: 13px;
     }
 
     /* Nodes */
@@ -1003,6 +1047,10 @@
       border-radius: 12px;
       background: #0b1120;
       box-shadow: 0 24px 80px rgba(0, 0, 0, .72);
+    }
+    .bu-subtab-pane.is-expanded .automaton-canvas-wrapper {
+      height: calc(100vh - 250px);
+      min-height: 420px;
     }
     @media (max-width: 1100px) {
       .tabs-header { overflow-x: auto; }
@@ -1396,7 +1444,7 @@
             </div>
             <div id="graphZoomControls" class="graph-toolbar-group">
               <button class="btn-preset ui-icon-button" aria-label="Estado anterior" title="Estado anterior" onclick="navigateState(-1)"><i data-lucide="chevron-left"></i></button>
-              <select id="graphStateSelect" class="graph-state-select" onchange="selectAutomatonState(this.value)" aria-label="Navegar para estado"></select>
+              <select id="graphStateSelect" class="graph-state-select" onchange="selectAutomatonState(this.value, true)" aria-label="Navegar para estado"></select>
               <button class="btn-preset ui-icon-button" aria-label="Próximo estado" title="Próximo estado" onclick="navigateState(1)"><i data-lucide="chevron-right"></i></button>
               <button class="btn-preset ui-icon-button" aria-label="Diminuir zoom" title="Diminuir zoom" onclick="zoomAutomaton(-0.15)"><i data-lucide="zoom-out"></i></button>
               <span id="graphZoomReadout" class="zoom-readout">100%</span>
@@ -1426,10 +1474,11 @@
 
           <!-- Visualização 1: Grafo SVG Nativo de Alta Fidelidade -->
           <div id="automatonGraphView">
-            <div class="automaton-canvas-wrapper">
-              <div id="automatonGraphContainer" style="transform-origin: top center; transition: transform 0.15s ease;">
-                <svg id="automatonSvg" class="automaton-svg-inner" viewBox="0 0 1100 540" width="100%" height="520"></svg>
+            <div class="automaton-canvas-wrapper" id="automatonCanvas" tabindex="0" aria-label="Autômato LR(0) interativo. Arraste para mover e use Control mais a roda do mouse para aplicar zoom.">
+              <div id="automatonGraphContainer">
+                <svg id="automatonSvg" class="automaton-svg-inner" viewBox="0 0 1100 540" width="1100" height="540"></svg>
               </div>
+              <div class="canvas-help"><i data-lucide="mouse-pointer-2"></i>Arraste para mover · Ctrl + roda para zoom · Shift + roda para lateral</div>
             </div>
 
             <!-- Régua Rápida de Estados (Pills) -->
@@ -1725,9 +1774,11 @@ TREM Incompleto {
           if (!automatonRendered) {
             buildAutomatonSvg();
             initAutomatonPills();
+            initAutomatonCanvasInteractions();
             selectAutomatonState(0);
             automatonRendered = true;
           }
+          fitAutomatonGraph();
         }, 50);
       }
     }
@@ -1735,6 +1786,10 @@ TREM Incompleto {
     let automatonZoomLevel = 1;
     let automatonRendered = false;
     let selectedAutomatonStateId = 0;
+    let automatonPanX = 0;
+    let automatonPanY = 0;
+    let automatonCanvasInitialized = false;
+    let automatonSpacePressed = false;
 
     function refreshIcons(root = document) {
       if (!window.lucide) return;
@@ -1756,45 +1811,169 @@ TREM Incompleto {
       refreshIcons(button);
     }
 
-    function applyAutomatonZoom() {
-      const svg = document.getElementById('automatonSvg');
+    function applyAutomatonTransform(animate = false) {
+      const container = document.getElementById('automatonGraphContainer');
       const readout = document.getElementById('graphZoomReadout');
-      if (!svg) return;
+      if (!container) return;
 
-      const width = Math.round(1100 * automatonZoomLevel);
-      const height = Math.round(520 * automatonZoomLevel);
-      svg.style.width = `${width}px`;
-      svg.style.minWidth = `${width}px`;
-      svg.style.height = `${height}px`;
+      container.style.transition = animate ? 'transform 180ms ease' : 'none';
+      container.style.transform = `translate3d(${automatonPanX}px, ${automatonPanY}px, 0) scale(${automatonZoomLevel})`;
       if (readout) readout.textContent = `${Math.round(automatonZoomLevel * 100)}%`;
     }
 
+    function setAutomatonZoom(nextZoom, clientX, clientY, animate = false) {
+      const wrapper = document.getElementById('automatonCanvas');
+      if (!wrapper) return;
+
+      const rect = wrapper.getBoundingClientRect();
+      const anchorX = clientX ?? (rect.left + rect.width / 2);
+      const anchorY = clientY ?? (rect.top + rect.height / 2);
+      const localX = anchorX - rect.left;
+      const localY = anchorY - rect.top;
+      const worldX = (localX - automatonPanX) / automatonZoomLevel;
+      const worldY = (localY - automatonPanY) / automatonZoomLevel;
+
+      automatonZoomLevel = Math.min(2.5, Math.max(0.3, nextZoom));
+      automatonPanX = localX - worldX * automatonZoomLevel;
+      automatonPanY = localY - worldY * automatonZoomLevel;
+      applyAutomatonTransform(animate);
+    }
+
     function zoomAutomaton(delta) {
-      automatonZoomLevel = Math.min(2.25, Math.max(0.45, automatonZoomLevel + delta));
-      applyAutomatonZoom();
+      setAutomatonZoom(automatonZoomLevel + delta, undefined, undefined, true);
     }
 
     function fitAutomatonGraph() {
-      const wrapper = document.querySelector('.automaton-canvas-wrapper');
+      const wrapper = document.getElementById('automatonCanvas');
       if (!wrapper) return;
-      automatonZoomLevel = Math.min(1, Math.max(0.45, (wrapper.clientWidth - 24) / 1100));
-      applyAutomatonZoom();
-      wrapper.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
+
+      const padding = 28;
+      automatonZoomLevel = Math.min(
+        1,
+        Math.max(0.3, Math.min(
+          (wrapper.clientWidth - padding * 2) / 1100,
+          (wrapper.clientHeight - padding * 2) / 540,
+        )),
+      );
+      automatonPanX = (wrapper.clientWidth - 1100 * automatonZoomLevel) / 2;
+      automatonPanY = (wrapper.clientHeight - 540 * automatonZoomLevel) / 2;
+      applyAutomatonTransform(true);
     }
 
     function resetAutomatonGraph() {
       automatonZoomLevel = 1;
-      applyAutomatonZoom();
-      const wrapper = document.querySelector('.automaton-canvas-wrapper');
-      if (wrapper) wrapper.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
+      const wrapper = document.getElementById('automatonCanvas');
+      if (wrapper) {
+        automatonPanX = (wrapper.clientWidth - 1100) / 2;
+        automatonPanY = (wrapper.clientHeight - 540) / 2;
+      }
+      applyAutomatonTransform(true);
       selectAutomatonState(0);
+    }
+
+    function centerAutomatonState(stateId) {
+      const wrapper = document.getElementById('automatonCanvas');
+      const state = autoNodesData[stateId];
+      if (!wrapper || !state) return;
+
+      automatonPanX = wrapper.clientWidth / 2 - (state.x + 45) * automatonZoomLevel;
+      automatonPanY = wrapper.clientHeight / 2 - (state.y + 22) * automatonZoomLevel;
+      applyAutomatonTransform(true);
+    }
+
+    function initAutomatonCanvasInteractions() {
+      if (automatonCanvasInitialized) return;
+      const wrapper = document.getElementById('automatonCanvas');
+      if (!wrapper) return;
+
+      automatonCanvasInitialized = true;
+      let dragging = false;
+      let pointerId = null;
+      let lastX = 0;
+      let lastY = 0;
+      let dragMoved = false;
+
+      wrapper.addEventListener('wheel', event => {
+        event.preventDefault();
+
+        if (event.ctrlKey || event.metaKey) {
+          const factor = Math.exp(-event.deltaY * 0.0015);
+          setAutomatonZoom(automatonZoomLevel * factor, event.clientX, event.clientY);
+          return;
+        }
+
+        if (event.shiftKey && Math.abs(event.deltaX) < 1) {
+          automatonPanX -= event.deltaY;
+        } else {
+          automatonPanX -= event.deltaX;
+          automatonPanY -= event.deltaY;
+        }
+        applyAutomatonTransform();
+      }, { passive: false });
+
+      wrapper.addEventListener('pointerdown', event => {
+        const overNode = event.target.closest && event.target.closest('.auto-node');
+        const canPan = event.button === 1 || (event.button === 0 && (!overNode || automatonSpacePressed));
+        if (!canPan) return;
+
+        event.preventDefault();
+        dragging = true;
+        pointerId = event.pointerId;
+        lastX = event.clientX;
+        lastY = event.clientY;
+        dragMoved = false;
+        wrapper.classList.add('is-panning');
+        wrapper.setPointerCapture(pointerId);
+      });
+
+      wrapper.addEventListener('pointermove', event => {
+        if (!dragging || event.pointerId !== pointerId) return;
+        if (Math.abs(event.clientX - lastX) + Math.abs(event.clientY - lastY) > 2) dragMoved = true;
+        automatonPanX += event.clientX - lastX;
+        automatonPanY += event.clientY - lastY;
+        lastX = event.clientX;
+        lastY = event.clientY;
+        applyAutomatonTransform();
+      });
+
+      const stopPanning = event => {
+        if (!dragging || event.pointerId !== pointerId) return;
+        dragging = false;
+        wrapper.classList.remove('is-panning');
+        if (wrapper.hasPointerCapture(pointerId)) wrapper.releasePointerCapture(pointerId);
+        pointerId = null;
+      };
+
+      wrapper.addEventListener('pointerup', stopPanning);
+      wrapper.addEventListener('pointercancel', stopPanning);
+      wrapper.addEventListener('click', event => {
+        if (!dragMoved) return;
+        event.preventDefault();
+        event.stopPropagation();
+        dragMoved = false;
+      }, true);
+      wrapper.addEventListener('dblclick', event => {
+        if (!(event.target.closest && event.target.closest('.auto-node'))) fitAutomatonGraph();
+      });
+      wrapper.addEventListener('keydown', event => {
+        if (event.key === '+' || event.key === '=') {
+          event.preventDefault();
+          zoomAutomaton(0.15);
+        } else if (event.key === '-') {
+          event.preventDefault();
+          zoomAutomaton(-0.15);
+        } else if (event.key.toLowerCase() === 'f' || event.key === '0') {
+          event.preventDefault();
+          fitAutomatonGraph();
+        }
+      });
     }
 
     function navigateState(direction) {
       const order = Object.keys(autoNodesData);
       const currentIndex = order.indexOf(String(selectedAutomatonStateId));
       const nextIndex = Math.min(order.length - 1, Math.max(0, currentIndex + direction));
-      selectAutomatonState(order[nextIndex]);
+      selectAutomatonState(order[nextIndex], true);
     }
 
     function toggleExpandedGraph() {
@@ -2222,7 +2401,7 @@ TREM Incompleto {
       svg.innerHTML = defs + edgesHtml + nodesHtml;
     }
 
-    function selectAutomatonState(stateId) {
+    function selectAutomatonState(stateId, center = false) {
       selectedAutomatonStateId = stateId;
       const stateSelect = document.getElementById('graphStateSelect');
       if (stateSelect) stateSelect.value = String(stateId);
@@ -2277,7 +2456,7 @@ TREM Incompleto {
             const targetLabel = tr.target === 'ACC' ? 'ACC' : `I${tr.target}`;
             btn.innerHTML = `<strong>${tr.sym}</strong><i data-lucide="arrow-right"></i>${targetLabel}`;
             btn.title = `Navegar para o estado I${tr.target}`;
-            btn.onclick = () => selectAutomatonState(tr.target);
+            btn.onclick = () => selectAutomatonState(tr.target, true);
             transContainer.appendChild(btn);
           });
           refreshIcons(transContainer);
@@ -2293,6 +2472,8 @@ TREM Incompleto {
           <div>${data.slr}</div>
         `;
       }
+
+      if (center) centerAutomatonState(stateId);
     }
 
     function hoverAutomatonNode(id) {
@@ -2411,7 +2592,7 @@ TREM Incompleto {
         activeNode.classList.add('node-active-step');
       }
 
-      selectAutomatonState(topState);
+      selectAutomatonState(topState, true);
 
       const rows = document.querySelectorAll('#buTableBody tr');
       rows.forEach((r, rIdx) => {
@@ -2474,6 +2655,7 @@ TREM Incompleto {
       zoomControls.style.display = graphActive ? 'flex' : 'none';
       btnGraph.classList.toggle('active', graphActive);
       btnItems.classList.toggle('active', !graphActive);
+      if (graphActive) requestAnimationFrame(fitAutomatonGraph);
     }
 
     async function runAnalysis() {
@@ -2714,9 +2896,9 @@ TREM Incompleto {
       setTimeout(() => {
         buildAutomatonSvg();
         initAutomatonPills();
+        initAutomatonCanvasInteractions();
         selectAutomatonState(0);
         automatonRendered = true;
-        fitAutomatonGraph();
         refreshIcons();
       }, 50);
     };
@@ -2726,6 +2908,22 @@ TREM Incompleto {
       if (event.key === 'Escape' && pane && pane.classList.contains('is-expanded')) {
         toggleExpandedGraph();
       }
+
+      const target = event.target;
+      const typing = target instanceof HTMLElement && (target.matches('input, textarea, select') || target.isContentEditable);
+      if (event.code === 'Space' && !typing) {
+        automatonSpacePressed = true;
+        const canvas = document.getElementById('automatonCanvas');
+        if (canvas && canvas.offsetParent !== null) event.preventDefault();
+      }
+    });
+
+    document.addEventListener('keyup', event => {
+      if (event.code === 'Space') automatonSpacePressed = false;
+    });
+
+    window.addEventListener('blur', () => {
+      automatonSpacePressed = false;
     });
   </script>
 </body>
