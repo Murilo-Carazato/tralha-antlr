@@ -490,6 +490,249 @@
       color: #fbbf24;
       font-weight: 900;
     }
+
+    /* Automaton Player Bar (Live Execution) */
+    .auto-player-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+      background: linear-gradient(135deg, rgba(30, 27, 75, 0.7), rgba(15, 23, 42, 0.85));
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      border-radius: 8px;
+      padding: 0.6rem 0.85rem;
+      margin-bottom: 0.75rem;
+    }
+    .auto-player-controls {
+      display: flex;
+      gap: 0.35rem;
+      align-items: center;
+    }
+    .auto-btn-play {
+      background: #4f46e5;
+      color: #fff;
+      border: 1px solid #6366f1;
+      padding: 0.32rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .auto-btn-play:hover {
+      background: #4338ca;
+      box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+    }
+    .auto-btn-sub {
+      background: rgba(255, 255, 255, 0.05);
+      color: #e2e8f0;
+      border: 1px solid var(--card-border);
+      padding: 0.32rem 0.55rem;
+      border-radius: 6px;
+      font-size: 0.76rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .auto-btn-sub:hover {
+      background: rgba(99, 102, 241, 0.2);
+      border-color: #6366f1;
+    }
+    .auto-player-status {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+      font-size: 0.76rem;
+      font-family: 'Fira Code', monospace;
+    }
+    .auto-status-pill {
+      background: rgba(0, 0, 0, 0.45);
+      padding: 0.2rem 0.45rem;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #cbd5e1;
+    }
+
+    /* Native SVG Automaton Diagram */
+    .automaton-canvas-wrapper {
+      background: radial-gradient(circle at center, rgba(30, 27, 75, 0.35) 0%, rgba(10, 15, 29, 0.95) 100%);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      overflow: auto;
+      max-height: 530px;
+      position: relative;
+    }
+    .automaton-svg-inner {
+      display: block;
+      margin: 0 auto;
+      transform-origin: top center;
+      transition: transform 0.15s ease;
+      min-width: 1080px;
+    }
+
+    /* Nodes */
+    .auto-node {
+      cursor: pointer;
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .auto-node .node-rect {
+      stroke-width: 1.8px;
+      transition: all 0.2s ease;
+    }
+    .auto-node:hover .node-rect {
+      stroke-width: 3px;
+      filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.8));
+    }
+    .auto-node.node-selected .node-rect {
+      stroke: #a855f7 !important;
+      stroke-width: 3px !important;
+      filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.9)) !important;
+    }
+    .auto-node.node-active-step .node-rect {
+      stroke: #38bdf8 !important;
+      stroke-width: 3.5px !important;
+      animation: pulseActiveStep 1.2s infinite alternate ease-in-out;
+    }
+    @keyframes pulseActiveStep {
+      0% { filter: drop-shadow(0 0 4px #38bdf8); }
+      100% { filter: drop-shadow(0 0 18px #38bdf8); }
+    }
+
+    /* Edges */
+    .auto-edge-path {
+      stroke: #475569;
+      stroke-width: 1.8px;
+      fill: none;
+      transition: stroke 0.2s, stroke-width 0.2s;
+    }
+    .auto-edge-path.edge-highlight-out {
+      stroke: #38bdf8 !important;
+      stroke-width: 2.8px !important;
+      filter: drop-shadow(0 0 6px #38bdf8);
+    }
+    .auto-edge-path.edge-highlight-in {
+      stroke: #a855f7 !important;
+      stroke-width: 2.8px !important;
+      filter: drop-shadow(0 0 6px #a855f7);
+    }
+    .auto-edge-label-bg {
+      fill: rgba(15, 23, 42, 0.95);
+      stroke: rgba(255, 255, 255, 0.15);
+      stroke-width: 0.8px;
+      rx: 4px;
+    }
+    .auto-edge-label-text {
+      fill: #e2e8f0;
+      font-size: 10px;
+      font-weight: 700;
+      font-family: 'Fira Code', monospace;
+      text-anchor: middle;
+      dominant-baseline: central;
+    }
+
+    /* State Pills Bar */
+    .auto-pills-bar {
+      display: flex;
+      gap: 0.3rem;
+      overflow-x: auto;
+      padding: 0.5rem 0.25rem 0.65rem 0.25rem;
+      margin-top: 0.65rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .auto-pill-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      color: #94a3b8;
+      padding: 0.25rem 0.55rem;
+      border-radius: 5px;
+      font-size: 0.72rem;
+      font-family: 'Fira Code', monospace;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .auto-pill-btn:hover {
+      background: rgba(99, 102, 241, 0.2);
+      color: #fff;
+      border-color: #6366f1;
+    }
+    .auto-pill-btn.active {
+      background: #4f46e5;
+      color: #fff;
+      border-color: #818cf8;
+      box-shadow: 0 0 8px rgba(99, 102, 241, 0.5);
+    }
+
+    /* State Inspector Box */
+    .auto-inspector {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 0.85rem;
+      margin-top: 0.65rem;
+    }
+    .auto-inspector-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1.2fr 1.4fr;
+      gap: 0.85rem;
+    }
+    @media (max-width: 900px) {
+      .auto-inspector-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .insp-col-title {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #94a3b8;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .insp-transition-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      color: #93c5fd;
+      padding: 0.3rem 0.55rem;
+      border-radius: 5px;
+      font-size: 0.74rem;
+      font-family: 'Fira Code', monospace;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      margin-right: 0.35rem;
+      margin-bottom: 0.35rem;
+    }
+    .insp-transition-btn:hover {
+      background: rgba(59, 130, 246, 0.28);
+      border-color: #60a5fa;
+      color: #fff;
+      transform: translateY(-1px);
+    }
+    .insp-transition-btn.goto-btn {
+      background: rgba(245, 158, 11, 0.12);
+      border-color: rgba(245, 158, 11, 0.3);
+      color: #fcd34d;
+    }
+    .insp-transition-btn.goto-btn:hover {
+      background: rgba(245, 158, 11, 0.28);
+      border-color: #fbbf24;
+      color: #fff;
+    }
+    .active-step-row {
+      background: rgba(56, 189, 248, 0.18) !important;
+      outline: 1px solid #38bdf8;
+    }
   </style>
 </head>
 <body>
@@ -882,10 +1125,70 @@
             </div>
           </div>
 
-          <!-- Visualização 1: Grafo Mermaid -->
-          <div id="automatonGraphView" style="background: rgba(0, 0, 0, 0.3); border: 1px solid var(--card-border); border-radius: 8px; overflow: auto; max-height: 520px; padding: 1.25rem 0.75rem; position: relative;">
-            <div id="automatonGraphContainer" style="display: flex; justify-content: center; transform-origin: top center; transition: transform 0.15s ease;">
-              <div id="mermaidRenderOutput" style="text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 2rem;">Carregando diagrama do autômato...</div>
+          <!-- Barra do Player: Sincronização Pilha -> Autômato (Opção 4: Autômato Vivo) -->
+          <div class="auto-player-bar">
+            <div class="auto-player-controls">
+              <span style="font-size: 0.76rem; font-weight: 700; color: #a5b4fc; margin-right: 0.35rem;">⚡ SIMULADOR:</span>
+              <button class="auto-btn-sub" title="Primeiro Passo" onclick="stepPlayerFirst()">⏮️</button>
+              <button class="auto-btn-sub" title="Passo Anterior" onclick="stepPlayerPrev()">◀️</button>
+              <button id="autoPlayBtn" class="auto-btn-play" onclick="toggleStepPlayerPlay()">▶️ Reproduzir</button>
+              <button class="auto-btn-sub" title="Próximo Passo" onclick="stepPlayerNext()">▶️</button>
+            </div>
+            <div class="auto-player-status">
+              <span class="auto-status-pill">Passo: <strong id="playerStepCount" style="color: #38bdf8;">0</strong> / <span id="playerTotalSteps">0</span></span>
+              <span class="auto-status-pill">Pilha: <span id="playerStackText" style="color: #818cf8; font-weight: 600;">—</span></span>
+              <span class="auto-status-pill">Token: <span id="playerTokenText" style="color: #34d399;">—</span></span>
+              <span class="auto-status-pill">Ação: <span id="playerActionText" style="font-weight: 700;">—</span></span>
+            </div>
+          </div>
+
+          <!-- Visualização 1: Grafo SVG Nativo de Alta Fidelidade -->
+          <div id="automatonGraphView">
+            <div class="automaton-canvas-wrapper">
+              <div id="automatonGraphContainer" style="transform-origin: top center; transition: transform 0.15s ease;">
+                <svg id="automatonSvg" class="automaton-svg-inner" viewBox="0 0 1100 540" width="100%" height="520"></svg>
+              </div>
+            </div>
+
+            <!-- Régua Rápida de Estados (Pills) -->
+            <div class="auto-pills-bar" id="autoStatePills">
+              <!-- Gerado via JS para I0..I19 e ACC -->
+            </div>
+
+            <!-- Inspetor Interativo de Estados (Opção 1) -->
+            <div class="auto-inspector">
+              <div class="auto-inspector-grid">
+                <!-- Coluna 1: Itens LR(0) Canônicos -->
+                <div>
+                  <div class="insp-col-title"><span>📋</span> Itens Canônicos LR(0) (<span id="inspStateId">I0</span>)</div>
+                  <div style="font-size: 0.72rem; color: #94a3b8; margin-bottom: 0.4rem;" id="inspStatePhase">Fase: Inicialização</div>
+                  <div style="font-size: 0.75rem; color: #cbd5e1; margin-bottom: 0.5rem; background: rgba(0,0,0,0.25); padding: 0.35rem 0.5rem; border-radius: 4px; border: 1px solid rgba(255,255,255,0.05);" id="inspStateFrom">
+                    Origem: Ponto de partida
+                  </div>
+                  <ul class="theory-list" id="inspStateItems" style="background: rgba(0,0,0,0.35); padding: 0.5rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06); max-height: 160px; overflow-y: auto;">
+                    <!-- Itens gerados dinamicamente com o ponto • -->
+                  </ul>
+                </div>
+
+                <!-- Coluna 2: Transições de Saída (Próximos Estados) -->
+                <div>
+                  <div class="insp-col-title"><span>⚡</span> Próximos Estados (Clique para Navegar)</div>
+                  <div style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+                    Selecione uma transição abaixo para caminhar pelo autômato:
+                  </div>
+                  <div id="inspStateTransitions" style="display: flex; flex-wrap: wrap;">
+                    <!-- Botões gerados dinamicamente -->
+                  </div>
+                </div>
+
+                <!-- Coluna 3: Ação Teórica SLR(1) -->
+                <div>
+                  <div class="insp-col-title"><span>🎯</span> Ação na Matriz Canônica SLR(1)</div>
+                  <div id="inspStateSlrBox" style="background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.25); border-radius: 6px; padding: 0.65rem; font-size: 0.76rem; line-height: 1.55; color: #cbd5e1;">
+                    <!-- Explicação teórica SLR(1) -->
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -1136,94 +1439,657 @@ TREM Incompleto {
       if (targetPane) targetPane.classList.add('active');
 
       if (subtabId === 'bu-sub-itens') {
-        setTimeout(() => renderAutomatonGraph(), 60);
+        setTimeout(() => {
+          if (!automatonRendered) {
+            buildAutomatonSvg();
+            initAutomatonPills();
+            selectAutomatonState(0);
+            automatonRendered = true;
+          }
+        }, 50);
       }
     }
 
-    let mermaidInitialized = false;
     let automatonZoomLevel = 1;
     let automatonRendered = false;
 
-    const graphDef = `flowchart TD
-  I0["I0: Início"] -->|S| I1["I1: S' → S•"]
-  I0 -->|lista| I2["I2"]
-  I0 -->|comando| I3["I3"]
-  I0 -->|ID| I4["I4"]
-  I1 -->|EOF: $| ACC["acc: Aceito"]
-  I2 -->|comando| I5["I5"]
-  I2 -->|ID| I4
-  I4 -->|receba| I6["I6: Início Expr"]
-  I6 -->|expr| I7["I7"]
-  I6 -->|termo| I8["I8"]
-  I6 -->|fator| I9["I9"]
-  I6 -->|ABRE_PAR: &#40;| I10["I10"]
-  I6 -->|NUM| I11["I11"]
-  I6 -->|ID| I12["I12"]
-  I7 -->|PONTO_VIRGULA: &#59;| I13["I13"]
-  I7 -->|SOMA: &#43;| I14["I14"]
-  I8 -->|MULT: &#42;| I15["I15"]
-  I10 -->|expr| I16["I16"]
-  I10 -->|termo| I8
-  I10 -->|fator| I9
-  I10 -->|ABRE_PAR: &#40;| I10
-  I10 -->|NUM| I11
-  I10 -->|ID| I12
-  I14 -->|termo| I17["I17"]
-  I14 -->|fator| I9
-  I14 -->|ABRE_PAR: &#40;| I10
-  I14 -->|NUM| I11
-  I14 -->|ID| I12
-  I15 -->|fator| I18["I18"]
-  I15 -->|ABRE_PAR: &#40;| I10
-  I15 -->|NUM| I11
-  I15 -->|ID| I12
-  I16 -->|FECHA_PAR: &#41;| I19["I19"]
-  I16 -->|SOMA: &#43;| I14
-  I17 -->|MULT: &#42;| I15
-`;
+    // Definição Completa dos 20 Estados Canônicos LR(0) + ACC
+    const autoNodesData = {
+      0: {
+        id: 0, x: 60, y: 160, label: "I0", sub: "Início", phase: "1. Inicialização", type: "start", color: "#6366f1",
+        from: "Ponto de entrada inicial do compilador.",
+        items: [
+          "S' → • S",
+          "S → • lista",
+          "lista → • lista comando",
+          "lista → • comando",
+          "comando → • ID receba expr ;"
+        ],
+        transitions: [
+          { sym: "S", target: 1, type: "goto" },
+          { sym: "lista", target: 2, type: "goto" },
+          { sym: "comando", target: 3, type: "goto" },
+          { sym: "ID", target: 4, type: "shift" }
+        ],
+        slr: "Empilha o estado inicial 0. Ao ler o token ID, executa Shift s4. Transições GOTO para S (1), lista (2) e comando (3)."
+      },
+      1: {
+        id: 1, x: 60, y: 310, label: "I1", sub: "S' → S•", phase: "1. Sucesso", type: "acc", color: "#10b981",
+        from: "Atingido a partir de I0 após GOTO(S).",
+        items: [
+          "S' → S •"
+        ],
+        transitions: [
+          { sym: "$ (EOF)", target: "ACC", type: "acc" }
+        ],
+        slr: "Ao encontrar o marcador de fim de arquivo $, o compilador emite a ação 'acc' (programa aceito com sucesso)."
+      },
+      'ACC': {
+        id: 'ACC', x: 60, y: 460, label: "ACC", sub: "Aceito!", phase: "1. Aceitação", type: "acc", color: "#34d399",
+        from: "Atingido a partir de I1 com token $.",
+        items: [
+          "Entrada totalmente consumida e reconhecida pela gramática!"
+        ],
+        transitions: [],
+        slr: "Final da análise sintática Bottom-Up. Gramática válida."
+      },
+      2: {
+        id: 2, x: 190, y: 310, label: "I2", sub: "lista •", phase: "1. Lista", type: "shift", color: "#6366f1",
+        from: "Atingido a partir de I0 após GOTO(lista).",
+        items: [
+          "S → lista •",
+          "lista → lista • comando",
+          "comando → • ID receba expr ;"
+        ],
+        transitions: [
+          { sym: "comando", target: 5, type: "goto" },
+          { sym: "ID", target: 4, type: "shift" }
+        ],
+        slr: "Reduz r1 (S → lista) quando lookahead for $; ou faz Shift s4 (ID) / GOTO 5 (comando) se houver outro comando na lista."
+      },
+      3: {
+        id: 3, x: 190, y: 460, label: "I3", sub: "r3: comando", phase: "1. Redução", type: "reduce", color: "#f472b6",
+        from: "Atingido a partir de I0 após GOTO(comando).",
+        items: [
+          "lista → comando •"
+        ],
+        transitions: [],
+        slr: "Redução r3 (lista → comando) quando o próximo token pertencer a FOLLOW(lista) = { ID, $ }."
+      },
+      5: {
+        id: 5, x: 330, y: 460, label: "I5", sub: "r2: lista cmd", phase: "1. Redução", type: "reduce", color: "#f472b6",
+        from: "Atingido a partir de I2 após GOTO(comando).",
+        items: [
+          "lista → lista comando •"
+        ],
+        transitions: [],
+        slr: "Redução r2 (lista → lista comando) quando o próximo token pertencer a FOLLOW(lista) = { ID, $ }."
+      },
+      4: {
+        id: 4, x: 190, y: 160, label: "I4", sub: "ID • receba", phase: "2. Atribuição", type: "shift", color: "#3b82f6",
+        from: "Atingido a partir de I0 ou I2 via Shift s4 (token ID).",
+        items: [
+          "comando → ID • receba expr ;"
+        ],
+        transitions: [
+          { sym: "receba", target: 6, type: "shift" }
+        ],
+        slr: "Lê a palavra reservada de atribuição 'receba' (=) e executa Shift s6."
+      },
+      6: {
+        id: 6, x: 340, y: 160, label: "I6", sub: "Início Expr", phase: "2. Expressão", type: "shift", color: "#8b5cf6",
+        from: "Atingido a partir de I4 via Shift s6 ao ler 'receba'.",
+        items: [
+          "comando → ID receba • expr ;",
+          "expr → • expr + termo",
+          "expr → • termo",
+          "termo → • termo * fator",
+          "termo → • fator",
+          "fator → • ( expr )",
+          "fator → • NUM",
+          "fator → • ID"
+        ],
+        transitions: [
+          { sym: "expr", target: 7, type: "goto" },
+          { sym: "termo", target: 8, type: "goto" },
+          { sym: "fator", target: 9, type: "goto" },
+          { sym: "(", target: 10, type: "shift" },
+          { sym: "NUM", target: 11, type: "shift" },
+          { sym: "ID", target: 12, type: "shift" }
+        ],
+        slr: "Estado de abertura de expressão. Lê operando (NUM/ID), parênteses '(', ou faz GOTO para expr/termo/fator."
+      },
+      13: {
+        id: 13, x: 340, y: 40, label: "I13", sub: "r4: cmd ;", phase: "2. Fim Comando", type: "reduce", color: "#10b981",
+        from: "Atingido a partir de I7 via Shift s13 ao ler ';'.",
+        items: [
+          "comando → ID receba expr ; •"
+        ],
+        transitions: [],
+        slr: "Redução r4 (comando → ID receba expr ;) quando lookahead for FOLLOW(comando) = { ID, $ }."
+      },
+      7: {
+        id: 7, x: 490, y: 40, label: "I7", sub: "expr • ;/+", phase: "3. Expressão", type: "shift", color: "#3b82f6",
+        from: "Atingido a partir de I6 após GOTO(expr).",
+        items: [
+          "comando → ID receba expr • ;",
+          "expr → expr • + termo"
+        ],
+        transitions: [
+          { sym: ";", target: 13, type: "shift" },
+          { sym: "+", target: 14, type: "shift" }
+        ],
+        slr: "Se ler ';', faz Shift s13 para finalizar o comando. Se ler '+', faz Shift s14 para somar um novo termo."
+      },
+      14: {
+        id: 14, x: 640, y: 40, label: "I14", sub: "expr + •", phase: "3. Adição (+)", type: "shift", color: "#3b82f6",
+        from: "Atingido a partir de I7 ou I16 via Shift s14 ao ler '+'.",
+        items: [
+          "expr → expr + • termo",
+          "termo → • termo * fator",
+          "termo → • fator",
+          "fator → • ( expr )",
+          "fator → • NUM",
+          "fator → • ID"
+        ],
+        transitions: [
+          { sym: "termo", target: 17, type: "goto" },
+          { sym: "fator", target: 9, type: "goto" },
+          { sym: "(", target: 10, type: "shift" },
+          { sym: "NUM", target: 11, type: "shift" },
+          { sym: "ID", target: 12, type: "shift" }
+        ],
+        slr: "Lê o próximo termo para completar a adição expr + termo."
+      },
+      17: {
+        id: 17, x: 790, y: 40, label: "I17", sub: "r5: expr+termo", phase: "3. Redução Adição", type: "reduce", color: "#f59e0b",
+        from: "Atingido a partir de I14 após GOTO(termo).",
+        items: [
+          "expr → expr + termo •",
+          "termo → termo • * fator"
+        ],
+        transitions: [
+          { sym: "*", target: 15, type: "shift" }
+        ],
+        slr: "Se ler '*', faz Shift s15 (* tem precedência). Se ler { ;, +, ) }, reduz por r5 (expr → expr + termo)."
+      },
+      8: {
+        id: 8, x: 490, y: 190, label: "I8", sub: "r6: termo •", phase: "3. Termo", type: "reduce", color: "#f59e0b",
+        from: "Atingido a partir de I6 ou I10 após GOTO(termo).",
+        items: [
+          "expr → termo •",
+          "termo → termo • * fator"
+        ],
+        transitions: [
+          { sym: "*", target: 15, type: "shift" }
+        ],
+        slr: "Se ler '*', faz Shift s15 (* tem maior precedência). Se ler { ;, +, ) }, reduz por r6 (expr → termo)."
+      },
+      15: {
+        id: 15, x: 640, y: 190, label: "I15", sub: "termo * •", phase: "3. Mult (*)", type: "shift", color: "#3b82f6",
+        from: "Atingido a partir de I8 ou I17 via Shift s15 ao ler '*'.",
+        items: [
+          "termo → termo * • fator",
+          "fator → • ( expr )",
+          "fator → • NUM",
+          "fator → • ID"
+        ],
+        transitions: [
+          { sym: "fator", target: 18, type: "goto" },
+          { sym: "(", target: 10, type: "shift" },
+          { sym: "NUM", target: 11, type: "shift" },
+          { sym: "ID", target: 12, type: "shift" }
+        ],
+        slr: "Lê o fator da multiplicação termo * fator com precedência sobre a soma."
+      },
+      18: {
+        id: 18, x: 790, y: 190, label: "I18", sub: "r7: termo*fator", phase: "3. Redução Mult", type: "reduce", color: "#f472b6",
+        from: "Atingido a partir de I15 após GOTO(fator).",
+        items: [
+          "termo → termo * fator •"
+        ],
+        transitions: [],
+        slr: "Reduz por r7 (termo → termo * fator) quando lookahead for FOLLOW(termo) = { ;, +, *, ) }."
+      },
+      9: {
+        id: 9, x: 960, y: 40, label: "I9", sub: "r8: fator •", phase: "4. Fator", type: "reduce", color: "#f472b6",
+        from: "Atingido a partir de I6, I10 ou I14 após GOTO(fator).",
+        items: [
+          "termo → fator •"
+        ],
+        transitions: [],
+        slr: "Reduz por r8 (termo → fator) quando lookahead for FOLLOW(termo) = { ;, +, *, ) }."
+      },
+      11: {
+        id: 11, x: 960, y: 160, label: "I11", sub: "r10: NUM •", phase: "4. Número", type: "reduce", color: "#f59e0b",
+        from: "Atingido a partir de I6, I10, I14 ou I15 via Shift s11 ao ler NUM.",
+        items: [
+          "fator → NUM •"
+        ],
+        transitions: [],
+        slr: "Reduz por r10 (fator → NUM) quando lookahead for FOLLOW(fator) = { ;, +, *, ) }."
+      },
+      12: {
+        id: 12, x: 960, y: 280, label: "I12", sub: "r11: ID •", phase: "4. Variável", type: "reduce", color: "#f59e0b",
+        from: "Atingido a partir de I6, I10, I14 ou I15 via Shift s12 ao ler ID.",
+        items: [
+          "fator → ID •"
+        ],
+        transitions: [],
+        slr: "Reduz por r11 (fator → ID) quando lookahead for FOLLOW(fator) = { ;, +, *, ) }."
+      },
+      10: {
+        id: 10, x: 960, y: 430, label: "I10", sub: "fator → ( •", phase: "4. Parênteses", type: "shift", color: "#8b5cf6",
+        from: "Atingido a partir de I6, I10, I14 ou I15 via Shift s10 ao ler '('.",
+        items: [
+          "fator → ( • expr )",
+          "expr → • expr + termo",
+          "expr → • termo",
+          "termo → • termo * fator",
+          "termo → • fator",
+          "fator → • ( expr )",
+          "fator → • NUM",
+          "fator → • ID"
+        ],
+        transitions: [
+          { sym: "expr", target: 16, type: "goto" },
+          { sym: "termo", target: 8, type: "goto" },
+          { sym: "fator", target: 9, type: "goto" },
+          { sym: "(", target: 10, type: "shift", loop: true },
+          { sym: "NUM", target: 11, type: "shift" },
+          { sym: "ID", target: 12, type: "shift" }
+        ],
+        slr: "Inicia subexpressão isolada entre parênteses com máxima prioridade."
+      },
+      16: {
+        id: 16, x: 740, y: 430, label: "I16", sub: "( expr • )", phase: "4. Parênteses", type: "shift", color: "#3b82f6",
+        from: "Atingido a partir de I10 após GOTO(expr).",
+        items: [
+          "fator → ( expr • )",
+          "expr → expr • + termo"
+        ],
+        transitions: [
+          { sym: ")", target: 19, type: "shift" },
+          { sym: "+", target: 14, type: "shift" }
+        ],
+        slr: "Se ler ')' faz Shift s19 para fechar os parênteses. Se ler '+' faz Shift s14 para somar dentro dos parênteses."
+      },
+      19: {
+        id: 19, x: 520, y: 430, label: "I19", sub: "r9: (expr)•", phase: "4. Redução", type: "reduce", color: "#f472b6",
+        from: "Atingido a partir de I16 via Shift s19 ao ler ')'.",
+        items: [
+          "fator → ( expr ) •"
+        ],
+        transitions: [],
+        slr: "Reduz por r9 (fator → ( expr )) quando lookahead for FOLLOW(fator) = { ;, +, *, ) }."
+      }
+    };
 
-    function initMermaidIfNeeded() {
-      if (typeof mermaid !== 'undefined' && !mermaidInitialized) {
-        try {
-          mermaid.initialize({
-            startOnLoad: false,
-            theme: 'dark',
-            securityLevel: 'loose',
-            themeVariables: {
-              darkMode: true,
-              background: 'transparent',
-              primaryColor: '#1e1b4b',
-              primaryTextColor: '#e0e7ff',
-              primaryBorderColor: '#6366f1',
-              lineColor: '#818cf8',
-              secondaryColor: '#111827',
-              tertiaryColor: '#0f172a'
-            }
-          });
-          mermaidInitialized = true;
-        } catch (e) {
-          console.error('Mermaid init error:', e);
+    // Definição das Transições do Autômato
+    const autoTransitionsData = [
+      { from: 0, to: 1, sym: "S", type: "goto" },
+      { from: 0, to: 2, sym: "lista", type: "goto" },
+      { from: 0, to: 3, sym: "comando", type: "goto" },
+      { from: 0, to: 4, sym: "ID", type: "shift" },
+      { from: 1, to: 'ACC', sym: "$ (EOF)", type: "acc" },
+      { from: 2, to: 5, sym: "comando", type: "goto" },
+      { from: 2, to: 4, sym: "ID", type: "shift" },
+      { from: 4, to: 6, sym: "receba", type: "shift" },
+      { from: 6, to: 7, sym: "expr", type: "goto" },
+      { from: 6, to: 8, sym: "termo", type: "goto" },
+      { from: 6, to: 9, sym: "fator", type: "goto" },
+      { from: 6, to: 10, sym: "(", type: "shift" },
+      { from: 6, to: 11, sym: "NUM", type: "shift" },
+      { from: 6, to: 12, sym: "ID", type: "shift" },
+      { from: 7, to: 13, sym: ";", type: "shift" },
+      { from: 7, to: 14, sym: "+", type: "shift" },
+      { from: 8, to: 15, sym: "*", type: "shift" },
+      { from: 10, to: 16, sym: "expr", type: "goto" },
+      { from: 10, to: 8, sym: "termo", type: "goto" },
+      { from: 10, to: 9, sym: "fator", type: "goto" },
+      { from: 10, to: 10, sym: "(", type: "shift", loop: true },
+      { from: 10, to: 11, sym: "NUM", type: "shift" },
+      { from: 10, to: 12, sym: "ID", type: "shift" },
+      { from: 14, to: 17, sym: "termo", type: "goto" },
+      { from: 14, to: 9, sym: "fator", type: "goto" },
+      { from: 14, to: 10, sym: "(", type: "shift" },
+      { from: 14, to: 11, sym: "NUM", type: "shift" },
+      { from: 14, to: 12, sym: "ID", type: "shift" },
+      { from: 15, to: 18, sym: "fator", type: "goto" },
+      { from: 15, to: 10, sym: "(", type: "shift" },
+      { from: 15, to: 11, sym: "NUM", type: "shift" },
+      { from: 15, to: 12, sym: "ID", type: "shift" },
+      { from: 16, to: 19, sym: ")", type: "shift" },
+      { from: 16, to: 14, sym: "+", type: "shift" },
+      { from: 17, to: 15, sym: "*", type: "shift" }
+    ];
+
+    function buildAutomatonSvg() {
+      const svg = document.getElementById('automatonSvg');
+      if (!svg) return;
+
+      const defs = `
+        <defs>
+          <marker id="arrow-default" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 9 5 L 0 9 z" fill="#64748b" />
+          </marker>
+          <marker id="arrow-active" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 9 5 L 0 9 z" fill="#38bdf8" />
+          </marker>
+        </defs>
+      `;
+
+      let edgesHtml = '<g id="svgEdgesLayer">';
+      autoTransitionsData.forEach((t, i) => {
+        const u = autoNodesData[t.from];
+        const v = autoNodesData[t.to];
+        if (!u || !v) return;
+
+        let d = '';
+        let lx = 0, ly = 0;
+
+        if (t.loop) {
+          const x = u.x + 85, y = u.y + 44;
+          d = `M ${x - 20} ${y} C ${x + 20} ${y + 35}, ${x + 40} ${y - 15}, ${u.x + 90} ${u.y + 30}`;
+          lx = x + 15;
+          ly = y + 25;
+        } else if (u.x === v.x && u.y < v.y) {
+          const x = u.x + 45;
+          const y1 = u.y + 44;
+          const y2 = v.y;
+          d = `M ${x} ${y1} L ${x} ${y2}`;
+          lx = x + 18;
+          ly = (y1 + y2) / 2;
+        } else if (Math.abs(u.y - v.y) < 25 && u.x < v.x) {
+          const y = u.y + 22;
+          const x1 = u.x + 90;
+          const x2 = v.x;
+          d = `M ${x1} ${y} L ${x2} ${y}`;
+          lx = (x1 + x2) / 2;
+          ly = y - 10;
+        } else if (u.x > v.x && Math.abs(u.y - v.y) < 25) {
+          const y = u.y + 22;
+          const x1 = u.x;
+          const x2 = v.x + 90;
+          d = `M ${x1} ${y} L ${x2} ${y}`;
+          lx = (x1 + x2) / 2;
+          ly = y - 10;
+        } else {
+          let x1 = u.x + 45, y1 = u.y + 22;
+          let x2 = v.x + 45, y2 = v.y + 22;
+          let cx = (x1 + x2) / 2;
+          let cy = (y1 + y2) / 2;
+
+          if (u.x < v.x) {
+            x1 = u.x + 90;
+            x2 = v.x;
+            cy = (y1 < y2) ? y1 + 10 : y2 + 10;
+          } else {
+            x1 = u.x;
+            x2 = v.x + 90;
+            cy = Math.min(y1, y2) - 30;
+          }
+
+          d = `M ${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`;
+          lx = cx;
+          ly = cy;
         }
+
+        const labelWidth = Math.max(26, t.sym.length * 7 + 10);
+        edgesHtml += `
+          <g class="auto-edge" id="edge-${t.from}-${t.to}-${i}" data-from="${t.from}" data-to="${t.to}">
+            <path class="auto-edge-path" d="${d}" marker-end="url(#arrow-default)" />
+            <rect class="auto-edge-label-bg" x="${lx - labelWidth/2}" y="${ly - 8}" width="${labelWidth}" height="16" />
+            <text class="auto-edge-label-text" x="${lx}" y="${ly}">${t.sym}</text>
+          </g>
+        `;
+      });
+      edgesHtml += '</g>';
+
+      let nodesHtml = '<g id="svgNodesLayer">';
+      Object.keys(autoNodesData).forEach(k => {
+        const n = autoNodesData[k];
+        const isAcc = (n.type === 'acc');
+        const borderColor = n.color || '#6366f1';
+        nodesHtml += `
+          <g class="auto-node" id="auto-node-${n.id}" data-id="${n.id}" onclick="selectAutomatonState('${n.id}')" onmouseenter="hoverAutomatonNode('${n.id}')" onmouseleave="unhoverAutomatonNode()">
+            <rect class="node-rect" x="${n.x}" y="${n.y}" width="90" height="44" rx="8" fill="rgba(17, 24, 39, 0.95)" stroke="${borderColor}" />
+            <text x="${n.x + 45}" y="${n.y + 18}" text-anchor="middle" font-size="14" font-weight="800" font-family="'Fira Code', monospace" fill="#ffffff">${n.label}</text>
+            <text x="${n.x + 45}" y="${n.y + 32}" text-anchor="middle" font-size="9.5" font-family="'Fira Code', monospace" fill="${isAcc ? '#34d399' : '#94a3b8'}">${n.sub}</text>
+          </g>
+        `;
+      });
+      nodesHtml += '</g>';
+
+      svg.innerHTML = defs + edgesHtml + nodesHtml;
+    }
+
+    function selectAutomatonState(stateId) {
+      document.querySelectorAll('.auto-node').forEach(el => el.classList.remove('node-selected'));
+      const targetNode = document.getElementById(`auto-node-${stateId}`);
+      if (targetNode) targetNode.classList.add('node-selected');
+
+      document.querySelectorAll('.auto-edge-path').forEach(p => {
+        p.classList.remove('edge-highlight-out', 'edge-highlight-in');
+        p.setAttribute('marker-end', 'url(#arrow-default)');
+      });
+      document.querySelectorAll(`.auto-edge[data-from="${stateId}"] .auto-edge-path`).forEach(p => {
+        p.classList.add('edge-highlight-out');
+        p.setAttribute('marker-end', 'url(#arrow-active)');
+      });
+      document.querySelectorAll(`.auto-edge[data-to="${stateId}"] .auto-edge-path`).forEach(p => {
+        p.classList.add('edge-highlight-in');
+      });
+
+      document.querySelectorAll('.auto-pill-btn').forEach(btn => btn.classList.remove('active'));
+      const activePill = document.getElementById(`pill-btn-${stateId}`);
+      if (activePill) activePill.classList.add('active');
+
+      const data = autoNodesData[stateId];
+      if (!data) return;
+
+      const inspId = document.getElementById('inspStateId');
+      if (inspId) inspId.innerText = data.label;
+      const inspPhase = document.getElementById('inspStatePhase');
+      if (inspPhase) inspPhase.innerText = `Fase: ${data.phase}`;
+      const inspFrom = document.getElementById('inspStateFrom');
+      if (inspFrom) inspFrom.innerHTML = `<strong>Origem:</strong> ${data.from}`;
+
+      const itemsList = document.getElementById('inspStateItems');
+      if (itemsList) {
+        itemsList.innerHTML = '';
+        data.items.forEach(it => {
+          const li = document.createElement('li');
+          li.innerHTML = it.replace('•', '<span class="item-dot">•</span>');
+          itemsList.appendChild(li);
+        });
+      }
+
+      const transContainer = document.getElementById('inspStateTransitions');
+      if (transContainer) {
+        transContainer.innerHTML = '';
+        if (data.transitions && data.transitions.length > 0) {
+          data.transitions.forEach(tr => {
+            const btn = document.createElement('button');
+            btn.className = `insp-transition-btn ${tr.type === 'goto' ? 'goto-btn' : ''}`;
+            btn.innerHTML = `<strong>${tr.sym}</strong> ➔ I${tr.target}`;
+            btn.title = `Navegar para o estado I${tr.target}`;
+            btn.onclick = () => selectAutomatonState(tr.target);
+            transContainer.appendChild(btn);
+          });
+        } else {
+          transContainer.innerHTML = `<span style="font-size:0.75rem; color:#94a3b8; font-style:italic;">Nenhuma transição de saída (Estado final ou de redução).</span>`;
+        }
+      }
+
+      const slrBox = document.getElementById('inspStateSlrBox');
+      if (slrBox) {
+        slrBox.innerHTML = `
+          <div style="font-weight:700; color:#a5b4fc; margin-bottom:0.25rem;">Comportamento na Tabela SLR(1):</div>
+          <div>${data.slr}</div>
+        `;
       }
     }
 
-    function renderAutomatonGraph() {
-      if (automatonRendered) return;
-      initMermaidIfNeeded();
-      if (typeof mermaid !== 'undefined') {
-        mermaid.render('automatonSvgGraph', graphDef).then(res => {
-          const container = document.getElementById('automatonGraphContainer');
-          if (container) {
-            container.innerHTML = res.svg;
-            automatonRendered = true;
-          }
-        }).catch(err => {
-          console.error('Mermaid render error:', err);
-          const container = document.getElementById('automatonGraphContainer');
-          if (container) {
-            container.innerHTML = `<div style="color: #f87171; padding: 1rem;">Erro ao renderizar diagrama: ${err.message}</div>`;
-          }
+    function hoverAutomatonNode(id) {
+      document.querySelectorAll(`.auto-edge[data-from="${id}"] .auto-edge-path`).forEach(p => {
+        p.classList.add('edge-highlight-out');
+        p.setAttribute('marker-end', 'url(#arrow-active)');
+      });
+      document.querySelectorAll(`.auto-edge[data-to="${id}"] .auto-edge-path`).forEach(p => {
+        p.classList.add('edge-highlight-in');
+      });
+    }
+
+    function unhoverAutomatonNode() {
+      const selected = document.querySelector('.auto-node.node-selected');
+      const selectedId = selected ? selected.getAttribute('data-id') : null;
+      document.querySelectorAll('.auto-edge-path').forEach(p => {
+        p.classList.remove('edge-highlight-out', 'edge-highlight-in');
+        p.setAttribute('marker-end', 'url(#arrow-default)');
+      });
+      if (selectedId) {
+        document.querySelectorAll(`.auto-edge[data-from="${selectedId}"] .auto-edge-path`).forEach(p => {
+          p.classList.add('edge-highlight-out');
+          p.setAttribute('marker-end', 'url(#arrow-active)');
         });
+        document.querySelectorAll(`.auto-edge[data-to="${selectedId}"] .auto-edge-path`).forEach(p => {
+          p.classList.add('edge-highlight-in');
+        });
+      }
+    }
+
+    function initAutomatonPills() {
+      const bar = document.getElementById('autoStatePills');
+      if (!bar) return;
+      bar.innerHTML = '';
+      const order = [0, 1, 'ACC', 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+      order.forEach(id => {
+        const btn = document.createElement('button');
+        btn.className = 'auto-pill-btn';
+        btn.id = `pill-btn-${id}`;
+        btn.innerText = (id === 'ACC') ? 'acc' : `I${id}`;
+        btn.title = `Inspecionar estado I${id}`;
+        btn.onclick = () => selectAutomatonState(id);
+        bar.appendChild(btn);
+      });
+    }
+
+    // Controle do Simulador Passo a Passo (Opção 4: Autômato Vivo)
+    let currentBottomUpSteps = [];
+    let playerStepIndex = 0;
+    let playerInterval = null;
+
+    function initAutomatonPlayer(steps) {
+      currentBottomUpSteps = steps || [];
+      playerStepIndex = 0;
+      if (playerInterval) {
+        clearInterval(playerInterval);
+        playerInterval = null;
+        const btn = document.getElementById('autoPlayBtn');
+        if (btn) btn.innerHTML = '▶️ Reproduzir';
+      }
+
+      const totalSpan = document.getElementById('playerTotalSteps');
+      if (totalSpan) totalSpan.innerText = currentBottomUpSteps.length;
+
+      if (currentBottomUpSteps.length > 0) {
+        setAutomatonStep(0);
+      } else {
+        const countSpan = document.getElementById('playerStepCount');
+        if (countSpan) countSpan.innerText = '0';
+        const st = document.getElementById('playerStackText');
+        if (st) st.innerText = '—';
+        const tok = document.getElementById('playerTokenText');
+        if (tok) tok.innerText = '—';
+        const act = document.getElementById('playerActionText');
+        if (act) act.innerText = '—';
+      }
+    }
+
+    function setAutomatonStep(idx) {
+      if (!currentBottomUpSteps || currentBottomUpSteps.length === 0) return;
+      playerStepIndex = Math.max(0, Math.min(currentBottomUpSteps.length - 1, idx));
+
+      const step = currentBottomUpSteps[playerStepIndex];
+      const countSpan = document.getElementById('playerStepCount');
+      if (countSpan) countSpan.innerText = playerStepIndex + 1;
+
+      const states = step.stateStack.trim().split(/\s+/);
+      const topStateRaw = states[states.length - 1];
+      const topState = step.action === 'acc' ? 'ACC' : (isNaN(parseInt(topStateRaw, 10)) ? 0 : parseInt(topStateRaw, 10));
+
+      const stackSpan = document.getElementById('playerStackText');
+      if (stackSpan) {
+        const formatted = states.map((s, i) => i === states.length - 1 ? `<span style="color:#38bdf8; font-weight:800; text-decoration:underline;">${s}</span>` : s).join(' ');
+        stackSpan.innerHTML = formatted;
+      }
+      const tokSpan = document.getElementById('playerTokenText');
+      if (tokSpan) tokSpan.innerText = `${step.token} (${step.tokenVal || '—'})`;
+      const actSpan = document.getElementById('playerActionText');
+      if (actSpan) {
+        let col = '#f472b6';
+        if (step.action.startsWith('s')) col = '#60a5fa';
+        else if (step.action === 'acc') col = '#34d399';
+        else if (step.action.startsWith('err')) col = '#f87171';
+        actSpan.style.color = col;
+        actSpan.innerText = step.action;
+      }
+
+      document.querySelectorAll('.auto-node').forEach(el => el.classList.remove('node-active-step'));
+      const activeNode = document.getElementById(`auto-node-${topState}`);
+      if (activeNode) {
+        activeNode.classList.add('node-active-step');
+      }
+
+      selectAutomatonState(topState);
+
+      const rows = document.querySelectorAll('#buTableBody tr');
+      rows.forEach((r, rIdx) => {
+        if (rIdx === playerStepIndex) {
+          r.classList.add('active-step-row');
+          r.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } else {
+          r.classList.remove('active-step-row');
+        }
+      });
+    }
+
+    function stepPlayerFirst() {
+      setAutomatonStep(0);
+    }
+
+    function stepPlayerPrev() {
+      if (playerStepIndex > 0) setAutomatonStep(playerStepIndex - 1);
+    }
+
+    function stepPlayerNext() {
+      if (currentBottomUpSteps && playerStepIndex < currentBottomUpSteps.length - 1) {
+        setAutomatonStep(playerStepIndex + 1);
+      }
+    }
+
+    function toggleStepPlayerPlay() {
+      const btn = document.getElementById('autoPlayBtn');
+      if (playerInterval) {
+        clearInterval(playerInterval);
+        playerInterval = null;
+        if (btn) btn.innerHTML = '▶️ Reproduzir';
+      } else {
+        if (!currentBottomUpSteps || currentBottomUpSteps.length === 0) return;
+        if (playerStepIndex >= currentBottomUpSteps.length - 1) playerStepIndex = 0;
+        if (btn) btn.innerHTML = '⏸️ Pausar';
+        setAutomatonStep(playerStepIndex);
+
+        playerInterval = setInterval(() => {
+          if (playerStepIndex < currentBottomUpSteps.length - 1) {
+            setAutomatonStep(playerStepIndex + 1);
+          } else {
+            clearInterval(playerInterval);
+            playerInterval = null;
+            if (btn) btn.innerHTML = '▶️ Reproduzir';
+          }
+        }, 1100);
       }
     }
 
@@ -1244,7 +2110,6 @@ TREM Incompleto {
         btnItems.style.background = '#1f293d';
         btnItems.style.borderColor = '#374151';
         btnItems.style.color = '#e5e7eb';
-        setTimeout(() => renderAutomatonGraph(), 50);
       } else {
         graphView.style.display = 'none';
         itemsView.style.display = 'block';
@@ -1348,8 +2213,15 @@ TREM Incompleto {
 
         buTableBody.innerHTML = '';
         if (data.steps && data.steps.length > 0) {
-          data.steps.forEach(s => {
+          data.steps.forEach((s, idx) => {
             const row = document.createElement('tr');
+            row.style.cursor = 'pointer';
+            row.title = 'Clique para visualizar este passo no Autômato LR(0)';
+            row.onclick = () => {
+              setAutomatonStep(idx);
+              switchBuSubtab('bu-sub-itens');
+            };
+
             let actionClass = '';
             if (s.action.startsWith('s')) actionClass = 'bu-action-s';
             else if (s.action.startsWith('r')) actionClass = 'bu-action-r';
@@ -1365,13 +2237,17 @@ TREM Incompleto {
             buTableBody.appendChild(row);
           });
 
+          initAutomatonPlayer(data.steps);
+
           if (data.success) {
             buStatus.className = 'status-banner success';
-            buStatus.innerHTML = `SLR(1): ${data.message}`;
+            buStatus.innerHTML = `SLR(1): ${data.message} (${data.steps.length} passos de transição/redução executados)`;
           } else {
             buStatus.className = 'status-banner error';
             buStatus.innerHTML = `SLR(1): ${data.error}`;
           }
+        } else {
+          initAutomatonPlayer([]);
         }
       } catch (e) {
         console.error(e);
@@ -1464,7 +2340,14 @@ TREM Incompleto {
     }
 
     // Load initial
-    window.onload = () => loadPreset('validoCompleto');
+    window.onload = () => {
+      loadPreset('validoCompleto');
+      setTimeout(() => {
+        buildAutomatonSvg();
+        initAutomatonPills();
+        selectAutomatonState(0);
+      }, 50);
+    };
   </script>
 </body>
 </html>
