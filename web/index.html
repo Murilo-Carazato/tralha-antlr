@@ -705,13 +705,14 @@
       width: 1100px;
       height: 540px;
       transform-origin: 0 0;
-      will-change: transform;
     }
     .automaton-svg-inner {
       display: block;
       width: 1100px;
       height: 540px;
       min-width: 1100px;
+      shape-rendering: geometricPrecision;
+      text-rendering: geometricPrecision;
     }
     .canvas-help {
       position: absolute;
@@ -1049,8 +1050,8 @@
       box-shadow: 0 24px 80px rgba(0, 0, 0, .72);
     }
     .bu-subtab-pane.is-expanded .automaton-canvas-wrapper {
-      height: calc(100vh - 250px);
-      min-height: 420px;
+      height: calc(100vh - 220px);
+      min-height: 540px;
     }
     @media (max-width: 1100px) {
       .tabs-header { overflow-x: auto; }
@@ -1790,6 +1791,7 @@ TREM Incompleto {
     let automatonPanY = 0;
     let automatonCanvasInitialized = false;
     let automatonSpacePressed = false;
+    let automatonTransformTimer = null;
 
     function refreshIcons(root = document) {
       if (!window.lucide) return;
@@ -1816,8 +1818,19 @@ TREM Incompleto {
       const readout = document.getElementById('graphZoomReadout');
       if (!container) return;
 
+      if (automatonTransformTimer) clearTimeout(automatonTransformTimer);
+      const pixelRatio = window.devicePixelRatio || 1;
+      const alignedX = Math.round(automatonPanX * pixelRatio) / pixelRatio;
+      const alignedY = Math.round(automatonPanY * pixelRatio) / pixelRatio;
+      const alignedZoom = Math.round(automatonZoomLevel * 1000) / 1000;
       container.style.transition = animate ? 'transform 180ms ease' : 'none';
-      container.style.transform = `translate3d(${automatonPanX}px, ${automatonPanY}px, 0) scale(${automatonZoomLevel})`;
+      container.style.transform = `translate(${alignedX}px, ${alignedY}px) scale(${alignedZoom})`;
+      if (animate) {
+        automatonTransformTimer = setTimeout(() => {
+          container.style.transition = 'none';
+          automatonTransformTimer = null;
+        }, 200);
+      }
       if (readout) readout.textContent = `${Math.round(automatonZoomLevel * 100)}%`;
     }
 
@@ -1861,6 +1874,11 @@ TREM Incompleto {
     }
 
     function resetAutomatonGraph() {
+      centerAutomatonAtNativeScale();
+      selectAutomatonState(0);
+    }
+
+    function centerAutomatonAtNativeScale() {
       automatonZoomLevel = 1;
       const wrapper = document.getElementById('automatonCanvas');
       if (wrapper) {
@@ -1868,7 +1886,6 @@ TREM Incompleto {
         automatonPanY = (wrapper.clientHeight - 540) / 2;
       }
       applyAutomatonTransform(true);
-      selectAutomatonState(0);
     }
 
     function centerAutomatonState(stateId) {
@@ -1987,7 +2004,10 @@ TREM Incompleto {
         : '<i data-lucide="maximize-2"></i><span>Tela cheia</span>';
       button.title = expanded ? 'Sair da tela cheia' : 'Ampliar o canvas';
       refreshIcons(button);
-      requestAnimationFrame(fitAutomatonGraph);
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        if (expanded) centerAutomatonAtNativeScale();
+        else fitAutomatonGraph();
+      }));
     }
 
     // Definição Completa dos 20 Estados Canônicos LR(0) + ACC
