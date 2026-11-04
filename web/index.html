@@ -796,6 +796,230 @@
       dominant-baseline: central;
     }
 
+    /* Chalkboard Theme & Blackboard Visual Design (Estilo da Lousa) */
+    .automaton-canvas-wrapper.theme-chalkboard {
+      background:
+        radial-gradient(circle at 50% 50%, #163d2b 0%, #0d2419 75%, #081710 100%) !important;
+      border: 4px solid #78350f !important; /* Moldura de madeira da lousa */
+      border-bottom: 9px solid #582407 !important;
+      box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.75), 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+    }
+    .theme-chalkboard #arrow-default path {
+      fill: #f1f5f9;
+    }
+    .chalk-tray {
+      display: none;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 14px;
+      background: linear-gradient(to bottom, #78350f, #451a03);
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.4);
+      z-index: 6;
+      pointer-events: none;
+    }
+    .theme-chalkboard .chalk-tray {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+    .chalk-eraser {
+      width: 52px;
+      height: 9px;
+      background: #a16207;
+      border-radius: 2px;
+      border-top: 2px solid #ca8a04;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+      position: relative;
+    }
+    .chalk-eraser::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: #334155;
+      border-radius: 0 0 2px 2px;
+    }
+    .chalk-piece {
+      width: 26px;
+      height: 5px;
+      background: #f8fafc;
+      border-radius: 1px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    }
+
+    /* Caixa retangular do estado (Lousa) */
+    .chalk-box-rect {
+      fill: rgba(13, 31, 23, 0.95);
+      stroke: #f1f5f9;
+      stroke-width: 1.8px;
+      rx: 3px;
+      transition: all 0.2s ease;
+    }
+    .automaton-canvas-wrapper:not(.theme-chalkboard) .chalk-box-rect {
+      fill: rgba(15, 23, 42, 0.95);
+      stroke: #64748b;
+    }
+
+    .chalk-node:hover .chalk-box-rect {
+      stroke: #38bdf8 !important;
+      stroke-width: 2.5px !important;
+      filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.7));
+    }
+
+    .chalk-node.node-selected .chalk-box-rect {
+      stroke: #a855f7 !important;
+      stroke-width: 3px !important;
+      filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.9)) !important;
+    }
+
+    .chalk-node.node-active-step .chalk-box-rect {
+      stroke: #34d399 !important;
+      stroke-width: 3.5px !important;
+      animation: chalkPulseStep 1.2s infinite alternate ease-in-out;
+    }
+    @keyframes chalkPulseStep {
+      0% { filter: drop-shadow(0 0 4px #34d399); }
+      100% { filter: drop-shadow(0 0 18px #34d399); }
+    }
+
+    /* Badge circular no canto superior direito */
+    .chalk-badge-circle {
+      fill: #10271d;
+      stroke: #f8fafc;
+      stroke-width: 1.8px;
+      transition: all 0.2s ease;
+    }
+    .automaton-canvas-wrapper:not(.theme-chalkboard) .chalk-badge-circle {
+      fill: #1e1b4b;
+      stroke: #818cf8;
+    }
+    .chalk-node.node-selected .chalk-badge-circle {
+      fill: #6b21a8;
+      stroke: #d8b4fe;
+    }
+    .chalk-node.node-active-step .chalk-badge-circle {
+      fill: #065f46;
+      stroke: #34d399;
+    }
+    .chalk-badge-text {
+      fill: #ffffff;
+      font-size: 11px;
+      font-weight: 800;
+      font-family: 'Fira Code', monospace;
+      text-anchor: middle;
+      dominant-baseline: central;
+    }
+
+    /* Produções internas dentro da caixa */
+    .chalk-item-text {
+      font-family: 'Fira Code', monospace;
+      font-size: 11px;
+      fill: #f1f5f9;
+      letter-spacing: -0.01em;
+      pointer-events: none;
+    }
+    .chalk-header-text {
+      font-weight: 700 !important;
+      fill: #ffffff !important;
+    }
+    .chalk-header-divider {
+      stroke: #f1f5f9;
+      stroke-width: 1.6px;
+      stroke-linecap: round;
+      opacity: 0.95;
+    }
+    .automaton-canvas-wrapper:not(.theme-chalkboard) .chalk-header-divider {
+      stroke: rgba(255, 255, 255, 0.3);
+      stroke-width: 1.5px;
+    }
+    .insp-kernel-badge {
+      display: inline-block;
+      font-size: 0.62rem;
+      font-weight: 800;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 0.1rem 0.35rem;
+      border-radius: 3px;
+      margin-right: 0.35rem;
+      vertical-align: middle;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .insp-closure-divider {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-top: 1px dashed rgba(255, 255, 255, 0.15);
+      margin: 0.4rem 0 0.3rem 0;
+      padding-top: 0.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .chalk-dot-symbol {
+      fill: #34d399;
+      font-weight: 900;
+    }
+
+    /* Seta de início */
+    .chalk-start-arrow {
+      stroke: #34d399;
+      stroke-width: 2px;
+      fill: none;
+    }
+    .chalk-start-text {
+      fill: #34d399;
+      font-size: 10px;
+      font-weight: 700;
+      font-family: 'Fira Code', monospace;
+    }
+
+    /* Setas e rótulos flutuantes */
+    .chalk-arrow-path {
+      stroke: #cbd5e1;
+      stroke-width: 1.8px;
+      fill: none;
+      transition: all 0.2s ease;
+    }
+    .chalk-arrow-path.edge-highlight-out {
+      stroke: #38bdf8 !important;
+      stroke-width: 2.8px !important;
+      filter: drop-shadow(0 0 6px #38bdf8);
+    }
+    .chalk-arrow-path.edge-highlight-in {
+      stroke: #a855f7 !important;
+      stroke-width: 2.8px !important;
+      filter: drop-shadow(0 0 6px #a855f7);
+    }
+    .chalk-edge-label-bg {
+      fill: #0f2319;
+      stroke: rgba(255, 255, 255, 0.4);
+      stroke-width: 1px;
+      rx: 3px;
+    }
+    .automaton-canvas-wrapper:not(.theme-chalkboard) .chalk-edge-label-bg {
+      fill: #0f172a;
+      stroke: rgba(255, 255, 255, 0.25);
+    }
+    .chalk-edge-label-text {
+      fill: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: 'Fira Code', monospace;
+      text-anchor: middle;
+      dominant-baseline: central;
+      pointer-events: none;
+    }
+
     /* Barra de acesso rápido aos estados */
     .auto-pills-bar {
       display: flex;
@@ -1443,6 +1667,18 @@
                 <i data-lucide="list-tree"></i>Coleção de itens LR(0)
               </button>
             </div>
+            <!-- Seletor de Modelo de Autômato e Tema Lousa -->
+            <div class="graph-toolbar-group">
+              <button id="btnModelTralha" class="btn-preset active" onclick="switchAutomatonModel('tralha')" title="Autômato LR(0) de 20 estados da linguagem TRALHA">
+                <i data-lucide="cpu"></i><span>TRALHA (20 Estados)</span>
+              </button>
+              <button id="btnModelAula" class="btn-preset" onclick="switchAutomatonModel('aula')" title="Exemplo de 8 estados da foto da lousa da Profa. Diomara">
+                <i data-lucide="graduation-cap"></i><span>Lousa da Aula (8 Estados)</span>
+              </button>
+              <button id="btnToggleChalkTheme" class="btn-preset" onclick="toggleChalkboardTheme()" title="Alternar entre Estilo Lousa Verde Escolar e Tema Dark">
+                <i data-lucide="palette"></i><span id="themeToggleLabel">Lousa Verde</span>
+              </button>
+            </div>
             <div id="graphZoomControls" class="graph-toolbar-group">
               <button class="btn-preset ui-icon-button" aria-label="Estado anterior" title="Estado anterior" onclick="navigateState(-1)"><i data-lucide="chevron-left"></i></button>
               <select id="graphStateSelect" class="graph-state-select" onchange="selectAutomatonState(this.value, true)" aria-label="Navegar para estado"></select>
@@ -1466,6 +1702,10 @@
               <button class="auto-btn-sub ui-icon-button" aria-label="Próximo passo" title="Próximo passo" onclick="stepPlayerNext()"><i data-lucide="step-forward"></i></button>
             </div>
             <div class="auto-player-status">
+              <span class="auto-status-pill" id="automatonModelIndicator" style="border-color: rgba(99, 102, 241, 0.4); color: #a5b4fc;">
+                <i data-lucide="info" style="width:12px;height:12px;display:inline-block;vertical-align:-1px;margin-right:2px;"></i>
+                <span id="automatonModelName">Gramática TRALHA (20 Estados)</span>
+              </span>
               <span class="auto-status-pill">Passo: <strong id="playerStepCount" style="color: #38bdf8;">0</strong> / <span id="playerTotalSteps">0</span></span>
               <span class="auto-status-pill">Pilha: <span id="playerStackText" style="color: #818cf8; font-weight: 600;">—</span></span>
               <span class="auto-status-pill">Token: <span id="playerTokenText" style="color: #34d399;">—</span></span>
@@ -1478,6 +1718,10 @@
             <div class="automaton-canvas-wrapper" id="automatonCanvas" tabindex="0" aria-label="Autômato LR(0) interativo. Arraste para mover e use Control mais a roda do mouse para aplicar zoom.">
               <div id="automatonGraphContainer">
                 <svg id="automatonSvg" class="automaton-svg-inner" viewBox="0 0 1100 540" width="1100" height="540"></svg>
+              </div>
+              <div class="chalk-tray">
+                <div class="chalk-eraser" title="Apagador de feltro da lousa"></div>
+                <div class="chalk-piece" title="Giz escolar branco"></div>
               </div>
               <div class="canvas-help"><i data-lucide="mouse-pointer-2"></i>Arraste para mover · Ctrl + roda para zoom · Shift + roda para lateral</div>
             </div>
@@ -1860,16 +2104,20 @@ TREM Incompleto {
       const wrapper = document.getElementById('automatonCanvas');
       if (!wrapper) return;
 
+      const isAula = (typeof currentAutomatonModel !== 'undefined' && currentAutomatonModel === 'aula');
+      const targetW = isAula ? 1120 : 1700;
+      const targetH = isAula ? 470 : 960;
+
       const padding = 28;
       automatonZoomLevel = Math.min(
-        1,
-        Math.max(0.3, Math.min(
-          (wrapper.clientWidth - padding * 2) / 1100,
-          (wrapper.clientHeight - padding * 2) / 540,
+        1.1,
+        Math.max(0.25, Math.min(
+          (wrapper.clientWidth - padding * 2) / targetW,
+          (wrapper.clientHeight - padding * 2) / targetH,
         )),
       );
-      automatonPanX = (wrapper.clientWidth - 1100 * automatonZoomLevel) / 2;
-      automatonPanY = (wrapper.clientHeight - 540 * automatonZoomLevel) / 2;
+      automatonPanX = (wrapper.clientWidth - targetW * automatonZoomLevel) / 2;
+      automatonPanY = (wrapper.clientHeight - targetH * automatonZoomLevel) / 2;
       applyAutomatonTransform(true);
     }
 
@@ -1881,20 +2129,26 @@ TREM Incompleto {
     function centerAutomatonAtNativeScale() {
       automatonZoomLevel = 1;
       const wrapper = document.getElementById('automatonCanvas');
+      const isAula = (typeof currentAutomatonModel !== 'undefined' && currentAutomatonModel === 'aula');
+      const targetW = isAula ? 1120 : 1700;
+      const targetH = isAula ? 470 : 960;
       if (wrapper) {
-        automatonPanX = (wrapper.clientWidth - 1100) / 2;
-        automatonPanY = (wrapper.clientHeight - 540) / 2;
+        automatonPanX = (wrapper.clientWidth - targetW) / 2;
+        automatonPanY = (wrapper.clientHeight - targetH) / 2;
       }
       applyAutomatonTransform(true);
     }
 
     function centerAutomatonState(stateId) {
       const wrapper = document.getElementById('automatonCanvas');
-      const state = autoNodesData[stateId];
+      const activeNodes = (typeof getActiveNodesData === 'function') ? getActiveNodesData() : autoNodesData;
+      const state = activeNodes[stateId];
       if (!wrapper || !state) return;
 
-      automatonPanX = wrapper.clientWidth / 2 - (state.x + 45) * automatonZoomLevel;
-      automatonPanY = wrapper.clientHeight / 2 - (state.y + 22) * automatonZoomLevel;
+      const cx = state.x + (state.w ? state.w / 2 : 45);
+      const cy = state.y + (state.h ? state.h / 2 : 22);
+      automatonPanX = wrapper.clientWidth / 2 - cx * automatonZoomLevel;
+      automatonPanY = wrapper.clientHeight / 2 - cy * automatonZoomLevel;
       applyAutomatonTransform(true);
     }
 
@@ -1987,7 +2241,8 @@ TREM Incompleto {
     }
 
     function navigateState(direction) {
-      const order = Object.keys(autoNodesData);
+      const activeNodes = (typeof getActiveNodesData === 'function') ? getActiveNodesData() : autoNodesData;
+      const order = Object.keys(activeNodes);
       const currentIndex = order.indexOf(String(selectedAutomatonStateId));
       const nextIndex = Math.min(order.length - 1, Math.max(0, currentIndex + direction));
       selectAutomatonState(order[nextIndex], true);
@@ -2010,10 +2265,22 @@ TREM Incompleto {
       }));
     }
 
-    // Definição completa dos 20 estados canônicos LR(0) e do estado ACC
+    let currentAutomatonModel = 'tralha'; // 'tralha' ou 'aula'
+    let isChalkboardGreen = false;
+
+    function getActiveNodesData() {
+      return currentAutomatonModel === 'aula' ? aulaNodesData : autoNodesData;
+    }
+
+    function getActiveTransitionsData() {
+      return currentAutomatonModel === 'aula' ? aulaTransitionsData : autoTransitionsData;
+    }
+
+    // 1. Definição do Autômato da Linguagem TRALHA (20 Estados + ACC) no Padrão da Lousa
     const autoNodesData = {
       0: {
-        id: 0, x: 60, y: 160, label: "I0", sub: "Início", phase: "1. Inicialização", type: "start", color: "#6366f1",
+        id: 0, badgeNum: 0, isStart: true, x: 90, y: 150, w: 260, h: 126, label: "I0",
+        sub: "Início", phase: "1. Inicialização", type: "start", color: "#6366f1",
         from: "Ponto de entrada inicial do compilador.",
         items: [
           "S' → • S",
@@ -2031,7 +2298,8 @@ TREM Incompleto {
         slr: "Empilha o estado inicial 0. Ao ler o token ID, executa Shift s4. Transições GOTO para S (1), lista (2) e comando (3)."
       },
       1: {
-        id: 1, x: 60, y: 310, label: "I1", sub: "S' → S•", phase: "1. Sucesso", type: "acc", color: "#10b981",
+        id: 1, badgeNum: 1, x: 90, y: 340, w: 150, h: 42, label: "I1",
+        sub: "S' → S•", phase: "1. Sucesso", type: "acc", color: "#10b981",
         from: "Atingido a partir de I0 após GOTO(S).",
         items: [
           "S' → S •"
@@ -2042,16 +2310,18 @@ TREM Incompleto {
         slr: "Ao encontrar o marcador de fim de arquivo $, o compilador emite a ação 'acc' (programa aceito com sucesso)."
       },
       'ACC': {
-        id: 'ACC', x: 60, y: 460, label: "ACC", sub: "Aceito!", phase: "1. Aceitação", type: "acc", color: "#34d399",
+        id: 'ACC', badgeNum: "acc", x: 90, y: 460, w: 150, h: 42, label: "ACC",
+        sub: "Aceito!", phase: "1. Aceitação", type: "acc", color: "#34d399",
         from: "Atingido a partir de I1 com token $.",
         items: [
-          "Entrada totalmente consumida e reconhecida pela gramática!"
+          "Entrada totalmente consumida!"
         ],
         transitions: [],
         slr: "Final da análise sintática Bottom-Up. Gramática válida."
       },
       2: {
-        id: 2, x: 190, y: 310, label: "I2", sub: "lista •", phase: "1. Lista", type: "shift", color: "#6366f1",
+        id: 2, badgeNum: 2, x: 90, y: 580, w: 260, h: 86, label: "I2",
+        sub: "lista •", phase: "1. Lista", type: "shift", color: "#6366f1",
         from: "Atingido a partir de I0 após GOTO(lista).",
         items: [
           "S → lista •",
@@ -2064,26 +2334,9 @@ TREM Incompleto {
         ],
         slr: "Reduz r1 (S → lista) quando lookahead for $; ou faz Shift s4 (ID) / GOTO 5 (comando) se houver outro comando na lista."
       },
-      3: {
-        id: 3, x: 190, y: 460, label: "I3", sub: "r3: comando", phase: "1. Redução", type: "reduce", color: "#f472b6",
-        from: "Atingido a partir de I0 após GOTO(comando).",
-        items: [
-          "lista → comando •"
-        ],
-        transitions: [],
-        slr: "Redução r3 (lista → comando) quando o próximo token pertencer a FOLLOW(lista) = { ID, $ }."
-      },
-      5: {
-        id: 5, x: 330, y: 460, label: "I5", sub: "r2: lista cmd", phase: "1. Redução", type: "reduce", color: "#f472b6",
-        from: "Atingido a partir de I2 após GOTO(comando).",
-        items: [
-          "lista → lista comando •"
-        ],
-        transitions: [],
-        slr: "Redução r2 (lista → lista comando) quando o próximo token pertencer a FOLLOW(lista) = { ID, $ }."
-      },
       4: {
-        id: 4, x: 190, y: 160, label: "I4", sub: "ID • receba", phase: "2. Atribuição", type: "shift", color: "#3b82f6",
+        id: 4, badgeNum: 4, x: 420, y: 150, w: 230, h: 42, label: "I4",
+        sub: "ID • receba", phase: "2. Atribuição", type: "shift", color: "#3b82f6",
         from: "Atingido a partir de I0 ou I2 via Shift s4 (token ID).",
         items: [
           "comando → ID • receba expr ;"
@@ -2093,8 +2346,29 @@ TREM Incompleto {
         ],
         slr: "Lê a palavra reservada de atribuição 'receba' (=) e executa Shift s6."
       },
+      3: {
+        id: 3, badgeNum: 3, x: 420, y: 580, w: 190, h: 42, label: "I3",
+        sub: "r3: comando", phase: "1. Redução", type: "reduce", color: "#f472b6",
+        from: "Atingido a partir de I0 após GOTO(comando).",
+        items: [
+          "lista → comando •"
+        ],
+        transitions: [],
+        slr: "Redução r3 (lista → comando) quando o próximo token pertencer a FOLLOW(lista) = { ID, $ }."
+      },
+      5: {
+        id: 5, badgeNum: 5, x: 420, y: 700, w: 230, h: 42, label: "I5",
+        sub: "r2: lista cmd", phase: "1. Redução", type: "reduce", color: "#f472b6",
+        from: "Atingido a partir de I2 após GOTO(comando).",
+        items: [
+          "lista → lista comando •"
+        ],
+        transitions: [],
+        slr: "Redução r2 (lista → lista comando) quando o próximo token pertencer a FOLLOW(lista) = { ID, $ }."
+      },
       6: {
-        id: 6, x: 340, y: 160, label: "I6", sub: "Início Expr", phase: "2. Expressão", type: "shift", color: "#8b5cf6",
+        id: 6, badgeNum: 6, x: 720, y: 150, w: 270, h: 176, label: "I6",
+        sub: "Início Expr", phase: "2. Expressão", type: "shift", color: "#8b5cf6",
         from: "Atingido a partir de I4 via Shift s6 ao ler 'receba'.",
         items: [
           "comando → ID receba • expr ;",
@@ -2117,7 +2391,8 @@ TREM Incompleto {
         slr: "Estado de abertura de expressão. Lê operando (NUM/ID), parênteses '(', ou faz GOTO para expr/termo/fator."
       },
       13: {
-        id: 13, x: 340, y: 40, label: "I13", sub: "r4: cmd ;", phase: "2. Fim Comando", type: "reduce", color: "#10b981",
+        id: 13, badgeNum: 13, x: 720, y: 40, w: 240, h: 42, label: "I13",
+        sub: "r4: cmd ;", phase: "2. Fim Comando", type: "reduce", color: "#10b981",
         from: "Atingido a partir de I7 via Shift s13 ao ler ';'.",
         items: [
           "comando → ID receba expr ; •"
@@ -2126,7 +2401,8 @@ TREM Incompleto {
         slr: "Redução r4 (comando → ID receba expr ;) quando lookahead for FOLLOW(comando) = { ID, $ }."
       },
       7: {
-        id: 7, x: 490, y: 40, label: "I7", sub: "expr • ;/+", phase: "3. Expressão", type: "shift", color: "#3b82f6",
+        id: 7, badgeNum: 7, x: 1070, y: 40, w: 230, h: 68, label: "I7",
+        sub: "expr • ;/+", phase: "3. Expressão", type: "shift", color: "#3b82f6",
         from: "Atingido a partir de I6 após GOTO(expr).",
         items: [
           "comando → ID receba expr • ;",
@@ -2139,7 +2415,8 @@ TREM Incompleto {
         slr: "Se ler ';', faz Shift s13 para finalizar o comando. Se ler '+', faz Shift s14 para somar um novo termo."
       },
       14: {
-        id: 14, x: 640, y: 40, label: "I14", sub: "expr + •", phase: "3. Adição (+)", type: "shift", color: "#3b82f6",
+        id: 14, badgeNum: 14, x: 1380, y: 40, w: 260, h: 142, label: "I14",
+        sub: "expr + •", phase: "3. Adição (+)", type: "shift", color: "#3b82f6",
         from: "Atingido a partir de I7 ou I16 via Shift s14 ao ler '+'.",
         items: [
           "expr → expr + • termo",
@@ -2159,7 +2436,8 @@ TREM Incompleto {
         slr: "Lê o próximo termo para completar a adição expr + termo."
       },
       17: {
-        id: 17, x: 790, y: 40, label: "I17", sub: "r5: expr+termo", phase: "3. Redução Adição", type: "reduce", color: "#f59e0b",
+        id: 17, badgeNum: 17, x: 1380, y: 220, w: 230, h: 68, label: "I17",
+        sub: "r5: expr+termo", phase: "3. Redução Adição", type: "reduce", color: "#f59e0b",
         from: "Atingido a partir de I14 após GOTO(termo).",
         items: [
           "expr → expr + termo •",
@@ -2171,7 +2449,8 @@ TREM Incompleto {
         slr: "Se ler '*', faz Shift s15 (* tem precedência). Se ler { ;, +, ) }, reduz por r5 (expr → expr + termo)."
       },
       8: {
-        id: 8, x: 490, y: 190, label: "I8", sub: "r6: termo •", phase: "3. Termo", type: "reduce", color: "#f59e0b",
+        id: 8, badgeNum: 8, x: 1070, y: 220, w: 220, h: 68, label: "I8",
+        sub: "r6: termo •", phase: "3. Termo", type: "reduce", color: "#f59e0b",
         from: "Atingido a partir de I6 ou I10 após GOTO(termo).",
         items: [
           "expr → termo •",
@@ -2183,7 +2462,8 @@ TREM Incompleto {
         slr: "Se ler '*', faz Shift s15 (* tem maior precedência). Se ler { ;, +, ) }, reduz por r6 (expr → termo)."
       },
       15: {
-        id: 15, x: 640, y: 190, label: "I15", sub: "termo * •", phase: "3. Mult (*)", type: "shift", color: "#3b82f6",
+        id: 15, badgeNum: 15, x: 1070, y: 360, w: 240, h: 104, label: "I15",
+        sub: "termo * •", phase: "3. Mult (*)", type: "shift", color: "#3b82f6",
         from: "Atingido a partir de I8 ou I17 via Shift s15 ao ler '*'.",
         items: [
           "termo → termo * • fator",
@@ -2200,7 +2480,8 @@ TREM Incompleto {
         slr: "Lê o fator da multiplicação termo * fator com precedência sobre a soma."
       },
       18: {
-        id: 18, x: 790, y: 190, label: "I18", sub: "r7: termo*fator", phase: "3. Redução Mult", type: "reduce", color: "#f472b6",
+        id: 18, badgeNum: 18, x: 1380, y: 360, w: 230, h: 42, label: "I18",
+        sub: "r7: termo*fator", phase: "3. Redução Mult", type: "reduce", color: "#f472b6",
         from: "Atingido a partir de I15 após GOTO(fator).",
         items: [
           "termo → termo * fator •"
@@ -2209,7 +2490,8 @@ TREM Incompleto {
         slr: "Reduz por r7 (termo → termo * fator) quando lookahead for FOLLOW(termo) = { ;, +, *, ) }."
       },
       9: {
-        id: 9, x: 960, y: 40, label: "I9", sub: "r8: fator •", phase: "4. Fator", type: "reduce", color: "#f472b6",
+        id: 9, badgeNum: 9, x: 1070, y: 510, w: 180, h: 42, label: "I9",
+        sub: "r8: fator •", phase: "4. Fator", type: "reduce", color: "#f472b6",
         from: "Atingido a partir de I6, I10 ou I14 após GOTO(fator).",
         items: [
           "termo → fator •"
@@ -2218,7 +2500,8 @@ TREM Incompleto {
         slr: "Reduz por r8 (termo → fator) quando lookahead for FOLLOW(termo) = { ;, +, *, ) }."
       },
       11: {
-        id: 11, x: 960, y: 160, label: "I11", sub: "r10: NUM •", phase: "4. Número", type: "reduce", color: "#f59e0b",
+        id: 11, badgeNum: 11, x: 1070, y: 610, w: 180, h: 42, label: "I11",
+        sub: "r10: NUM •", phase: "4. Número", type: "reduce", color: "#f59e0b",
         from: "Atingido a partir de I6, I10, I14 ou I15 via Shift s11 ao ler NUM.",
         items: [
           "fator → NUM •"
@@ -2227,7 +2510,8 @@ TREM Incompleto {
         slr: "Reduz por r10 (fator → NUM) quando lookahead for FOLLOW(fator) = { ;, +, *, ) }."
       },
       12: {
-        id: 12, x: 960, y: 280, label: "I12", sub: "r11: ID •", phase: "4. Variável", type: "reduce", color: "#f59e0b",
+        id: 12, badgeNum: 12, x: 1070, y: 710, w: 180, h: 42, label: "I12",
+        sub: "r11: ID •", phase: "4. Variável", type: "reduce", color: "#f59e0b",
         from: "Atingido a partir de I6, I10, I14 ou I15 via Shift s12 ao ler ID.",
         items: [
           "fator → ID •"
@@ -2236,7 +2520,8 @@ TREM Incompleto {
         slr: "Reduz por r11 (fator → ID) quando lookahead for FOLLOW(fator) = { ;, +, *, ) }."
       },
       10: {
-        id: 10, x: 960, y: 430, label: "I10", sub: "fator → ( •", phase: "4. Parênteses", type: "shift", color: "#8b5cf6",
+        id: 10, badgeNum: 10, x: 1380, y: 510, w: 270, h: 176, label: "I10",
+        sub: "fator → ( •", phase: "4. Parênteses", type: "shift", color: "#8b5cf6",
         from: "Atingido a partir de I6, I10, I14 ou I15 via Shift s10 ao ler '('.",
         items: [
           "fator → ( • expr )",
@@ -2259,7 +2544,8 @@ TREM Incompleto {
         slr: "Inicia subexpressão isolada entre parênteses com máxima prioridade."
       },
       16: {
-        id: 16, x: 740, y: 430, label: "I16", sub: "( expr • )", phase: "4. Parênteses", type: "shift", color: "#3b82f6",
+        id: 16, badgeNum: 16, x: 1380, y: 710, w: 230, h: 68, label: "I16",
+        sub: "( expr • )", phase: "4. Parênteses", type: "shift", color: "#3b82f6",
         from: "Atingido a partir de I10 após GOTO(expr).",
         items: [
           "fator → ( expr • )",
@@ -2272,7 +2558,8 @@ TREM Incompleto {
         slr: "Se ler ')' faz Shift s19 para fechar os parênteses. Se ler '+' faz Shift s14 para somar dentro dos parênteses."
       },
       19: {
-        id: 19, x: 520, y: 430, label: "I19", sub: "r9: (expr)•", phase: "4. Redução", type: "reduce", color: "#f472b6",
+        id: 19, badgeNum: 19, x: 1380, y: 820, w: 200, h: 42, label: "I19",
+        sub: "r9: (expr)•", phase: "4. Redução", type: "reduce", color: "#f472b6",
         from: "Atingido a partir de I16 via Shift s19 ao ler ')'.",
         items: [
           "fator → ( expr ) •"
@@ -2282,7 +2569,6 @@ TREM Incompleto {
       }
     };
 
-    // Definição das Transições do Autômato
     const autoTransitionsData = [
       { from: 0, to: 1, sym: "S", type: "goto" },
       { from: 0, to: 2, sym: "lista", type: "goto" },
@@ -2321,14 +2607,258 @@ TREM Incompleto {
       { from: 17, to: 15, sym: "*", type: "shift" }
     ];
 
+    // Etapas padrão para o simulador
+    const tralhaDefaultSteps = [
+      { stateStack: "0", symbolStack: "—", token: "ID", tokenVal: "x", action: "s4" },
+      { stateStack: "0 4", symbolStack: "ID", token: "receba", tokenVal: "receba", action: "s6" },
+      { stateStack: "0 4 6", symbolStack: "ID receba", token: "NUM", tokenVal: "10", action: "s11" },
+      { stateStack: "0 4 6 11", symbolStack: "ID receba NUM", token: "+", tokenVal: "+", action: "r10: fator → NUM" },
+      { stateStack: "0 4 6 9", symbolStack: "ID receba fator", token: "+", tokenVal: "+", action: "r8: termo → fator" },
+      { stateStack: "0 4 6 8", symbolStack: "ID receba termo", token: "+", tokenVal: "+", action: "r6: expr → termo" },
+      { stateStack: "0 4 6 7", symbolStack: "ID receba expr", token: "+", tokenVal: "+", action: "s14" },
+      { stateStack: "0 4 6 7 14", symbolStack: "ID receba expr +", token: "NUM", tokenVal: "20", action: "s11" },
+      { stateStack: "0 4 6 7 14 11", symbolStack: "ID receba expr + NUM", token: "*", tokenVal: "*", action: "r10: fator → NUM" },
+      { stateStack: "0 4 6 7 14 9", symbolStack: "ID receba expr + fator", token: "*", tokenVal: "*", action: "r8: termo → fator" },
+      { stateStack: "0 4 6 7 14 17", symbolStack: "ID receba expr + termo", token: "*", tokenVal: "*", action: "s15" },
+      { stateStack: "0 4 6 7 14 17 15", symbolStack: "ID receba expr + termo *", token: "NUM", tokenVal: "3", action: "s11" },
+      { stateStack: "0 4 6 7 14 17 15 11", symbolStack: "ID receba expr + termo * NUM", token: ";", tokenVal: ";", action: "r10: fator → NUM" },
+      { stateStack: "0 4 6 7 14 17 15 18", symbolStack: "ID receba expr + termo * fator", token: ";", tokenVal: ";", action: "r7: termo → termo * fator" },
+      { stateStack: "0 4 6 7 14 17", symbolStack: "ID receba expr + termo", token: ";", tokenVal: ";", action: "r5: expr → expr + termo" },
+      { stateStack: "0 4 6 7", symbolStack: "ID receba expr", token: ";", tokenVal: ";", action: "s13" },
+      { stateStack: "0 4 6 7 13", symbolStack: "ID receba expr ;", token: "$", tokenVal: "$", action: "r4: comando → ID receba expr ;" },
+      { stateStack: "0 3", symbolStack: "comando", token: "$", tokenVal: "$", action: "r3: lista → comando" },
+      { stateStack: "0 2", symbolStack: "lista", token: "$", tokenVal: "$", action: "r1: S → lista" },
+      { stateStack: "0 1", symbolStack: "S", token: "$", tokenVal: "$", action: "acc" }
+    ];
+
+    const aulaStepsExample = [
+      { stateStack: "0", symbolStack: "—", token: "(", tokenVal: "(", action: "s2" },
+      { stateStack: "0 2", symbolStack: "(", token: "a", tokenVal: "a", action: "s3" },
+      { stateStack: "0 2 3", symbolStack: "( a", token: ",", tokenVal: ",", action: "r2: E → a" },
+      { stateStack: "0 2 5", symbolStack: "( E", token: ",", tokenVal: ",", action: "r4: L → E" },
+      { stateStack: "0 2 4", symbolStack: "( L", token: ",", tokenVal: ",", action: "s7" },
+      { stateStack: "0 2 4 7", symbolStack: "( L ,", token: "a", tokenVal: "a", action: "s3" },
+      { stateStack: "0 2 4 7 3", symbolStack: "( L , a", token: ")", tokenVal: ")", action: "r2: E → a" },
+      { stateStack: "0 2 4 7 8", symbolStack: "( L , E", token: ")", tokenVal: ")", action: "r3: L → L , E" },
+      { stateStack: "0 2 4", symbolStack: "( L", token: ")", tokenVal: ")", action: "s6" },
+      { stateStack: "0 2 4 6", symbolStack: "( L )", token: "$", tokenVal: "$", action: "r1: E → ( L )" },
+      { stateStack: "0 1", symbolStack: "E", token: "$", tokenVal: "$", action: "acc" }
+    ];
+
+    let tralhaCachedSteps = [];
+
+    // 2. Definição do Autômato da Lousa da Profa. Diomara (8 Estados da Foto)
+    const aulaNodesData = {
+      0: {
+        id: 0, badgeNum: 0, isStart: true, x: 60, y: 50, w: 140, h: 86, label: "I0",
+        phase: "Estado Inicial (Lousa)", from: "Entrada do autômato (foto da lousa)",
+        items: [
+          "E' → • E",
+          "E → • ( L )",
+          "E → • a"
+        ],
+        transitions: [
+          { sym: "E", target: 1, type: "goto" },
+          { sym: "(", target: 2, type: "shift" },
+          { sym: "a", target: 3, type: "shift" }
+        ],
+        slr: "Estado inicial. Ao ler '(' ou 'a', executa Shift para I2 ou I3. Transição GOTO com E leva ao estado de aceitação I1."
+      },
+      1: {
+        id: 1, badgeNum: 1, x: 270, y: 50, w: 120, h: 44, label: "I1",
+        phase: "Aceitação (Lousa)", from: "I0 via GOTO(E)",
+        items: [
+          "E' → E •"
+        ],
+        transitions: [],
+        slr: "Estado de aceitação com fim de entrada ($)."
+      },
+      2: {
+        id: 2, badgeNum: 2, x: 270, y: 155, w: 155, h: 126, label: "I2",
+        phase: "Abertura de Bloco", from: "I0 via '(', I7 via '(', ou auto-loop ao ler '('",
+        items: [
+          "E → ( • L )",
+          "L → • L , E",
+          "L → • E",
+          "E → • ( L )",
+          "E → • a"
+        ],
+        transitions: [
+          { sym: "L", target: 4, type: "goto" },
+          { sym: "E", target: 5, type: "goto" },
+          { sym: "a", target: 3, type: "shift" },
+          { sym: "(", target: 2, type: "shift", loop: true }
+        ],
+        slr: "Início de bloco ou lista entre parênteses. Suporta aninhamento através do loop em '('."
+      },
+      3: {
+        id: 3, badgeNum: 3, x: 60, y: 310, w: 120, h: 44, label: "I3",
+        phase: "Redução de Terminal", from: "I0, I2 ou I7 via 'a'",
+        items: [
+          "E → a •"
+        ],
+        transitions: [],
+        slr: "Reduz pela produção E → a quando o próximo token pertencer a FOLLOW(E) = { $, ')', ',' }."
+      },
+      4: {
+        id: 4, badgeNum: 4, x: 490, y: 50, w: 140, h: 68, label: "I4",
+        phase: "Lista Reconhecida", from: "I2 via GOTO(L)",
+        items: [
+          "E → ( L • )",
+          "L → L • , E"
+        ],
+        transitions: [
+          { sym: ")", target: 6, type: "shift" },
+          { sym: ",", target: 7, type: "shift" }
+        ],
+        slr: "Lê ')' para fechar o bloco (I6) ou ',' para continuar acumulando itens na lista (I7)."
+      },
+      5: {
+        id: 5, badgeNum: 5, x: 490, y: 185, w: 120, h: 44, label: "I5",
+        phase: "Redução de Item Base", from: "I2 via GOTO(E)",
+        items: [
+          "L → E •"
+        ],
+        transitions: [],
+        slr: "Reduz pela produção L → E quando o próximo token pertencer a FOLLOW(L) = { ')', ',' }."
+      },
+      6: {
+        id: 6, badgeNum: 6, x: 700, y: 50, w: 130, h: 44, label: "I6",
+        phase: "Fechamento de Bloco", from: "I4 via Shift ')'",
+        items: [
+          "E → ( L ) •"
+        ],
+        transitions: [],
+        slr: "Reduz pela produção E → ( L ) quando o próximo token pertencer a FOLLOW(E) = { $, ')', ',' }."
+      },
+      7: {
+        id: 7, badgeNum: 7, x: 700, y: 165, w: 140, h: 86, label: "I7",
+        phase: "Separador de Lista", from: "I4 via Shift ','",
+        items: [
+          "L → L , • E",
+          "E → • ( L )",
+          "E → • a"
+        ],
+        transitions: [
+          { sym: "E", target: 8, type: "goto" },
+          { sym: "(", target: 2, type: "shift", customCurve: "under5" },
+          { sym: "a", target: 3, type: "shift", customCurve: "bottomReturn" }
+        ],
+        slr: "Após a vírgula, aguarda um novo elemento E. Ao ler '(', volta a I2 por baixo de I5; ao ler 'a', retorna a I3 pela borda inferior."
+      },
+      8: {
+        id: 8, badgeNum: 8, x: 910, y: 182, w: 130, h: 44, label: "I8",
+        phase: "Redução da Lista", from: "I7 via GOTO(E)",
+        items: [
+          "L → L , E •"
+        ],
+        transitions: [],
+        slr: "Reduz pela produção recursiva L → L , E quando o próximo token pertencer a FOLLOW(L) = { ')', ',' }."
+      }
+    };
+
+    const aulaTransitionsData = [
+      // 0 -> 1: Linha reta horizontal superior
+      { from: 0, to: 1, sym: "E", type: "goto", pathD: "M 200 72 L 270 72", lx: 235, ly: 61 },
+      // 0 -> 2: Curva diagonal suave do meio de I0 para topo de I2
+      { from: 0, to: 2, sym: "(", type: "shift", pathD: "M 200 95 C 235 95, 235 175, 270 175", lx: 235, ly: 125 },
+      // 0 -> 3: Linha reta vertical para baixo
+      { from: 0, to: 3, sym: "a", type: "shift", pathD: "M 130 136 L 130 310", lx: 145, ly: 220 },
+      // 2 -> 4: Linha diagonal subindo para I4
+      { from: 2, to: 4, sym: "L", type: "goto", pathD: "M 425 175 L 490 81", lx: 452, ly: 120 },
+      // 2 -> 5: Linha reta horizontal para I5
+      { from: 2, to: 5, sym: "E", type: "goto", pathD: "M 425 207 L 490 207", lx: 457, ly: 196 },
+      // 2 -> 3: Curva suave para a esquerda conectando em I3
+      { from: 2, to: 3, sym: "a", type: "shift", pathD: "M 270 250 C 220 250, 220 334, 180 334", lx: 225, ly: 285 },
+      // 2 -> 2: Auto-loop por baixo de I2
+      { from: 2, to: 2, sym: "(", type: "shift", loop: true, pathD: "M 325 281 C 315 345, 385 345, 375 281", lx: 350, ly: 335 },
+      // 4 -> 6: Linha reta horizontal superior
+      { from: 4, to: 6, sym: ")", type: "shift", pathD: "M 630 72 L 700 72", lx: 665, ly: 61 },
+      // 4 -> 7: Linha diagonal descendo para I7
+      { from: 4, to: 7, sym: ",", type: "shift", pathD: "M 630 95 L 700 185", lx: 665, ly: 132 },
+      // 7 -> 8: Linha reta horizontal para I8
+      { from: 7, to: 8, sym: "E", type: "goto", pathD: "M 840 206 L 910 206", lx: 875, ly: 195 },
+      // 7 -> 2: Curva sob o estado I5 voltando para I2
+      { from: 7, to: 2, sym: "(", type: "shift", customCurve: "under5", pathD: "M 700 220 C 610 270, 510 270, 425 240", lx: 560, ly: 260 },
+      // 7 -> 3: Grande arco pelo rodapé da lousa voltando até I3
+      { from: 7, to: 3, sym: "a", type: "shift", customCurve: "bottomReturn", pathD: "M 745 251 C 670 415, 230 415, 120 354", lx: 440, ly: 405 }
+    ];
+
+    function switchAutomatonModel(model) {
+      currentAutomatonModel = model;
+      const btnTralha = document.getElementById('btnModelTralha');
+      const btnAula = document.getElementById('btnModelAula');
+      const modelNameSpan = document.getElementById('automatonModelName');
+
+      if (btnTralha && btnAula) {
+        if (model === 'tralha') {
+          btnTralha.classList.add('active');
+          btnAula.classList.remove('active');
+        } else {
+          btnAula.classList.add('active');
+          btnTralha.classList.remove('active');
+        }
+      }
+
+      if (modelNameSpan) {
+        modelNameSpan.innerText = (model === 'aula')
+          ? 'Lousa da Aula (E → (L)|a)'
+          : 'Gramática TRALHA (20 Estados)';
+      }
+
+      if (model === 'aula' && !isChalkboardGreen) {
+        toggleChalkboardTheme();
+      }
+
+      if (model === 'aula') {
+        initAutomatonPlayer(aulaStepsExample);
+      } else {
+        initAutomatonPlayer(tralhaCachedSteps.length > 0 ? tralhaCachedSteps : tralhaDefaultSteps);
+      }
+
+      buildAutomatonSvg();
+      initAutomatonPills();
+      selectAutomatonState(0, true);
+      fitAutomatonGraph();
+      if (typeof refreshIcons === 'function') refreshIcons();
+    }
+
+    function toggleChalkboardTheme() {
+      isChalkboardGreen = !isChalkboardGreen;
+      const wrapper = document.getElementById('automatonCanvas');
+      const label = document.getElementById('themeToggleLabel');
+      if (wrapper) {
+        wrapper.classList.toggle('theme-chalkboard', isChalkboardGreen);
+      }
+      if (label) {
+        label.innerText = isChalkboardGreen ? 'Tema Escuro' : 'Lousa Verde';
+      }
+    }
+
     function buildAutomatonSvg() {
       const svg = document.getElementById('automatonSvg');
+      const container = document.getElementById('automatonGraphContainer');
       if (!svg) return;
+
+      const activeNodes = getActiveNodesData();
+      const activeTransitions = getActiveTransitionsData();
+
+      const isAula = (currentAutomatonModel === 'aula');
+      const vbW = isAula ? 1120 : 1700;
+      const vbH = isAula ? 470 : 960;
+
+      svg.setAttribute('viewBox', `0 0 ${vbW} ${vbH}`);
+      svg.setAttribute('width', String(vbW));
+      svg.setAttribute('height', String(vbH));
+      if (container) {
+        container.style.width = `${vbW}px`;
+        container.style.height = `${vbH}px`;
+      }
 
       const defs = `
         <defs>
           <marker id="arrow-default" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M 0 1 L 9 5 L 0 9 z" fill="#64748b" />
+            <path d="M 0 1 L 9 5 L 0 9 z" fill="#cbd5e1" />
           </marker>
           <marker id="arrow-active" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
             <path d="M 0 1 L 9 5 L 0 9 z" fill="#38bdf8" />
@@ -2336,89 +2866,178 @@ TREM Incompleto {
         </defs>
       `;
 
+      // Seta de início para estado 0
+      let startArrowHtml = '';
+      const startNode = activeNodes[0];
+      if (startNode) {
+        const sy = startNode.y + Math.min(26, startNode.h / 2);
+        startArrowHtml = `
+          <g class="chalk-start-group">
+            <path class="chalk-start-arrow" d="M ${startNode.x - 38} ${sy} L ${startNode.x} ${sy}" marker-end="url(#arrow-default)" />
+            <text class="chalk-start-text" x="${startNode.x - 44}" y="${sy + 4}" text-anchor="end">início</text>
+          </g>
+        `;
+      }
+
       let edgesHtml = '<g id="svgEdgesLayer">';
-      autoTransitionsData.forEach((t, i) => {
-        const u = autoNodesData[t.from];
-        const v = autoNodesData[t.to];
+      activeTransitions.forEach((t, i) => {
+        const u = activeNodes[t.from];
+        const v = activeNodes[t.to];
         if (!u || !v) return;
 
         let d = '';
         let lx = 0, ly = 0;
 
-        if (t.loop) {
-          const x = u.x + 85, y = u.y + 44;
-          d = `M ${x - 20} ${y} C ${x + 20} ${y + 35}, ${x + 40} ${y - 15}, ${u.x + 90} ${u.y + 30}`;
-          lx = x + 15;
-          ly = y + 25;
-        } else if (u.x === v.x && u.y < v.y) {
-          const x = u.x + 45;
-          const y1 = u.y + 44;
-          const y2 = v.y;
-          d = `M ${x} ${y1} L ${x} ${y2}`;
-          lx = x + 18;
-          ly = (y1 + y2) / 2;
-        } else if (Math.abs(u.y - v.y) < 25 && u.x < v.x) {
-          const y = u.y + 22;
-          const x1 = u.x + 90;
-          const x2 = v.x;
-          d = `M ${x1} ${y} L ${x2} ${y}`;
-          lx = (x1 + x2) / 2;
-          ly = y - 10;
-        } else if (u.x > v.x && Math.abs(u.y - v.y) < 25) {
-          const y = u.y + 22;
+        if (t.pathD) {
+          d = t.pathD;
+          lx = t.lx !== undefined ? t.lx : 0;
+          ly = t.ly !== undefined ? t.ly : 0;
+        } else if (t.loop) {
+          const x1 = u.x + u.w * 0.4;
+          const y1 = u.y + u.h;
+          const x2 = u.x + u.w * 0.7;
+          const y2 = u.y + u.h;
+          d = `M ${x1} ${y1} C ${x1 - 10} ${y1 + 45}, ${x2 + 25} ${y2 + 45}, ${x2} ${y2}`;
+          lx = (x1 + x2) / 2 + 5;
+          ly = y1 + 35;
+        } else if (t.customCurve === 'under5') {
           const x1 = u.x;
-          const x2 = v.x + 90;
-          d = `M ${x1} ${y} L ${x2} ${y}`;
-          lx = (x1 + x2) / 2;
-          ly = y - 10;
-        } else {
-          let x1 = u.x + 45, y1 = u.y + 22;
-          let x2 = v.x + 45, y2 = v.y + 22;
-          let cx = (x1 + x2) / 2;
-          let cy = (y1 + y2) / 2;
-
-          if (u.x < v.x) {
-            x1 = u.x + 90;
-            x2 = v.x;
-            cy = (y1 < y2) ? y1 + 10 : y2 + 10;
-          } else {
-            x1 = u.x;
-            x2 = v.x + 90;
-            cy = Math.min(y1, y2) - 30;
-          }
-
+          const y1 = u.y + u.h - 10;
+          const x2 = v.x + v.w;
+          const y2 = v.y + v.h - 10;
+          const cx = (x1 + x2) / 2;
+          const cy = 300;
           d = `M ${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`;
           lx = cx;
-          ly = cy;
+          ly = cy - 8;
+        } else if (t.customCurve === 'bottomReturn') {
+          const x1 = u.x + 20;
+          const y1 = u.y + u.h;
+          const x2 = v.x + v.w - 10;
+          const y2 = v.y + v.h;
+          const cx = (x1 + x2) / 2;
+          const cy = 480;
+          d = `M ${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`;
+          lx = cx;
+          ly = cy - 8;
+        } else if (u.x + u.w <= v.x) {
+          const x1 = u.x + u.w;
+          const y1 = u.y + Math.min(26, u.h / 2);
+          const x2 = v.x;
+          const y2 = v.y + Math.min(26, v.h / 2);
+          if (Math.abs(y1 - y2) < 25) {
+            d = `M ${x1} ${y1} L ${x2} ${y2}`;
+            lx = (x1 + x2) / 2;
+            ly = y1 - 10;
+          } else {
+            const cx = (x1 + x2) / 2;
+            const cy = (y1 < y2) ? y1 : y2;
+            d = `M ${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`;
+            lx = cx;
+            ly = cy - 8;
+          }
+        } else if (u.x >= v.x + v.w) {
+          const x1 = u.x;
+          const y1 = u.y + Math.min(26, u.h / 2);
+          const x2 = v.x + v.w;
+          const y2 = v.y + Math.min(26, v.h / 2);
+          if (Math.abs(y1 - y2) < 25) {
+            d = `M ${x1} ${y1} L ${x2} ${y2}`;
+            lx = (x1 + x2) / 2;
+            ly = y1 - 10;
+          } else {
+            const cx = (x1 + x2) / 2;
+            const cy = Math.min(y1, y2) - 35;
+            d = `M ${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`;
+            lx = cx;
+            ly = cy - 8;
+          }
+        } else if (u.y + u.h <= v.y) {
+          const x1 = u.x + Math.min(45, u.w / 2);
+          const y1 = u.y + u.h;
+          const x2 = v.x + Math.min(45, v.w / 2);
+          const y2 = v.y;
+          d = `M ${x1} ${y1} L ${x2} ${y2}`;
+          lx = x1 + 18;
+          ly = (y1 + y2) / 2;
+        } else {
+          const x1 = u.x + u.w;
+          const y1 = u.y + u.h / 2;
+          const x2 = v.x;
+          const y2 = v.y + v.h / 2;
+          const cx = (x1 + x2) / 2;
+          const cy = (y1 + y2) / 2;
+          d = `M ${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`;
+          lx = cx;
+          ly = cy - 8;
         }
 
-        const labelWidth = Math.max(26, t.sym.length * 7 + 10);
+        const labelWidth = Math.max(22, t.sym.length * 8 + 12);
         edgesHtml += `
           <g class="auto-edge" id="edge-${t.from}-${t.to}-${i}" data-from="${t.from}" data-to="${t.to}">
-            <path class="auto-edge-path" d="${d}" marker-end="url(#arrow-default)" />
-            <rect class="auto-edge-label-bg" x="${lx - labelWidth/2}" y="${ly - 8}" width="${labelWidth}" height="16" />
-            <text class="auto-edge-label-text" x="${lx}" y="${ly}">${t.sym}</text>
+            <path class="chalk-arrow-path auto-edge-path" d="${d}" marker-end="url(#arrow-default)" />
+            <rect class="chalk-edge-label-bg" x="${lx - labelWidth/2}" y="${ly - 8}" width="${labelWidth}" height="17" />
+            <text class="chalk-edge-label-text" x="${lx}" y="${ly}">${escapeHtml(t.sym)}</text>
           </g>
         `;
       });
       edgesHtml += '</g>';
 
+      // Nodes (Caixas de giz com produções e badges)
       let nodesHtml = '<g id="svgNodesLayer">';
-      Object.keys(autoNodesData).forEach(k => {
-        const n = autoNodesData[k];
-        const isAcc = (n.type === 'acc');
-        const borderColor = n.color || '#6366f1';
+      Object.keys(activeNodes).forEach(k => {
+        const n = activeNodes[k];
+        const badgeVal = (n.badgeNum !== undefined) ? n.badgeNum : (n.id === 'ACC' ? 'acc' : n.id);
+        const badgeCx = n.x + n.w;
+        const badgeCy = n.y;
+
+        let linesSvg = '';
+        const items = n.items || [];
+        const hasHeaderDivider = items.length > 1;
+        const dividerY = n.y + 26;
+
+        items.forEach((line, lineIdx) => {
+          let lineY;
+          if (!hasHeaderDivider) {
+            lineY = n.y + Math.round(n.h / 2) + 4;
+          } else if (lineIdx === 0) {
+            lineY = n.y + 19;
+          } else {
+            lineY = dividerY + 6 + lineIdx * 17;
+          }
+
+          let lineHtml = escapeHtml(line);
+          if (lineHtml.includes('•')) {
+            lineHtml = lineHtml.replace('•', '<tspan class="chalk-dot-symbol" font-weight="900" fill="#34d399"> • </tspan>');
+          } else if (lineHtml.includes('.')) {
+            lineHtml = lineHtml.replace('.', '<tspan class="chalk-dot-symbol" font-weight="900" fill="#34d399"> • </tspan>');
+          }
+
+          const isHeader = (lineIdx === 0 && hasHeaderDivider);
+          const textClass = isHeader ? 'chalk-item-text chalk-header-text' : 'chalk-item-text';
+          linesSvg += `<text class="${textClass}" x="${n.x + 10}" y="${lineY}">${lineHtml}</text>`;
+        });
+
+        let dividerSvg = '';
+        if (hasHeaderDivider) {
+          dividerSvg = `<line class="chalk-header-divider" x1="${n.x}" y1="${dividerY}" x2="${n.x + n.w}" y2="${dividerY}" />`;
+        }
+
         nodesHtml += `
-          <g class="auto-node" id="auto-node-${n.id}" data-id="${n.id}" onclick="selectAutomatonState('${n.id}')" onmouseenter="hoverAutomatonNode('${n.id}')" onmouseleave="unhoverAutomatonNode()">
-            <rect class="node-rect" x="${n.x}" y="${n.y}" width="90" height="44" rx="8" fill="rgba(17, 24, 39, 0.95)" stroke="${borderColor}" />
-            <text x="${n.x + 45}" y="${n.y + 18}" text-anchor="middle" font-size="14" font-weight="800" font-family="'Fira Code', monospace" fill="#ffffff">${n.label}</text>
-            <text x="${n.x + 45}" y="${n.y + 32}" text-anchor="middle" font-size="9.5" font-family="'Fira Code', monospace" fill="${isAcc ? '#34d399' : '#94a3b8'}">${n.sub}</text>
+          <g class="auto-node chalk-node" id="auto-node-${n.id}" data-id="${n.id}" onclick="selectAutomatonState('${n.id}', true)" onmouseenter="hoverAutomatonNode('${n.id}')" onmouseleave="unhoverAutomatonNode()">
+            <rect class="node-rect chalk-box-rect" x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" />
+            ${dividerSvg}
+            ${linesSvg}
+            <g class="chalk-badge-group">
+              <circle class="chalk-badge-circle" cx="${badgeCx}" cy="${badgeCy}" r="12" />
+              <text class="chalk-badge-text" x="${badgeCx}" y="${badgeCy}">${badgeVal}</text>
+            </g>
           </g>
         `;
       });
       nodesHtml += '</g>';
 
-      svg.innerHTML = defs + edgesHtml + nodesHtml;
+      svg.innerHTML = defs + startArrowHtml + edgesHtml + nodesHtml;
     }
 
     function selectAutomatonState(stateId, center = false) {
@@ -2446,7 +3065,8 @@ TREM Incompleto {
       const activePill = document.getElementById(`pill-btn-${stateId}`);
       if (activePill) activePill.classList.add('active');
 
-      const data = autoNodesData[stateId];
+      const activeNodes = getActiveNodesData();
+      const data = activeNodes[stateId];
       if (!data) return;
 
       const inspId = document.getElementById('inspStateId');
@@ -2459,9 +3079,24 @@ TREM Incompleto {
       const itemsList = document.getElementById('inspStateItems');
       if (itemsList) {
         itemsList.innerHTML = '';
-        data.items.forEach(it => {
+        const items = data.items || [];
+        const hasHeader = items.length > 1;
+
+        items.forEach((it, idx) => {
+          if (idx === 1 && hasHeader) {
+            const divLi = document.createElement('div');
+            divLi.className = 'insp-closure-divider';
+            divLi.innerHTML = `<span>Fechamento (Closure)</span>`;
+            itemsList.appendChild(divLi);
+          }
           const li = document.createElement('li');
-          li.innerHTML = it.replace('•', '<span class="item-dot">•</span>');
+          let textHtml = it.replace('•', '<span class="item-dot">•</span>');
+          if (idx === 0 && hasHeader) {
+            li.innerHTML = `<span class="insp-kernel-badge">Núcleo</span><strong>${textHtml}</strong>`;
+            li.style.color = '#ffffff';
+          } else {
+            li.innerHTML = textHtml;
+          }
           itemsList.appendChild(li);
         });
       }
@@ -2528,7 +3163,9 @@ TREM Incompleto {
       const bar = document.getElementById('autoStatePills');
       if (!bar) return;
       bar.innerHTML = '';
-      const order = [0, 1, 'ACC', 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+      const order = (currentAutomatonModel === 'aula')
+        ? [0, 1, 2, 3, 4, 5, 6, 7, 8]
+        : [0, 1, 'ACC', 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
       const stateSelect = document.getElementById('graphStateSelect');
       if (stateSelect) {
         stateSelect.innerHTML = order
@@ -2541,7 +3178,7 @@ TREM Incompleto {
         btn.id = `pill-btn-${id}`;
         btn.innerText = (id === 'ACC') ? 'acc' : `I${id}`;
         btn.title = `Inspecionar estado I${id}`;
-        btn.onclick = () => selectAutomatonState(id);
+        btn.onclick = () => selectAutomatonState(id, true);
         bar.appendChild(btn);
       });
     }
@@ -2780,7 +3417,10 @@ TREM Incompleto {
             buTableBody.appendChild(row);
           });
 
-          initAutomatonPlayer(data.steps);
+          tralhaCachedSteps = data.steps;
+          if (currentAutomatonModel === 'tralha') {
+            initAutomatonPlayer(data.steps);
+          }
 
           if (data.success) {
             buStatus.className = 'status-banner success';
@@ -2918,6 +3558,7 @@ TREM Incompleto {
         initAutomatonPills();
         initAutomatonCanvasInteractions();
         selectAutomatonState(0);
+        initAutomatonPlayer(tralhaDefaultSteps);
         automatonRendered = true;
         refreshIcons();
       }, 50);
