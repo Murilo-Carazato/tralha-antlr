@@ -22,28 +22,28 @@ A gramática base utilizada para o Analisador Botton Up foi baseada na proposta 
 **Terminais:** `ID`, `NUM`, `receba`, `;`, `+`, `*`, `(`, `)`
 **Não Terminais:** `S'`, `S`, `lista`, `comando`, `expr`, `termo`, `fator`
 
-## 2. Conjunto de Primeiro (First) e Sequência (Follow)
+## 2. Conjunto de Primeiro (PRIM) e Sequência (SEQ)
 
-Para construir a tabela sintática Botton Up, primeiramente determinamos os conjuntos de First e Follow:
+Para construir a tabela sintática Botton Up, primeiramente determinamos os conjuntos de PRIM e SEQ:
 
-### First
-* First(ID) = { ID }
-* First(NUM) = { NUM }
-* First(() = { ( }
-* First(fator) = { (, NUM, ID }
-* First(termo) = { (, NUM, ID }
-* First(expr) = { (, NUM, ID }
-* First(comando) = { ID }
-* First(lista) = { ID }
-* First(S) = { ID }
+### PRIM
+* PRIM(ID) = { ID }
+* PRIM(NUM) = { NUM }
+* PRIM(() = { ( }
+* PRIM(fator) = { (, NUM, ID }
+* PRIM(termo) = { (, NUM, ID }
+* PRIM(expr) = { (, NUM, ID }
+* PRIM(comando) = { ID }
+* PRIM(lista) = { ID }
+* PRIM(S) = { ID }
 
-### Follow
-* Follow(S) = { $ }
-* Follow(lista) = { $, ID }
-* Follow(comando) = { $, ID }
-* Follow(expr) = { ;, +, ) }
-* Follow(termo) = { ;, +, ), * }
-* Follow(fator) = { ;, +, ), * }
+### SEQ
+* SEQ(S) = { $ }
+* SEQ(lista) = { $, ID }
+* SEQ(comando) = { $, ID }
+* SEQ(expr) = { ;, +, ) }
+* SEQ(termo) = { ;, +, ), * }
+* SEQ(fator) = { ;, +, ), * }
 
 ## 3. Autômato Finito Determinístico de Itens (LR(0))
 
