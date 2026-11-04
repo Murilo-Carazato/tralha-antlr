@@ -299,8 +299,8 @@ CHAR_TYPE: 'letrinha'; // char
 BOOL_TYPE: 'bipolar'; // boolean
 STRING_TYPE: 'testao'; // String
 VOID_TYPE: 'rouba'; // void
-VAR_TYPE: 'mutante'; // var  (tipo inferido)
-DYNAMIC_TYPE: 'adivinha'; // dynamic / Object
+VAR_TYPE: 'adivinha'; // var  (tipo inferido)
+DYNAMIC_TYPE: 'mutante'; // dynamic / Object
 
 // ------------------------------------------------------------ Operadores
 // ------------------------------------------------------------
