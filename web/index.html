@@ -246,7 +246,7 @@
       z-index: 1;
     }
 
-    /* Results */
+    /* Resultados */
     .status-banner {
       padding: 1rem 1.25rem;
       border-radius: 8px;
@@ -280,7 +280,7 @@
     .error-list li {
       margin-bottom: 0.25rem;
     }
-    /* Tokens Table */
+    /* Tabela de tokens */
     .token-table {
       width: 100%;
       border-collapse: collapse;
@@ -315,7 +315,7 @@
       border: 1px solid rgba(99, 102, 241, 0.25);
     }
 
-    /* Syntax Tree */
+    /* Árvore sintática */
     .tree-view {
       font-family: 'Fira Code', monospace;
       font-size: 0.85rem;
@@ -358,7 +358,7 @@
       outline: 1px solid rgba(251, 191, 36, 0.35);
     }
 
-    /* Bottom-up table */
+    /* Tabela da análise bottom-up */
     .bu-table {
       width: 100%;
       border-collapse: collapse;
@@ -384,7 +384,7 @@
     .bu-action-acc { color: #34d399; font-weight: 700; }
     .bu-action-err { color: #f87171; font-weight: 700; }
 
-    /* Bottom-up subtabs */
+    /* Subabas da análise bottom-up */
     .bu-subtabs {
       display: flex;
       gap: 0.4rem;
@@ -423,7 +423,7 @@
       display: block;
     }
 
-    /* SLR Matrix Table */
+    /* Tabela da matriz SLR */
     .slr-matrix-container {
       overflow-x: auto;
       overflow-y: visible;
@@ -461,7 +461,7 @@
     .cell-acc { color: #34d399; font-weight: 800; background: rgba(16, 185, 129, 0.25); padding: 0.15rem 0.35rem; border-radius: 3px; }
     .cell-goto { color: #f59e0b; font-weight: 700; }
 
-    /* Theory Cards */
+    /* Cartões teóricos */
     .theory-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -486,7 +486,7 @@
       padding-bottom: 0.3rem;
     }
 
-    /* Interactive LR(0) canvas */
+    /* Área interativa do autômato LR(0) */
     .graph-toolbar {
       display: flex;
       align-items: center;
@@ -608,7 +608,7 @@
       font-weight: 900;
     }
 
-    /* Automaton Player Bar (Live Execution) */
+    /* Barra do simulador do autômato (execução ao vivo) */
     .auto-player-bar {
       display: flex;
       flex-wrap: wrap;
@@ -674,7 +674,7 @@
       color: #cbd5e1;
     }
 
-    /* Native SVG Automaton Diagram */
+    /* Diagrama SVG nativo do autômato */
     .automaton-canvas-wrapper {
       height: clamp(420px, 58vh, 620px);
       background:
@@ -736,7 +736,7 @@
       height: 13px;
     }
 
-    /* Nodes */
+    /* Estados do autômato */
     .auto-node {
       cursor: pointer;
       transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -764,7 +764,7 @@
       100% { filter: drop-shadow(0 0 18px #38bdf8); }
     }
 
-    /* Edges */
+    /* Transições do autômato */
     .auto-edge-path {
       stroke: #475569;
       stroke-width: 1.8px;
@@ -796,7 +796,7 @@
       dominant-baseline: central;
     }
 
-    /* State Pills Bar */
+    /* Barra de acesso rápido aos estados */
     .auto-pills-bar {
       display: flex;
       gap: 0.3rem;
@@ -830,7 +830,7 @@
       box-shadow: 0 0 8px rgba(99, 102, 241, 0.5);
     }
 
-    /* State Inspector Box */
+    /* Painel de inspeção do estado */
     .auto-inspector {
       background: rgba(0, 0, 0, 0.35);
       border: 1px solid var(--card-border);
@@ -896,7 +896,7 @@
       outline: 1px solid #38bdf8;
     }
 
-    /* Shared UI components */
+    /* Componentes compartilhados da interface */
     .ui-button,
     .btn-action,
     .btn-preset,
@@ -1074,13 +1074,13 @@
   </header>
 
   <main>
-    <!-- Left Column: Code Input -->
+    <!-- Coluna esquerda: entrada do código -->
     <div class="panel">
       <div class="panel-header">
         <span class="panel-title"><i data-lucide="code-2"></i>Programa de Entrada</span>
       </div>
 
-      <!-- Preset Selector -->
+      <!-- Seletor de exemplos predefinidos -->
       <div class="presets-bar">
         <label class="preset-label" for="presetSelect">Exemplos Prontos:</label>
         <select id="presetSelect" class="preset-select" onchange="loadPreset(this.value)">
@@ -1107,7 +1107,7 @@
       </div>
     </div>
 
-    <!-- Right Column: Results & Visualizations -->
+    <!-- Coluna direita: resultados e visualizações -->
     <div class="panel">
       <div class="tabs-header">
         <button class="tab-btn" onclick="switchTab('tab-lexico')">
@@ -1121,7 +1121,7 @@
         </button>
       </div>
 
-      <!-- Tab: Análise Sintática -->
+      <!-- Aba: análise sintática -->
       <div id="tab-sintatico" class="tab-content active">
         <div id="syntaxStatus" class="status-banner success">
           Clique em "Compilar & Analisar" para iniciar a verificação sintática.
@@ -1134,7 +1134,7 @@
         </div>
       </div>
 
-      <!-- Tab: Análise Léxica -->
+      <!-- Aba: análise léxica -->
       <div id="tab-lexico" class="tab-content">
         <div id="lexStatus" class="status-banner success">
           Aguardando análise léxica...
@@ -1155,7 +1155,7 @@
         </div>
       </div>
 
-      <!-- Tab: Bottom-up SLR(1) -->
+      <!-- Aba: análise bottom-up SLR(1) -->
       <div id="tab-bottomup" class="tab-content">
         <!-- Sub-navegação Teórica -->
         <div class="bu-subtabs">
@@ -1456,7 +1456,7 @@
             </div>
           </div>
 
-          <!-- Barra do Player: Sincronização Pilha -> Autômato (Opção 4: Autômato Vivo) -->
+          <!-- Barra do simulador: sincronização da pilha com o autômato (opção 4: autômato vivo) -->
           <div class="auto-player-bar">
             <div class="auto-player-controls">
               <span class="auto-player-label"><i data-lucide="zap"></i>Simulador</span>
@@ -1482,7 +1482,7 @@
               <div class="canvas-help"><i data-lucide="mouse-pointer-2"></i>Arraste para mover · Ctrl + roda para zoom · Shift + roda para lateral</div>
             </div>
 
-            <!-- Régua Rápida de Estados (Pills) -->
+            <!-- Barra de acesso rápido aos estados -->
             <div class="auto-pills-bar" id="autoStatePills">
               <!-- Gerado via JS para I0..I19 e ACC -->
             </div>
@@ -1524,7 +1524,7 @@
             </div>
           </div>
 
-          <!-- Visualização 2: Cards de Itens LR(0) -->
+          <!-- Visualização 2: cartões de itens LR(0) -->
           <div id="automatonItemsView" style="display: none;">
             <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.65rem;">
               Coleção Canônica de Itens LR(0). O ponto (<span class="item-dot">•</span>) indica a posição exata da cabeça de leitura do autômato determinístico.
@@ -2010,7 +2010,7 @@ TREM Incompleto {
       }));
     }
 
-    // Definição Completa dos 20 Estados Canônicos LR(0) + ACC
+    // Definição completa dos 20 estados canônicos LR(0) e do estado ACC
     const autoNodesData = {
       0: {
         id: 0, x: 60, y: 160, label: "I0", sub: "Início", phase: "1. Inicialização", type: "start", color: "#6366f1",
@@ -2546,7 +2546,7 @@ TREM Incompleto {
       });
     }
 
-    // Controle do Simulador Passo a Passo (Opção 4: Autômato Vivo)
+    // Controle do simulador passo a passo (opção 4: autômato vivo)
     let currentBottomUpSteps = [];
     let playerStepIndex = 0;
     let playerInterval = null;
@@ -2681,10 +2681,10 @@ TREM Incompleto {
     async function runAnalysis() {
       const code = document.getElementById('codeEditor').value;
       
-      // Bottom-up analysis
+      // Executa a análise bottom-up
       runBottomUpApi(code);
 
-      // ANTLR full analysis
+      // Executa a análise completa com o ANTLR
       try {
         const res = await fetch('/api/analyze', {
           method: 'POST',
@@ -2693,7 +2693,7 @@ TREM Incompleto {
         });
         const data = await res.json();
         
-        // 1. Update Lexical Tab
+        // 1. Atualiza a aba da análise léxica
         const lexStatus = document.getElementById('lexStatus');
         const tokenTableBody = document.getElementById('tokenTableBody');
         
@@ -2719,7 +2719,7 @@ TREM Incompleto {
           tokenTableBody.appendChild(row);
         });
 
-        // 2. Update Syntax Tab
+        // 2. Atualiza a aba da análise sintática
         const syntaxStatus = document.getElementById('syntaxStatus');
         const treeContainer = document.getElementById('treeContainer');
 
@@ -2909,7 +2909,7 @@ TREM Incompleto {
       return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
 
-    // Load initial
+    // Carregamento inicial da interface
     window.onload = () => {
       refreshIcons();
       loadPreset('validoCompleto');

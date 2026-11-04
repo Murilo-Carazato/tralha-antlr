@@ -1,5 +1,5 @@
-// Canonical LR(0) automaton and SLR(1) parser for the reduced TRALHA grammar.
-// The grammar is the single source of truth for states, tables and execution.
+// Autômato LR(0) canônico e analisador SLR(1) para a gramática TRALHA reduzida.
+// A gramática é a única fonte de verdade para estados, tabelas e execução.
 
 class SlrToken {
   final String terminal;
@@ -62,7 +62,7 @@ class SlrModel {
     'termo',
     'fator'
   ];
-  // Stable traversal preserves the state numbers used in the written report.
+  // A travessia estável preserva os números de estado usados no relatório escrito.
   static const transitionSymbolOrder = [
     'S',
     'lista',
@@ -108,7 +108,7 @@ class SlrModel {
     ];
     final nonTerminals = productions.map((p) => p.lhs).toSet();
 
-    // Fixed-point closure for the canonical collection of LR(0) items.
+    // Fechamento de ponto fixo para a coleção canônica de itens LR(0).
     List<LrItem> close(Iterable<LrItem> seed) {
       final result = <String, LrItem>{for (final item in seed) item.key: item};
       var added = true;

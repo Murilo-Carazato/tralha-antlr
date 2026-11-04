@@ -342,7 +342,7 @@ void main() async {
 
         final input = InputStream.fromString(code);
 
-        // 1. Lexer
+        // 1. Analisador léxico
         final lexErrorListener = CustomErrorListener();
         final lexer = TralhaLexer(input);
         lexer.removeErrorListeners();
@@ -364,7 +364,7 @@ void main() async {
           });
         }
 
-        // 2. Parser
+        // 2. Analisador sintático
         tokens.seek(0);
         final parser = TralhaParser(tokens);
         final parseErrorListener = CustomErrorListener();
