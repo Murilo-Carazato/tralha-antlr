@@ -2105,8 +2105,8 @@ TREM Incompleto {
       if (!wrapper) return;
 
       const isAula = (typeof currentAutomatonModel !== 'undefined' && currentAutomatonModel === 'aula');
-      const targetW = isAula ? 1120 : 1700;
-      const targetH = isAula ? 470 : 960;
+      const targetW = isAula ? 1120 : 1920;
+      const targetH = isAula ? 470 : 920;
 
       const padding = 28;
       automatonZoomLevel = Math.min(
@@ -2130,8 +2130,8 @@ TREM Incompleto {
       automatonZoomLevel = 1;
       const wrapper = document.getElementById('automatonCanvas');
       const isAula = (typeof currentAutomatonModel !== 'undefined' && currentAutomatonModel === 'aula');
-      const targetW = isAula ? 1120 : 1700;
-      const targetH = isAula ? 470 : 960;
+      const targetW = isAula ? 1120 : 1920;
+      const targetH = isAula ? 470 : 920;
       if (wrapper) {
         automatonPanX = (wrapper.clientWidth - targetW) / 2;
         automatonPanY = (wrapper.clientHeight - targetH) / 2;
@@ -2279,7 +2279,7 @@ TREM Incompleto {
     // 1. Definição do Autômato da Linguagem TRALHA (20 Estados + ACC) no Padrão da Lousa
     const autoNodesData = {
       0: {
-        id: 0, badgeNum: 0, isStart: true, x: 90, y: 150, w: 260, h: 126, label: "I0",
+        id: 0, badgeNum: 0, isStart: true, x: 60, y: 190, w: 270, h: 126, label: "I0",
         sub: "Início", phase: "1. Inicialização", type: "start", color: "#6366f1",
         from: "Ponto de entrada inicial do compilador.",
         items: [
@@ -2295,10 +2295,10 @@ TREM Incompleto {
           { sym: "comando", target: 3, type: "goto" },
           { sym: "ID", target: 4, type: "shift" }
         ],
-        slr: "Empilha o estado inicial 0. Ao ler o token ID, executa Shift s4. Transições GOTO para S (1), lista (2) e comando (3)."
+        slr: "Empilha o estado inicial 0. Ao ler o token ID, faz Shift s4. Transições GOTO para S (1), lista (2) e comando (3). A transição GOTO(0, comando) = 3 é acionada após o 1º comando ser reduzido."
       },
       1: {
-        id: 1, badgeNum: 1, x: 90, y: 340, w: 150, h: 42, label: "I1",
+        id: 1, badgeNum: 1, x: 60, y: 60, w: 160, h: 42, label: "I1",
         sub: "S' → S•", phase: "1. Sucesso", type: "acc", color: "#10b981",
         from: "Atingido a partir de I0 após GOTO(S).",
         items: [
@@ -2310,7 +2310,7 @@ TREM Incompleto {
         slr: "Ao encontrar o marcador de fim de arquivo $, o compilador emite a ação 'acc' (programa aceito com sucesso)."
       },
       'ACC': {
-        id: 'ACC', badgeNum: "acc", x: 90, y: 460, w: 150, h: 42, label: "ACC",
+        id: 'ACC', badgeNum: "acc", x: 270, y: 60, w: 150, h: 42, label: "ACC",
         sub: "Aceito!", phase: "1. Aceitação", type: "acc", color: "#34d399",
         from: "Atingido a partir de I1 com token $.",
         items: [
@@ -2320,9 +2320,9 @@ TREM Incompleto {
         slr: "Final da análise sintática Bottom-Up. Gramática válida."
       },
       2: {
-        id: 2, badgeNum: 2, x: 90, y: 580, w: 260, h: 86, label: "I2",
-        sub: "lista •", phase: "1. Lista", type: "shift", color: "#6366f1",
-        from: "Atingido a partir de I0 após GOTO(lista).",
+        id: 2, badgeNum: 2, x: 60, y: 470, w: 270, h: 86, label: "I2",
+        sub: "lista •", phase: "1. Lista de Comandos", type: "shift", color: "#6366f1",
+        from: "Atingido a partir de I0 após GOTO(lista). Representa o programa após ter pelo menos 1 comando reconhecido.",
         items: [
           "S → lista •",
           "lista → lista • comando",
@@ -2332,10 +2332,10 @@ TREM Incompleto {
           { sym: "comando", target: 5, type: "goto" },
           { sym: "ID", target: 4, type: "shift" }
         ],
-        slr: "Reduz r1 (S → lista) quando lookahead for $; ou faz Shift s4 (ID) / GOTO 5 (comando) se houver outro comando na lista."
+        slr: "Se o próximo token for $ (EOF), reduz r1 (S → lista) e aceita. Se for ID, faz Shift s4 para ler outro comando da sequência (que ao reduzir fará GOTO(2, comando) = 5)."
       },
       4: {
-        id: 4, badgeNum: 4, x: 420, y: 150, w: 230, h: 42, label: "I4",
+        id: 4, badgeNum: 4, x: 470, y: 190, w: 240, h: 42, label: "I4",
         sub: "ID • receba", phase: "2. Atribuição", type: "shift", color: "#3b82f6",
         from: "Atingido a partir de I0 ou I2 via Shift s4 (token ID).",
         items: [
@@ -2347,27 +2347,27 @@ TREM Incompleto {
         slr: "Lê a palavra reservada de atribuição 'receba' (=) e executa Shift s6."
       },
       3: {
-        id: 3, badgeNum: 3, x: 420, y: 580, w: 190, h: 42, label: "I3",
-        sub: "r3: comando", phase: "1. Redução", type: "reduce", color: "#f472b6",
-        from: "Atingido a partir de I0 após GOTO(comando).",
+        id: 3, badgeNum: 3, x: 470, y: 330, w: 210, h: 42, label: "I3",
+        sub: "r3: comando", phase: "1. Redução Inicial", type: "reduce", color: "#f472b6",
+        from: "Atingido a partir de I0 após GOTO(comando) logo após o 1º comando ser reduzido.",
         items: [
           "lista → comando •"
         ],
         transitions: [],
-        slr: "Redução r3 (lista → comando) quando o próximo token pertencer a FOLLOW(lista) = { ID, $ }."
+        slr: "Redução r3 (lista → comando) quando o próximo token pertencer a FOLLOW(lista) = { ID, $ }. Transforma o primeiro comando do programa em uma lista inicial."
       },
       5: {
-        id: 5, badgeNum: 5, x: 420, y: 700, w: 230, h: 42, label: "I5",
-        sub: "r2: lista cmd", phase: "1. Redução", type: "reduce", color: "#f472b6",
-        from: "Atingido a partir de I2 após GOTO(comando).",
+        id: 5, badgeNum: 5, x: 470, y: 470, w: 240, h: 42, label: "I5",
+        sub: "r2: lista cmd", phase: "1. Redução Sequencial", type: "reduce", color: "#f472b6",
+        from: "Atingido a partir de I2 após GOTO(comando) quando um 2º, 3º ou n-ésimo comando é concluído.",
         items: [
           "lista → lista comando •"
         ],
         transitions: [],
-        slr: "Redução r2 (lista → lista comando) quando o próximo token pertencer a FOLLOW(lista) = { ID, $ }."
+        slr: "Redução r2 (lista → lista comando) quando o próximo token pertencer a FOLLOW(lista) = { ID, $ }. Agrupa o novo comando à lista já existente acumulada."
       },
       6: {
-        id: 6, badgeNum: 6, x: 720, y: 150, w: 270, h: 176, label: "I6",
+        id: 6, badgeNum: 6, x: 810, y: 190, w: 270, h: 176, label: "I6",
         sub: "Início Expr", phase: "2. Expressão", type: "shift", color: "#8b5cf6",
         from: "Atingido a partir de I4 via Shift s6 ao ler 'receba'.",
         items: [
@@ -2391,17 +2391,17 @@ TREM Incompleto {
         slr: "Estado de abertura de expressão. Lê operando (NUM/ID), parênteses '(', ou faz GOTO para expr/termo/fator."
       },
       13: {
-        id: 13, badgeNum: 13, x: 720, y: 40, w: 240, h: 42, label: "I13",
+        id: 13, badgeNum: 13, x: 810, y: 60, w: 260, h: 42, label: "I13",
         sub: "r4: cmd ;", phase: "2. Fim Comando", type: "reduce", color: "#10b981",
         from: "Atingido a partir de I7 via Shift s13 ao ler ';'.",
         items: [
           "comando → ID receba expr ; •"
         ],
         transitions: [],
-        slr: "Redução r4 (comando → ID receba expr ;) quando lookahead for FOLLOW(comando) = { ID, $ }."
+        slr: "Redução r4 (comando → ID receba expr ;) quando lookahead for FOLLOW(comando) = { ID, $ }. Desempilha 4 símbolos e expõe o estado anterior (0 ou 2)."
       },
       7: {
-        id: 7, badgeNum: 7, x: 1070, y: 40, w: 230, h: 68, label: "I7",
+        id: 7, badgeNum: 7, x: 1180, y: 60, w: 240, h: 68, label: "I7",
         sub: "expr • ;/+", phase: "3. Expressão", type: "shift", color: "#3b82f6",
         from: "Atingido a partir de I6 após GOTO(expr).",
         items: [
@@ -2414,8 +2414,69 @@ TREM Incompleto {
         ],
         slr: "Se ler ';', faz Shift s13 para finalizar o comando. Se ler '+', faz Shift s14 para somar um novo termo."
       },
+      8: {
+        id: 8, badgeNum: 8, x: 1180, y: 190, w: 230, h: 68, label: "I8",
+        sub: "r6: termo •", phase: "3. Termo", type: "reduce", color: "#f59e0b",
+        from: "Atingido a partir de I6 ou I10 após GOTO(termo).",
+        items: [
+          "expr → termo •",
+          "termo → termo • * fator"
+        ],
+        transitions: [
+          { sym: "*", target: 15, type: "shift" }
+        ],
+        slr: "Se ler '*', faz Shift s15 (* tem maior precedência). Se ler { ;, +, ) }, reduz por r6 (expr → termo)."
+      },
+      15: {
+        id: 15, badgeNum: 15, x: 1180, y: 320, w: 240, h: 104, label: "I15",
+        sub: "termo * •", phase: "3. Mult (*)", type: "shift", color: "#3b82f6",
+        from: "Atingido a partir de I8 ou I17 via Shift s15 ao ler '*'.",
+        items: [
+          "termo → termo * • fator",
+          "fator → • ( expr )",
+          "fator → • NUM",
+          "fator → • ID"
+        ],
+        transitions: [
+          { sym: "fator", target: 18, type: "goto" },
+          { sym: "(", target: 10, type: "shift" },
+          { sym: "NUM", target: 11, type: "shift" },
+          { sym: "ID", target: 12, type: "shift" }
+        ],
+        slr: "Lê o fator da multiplicação termo * fator com precedência sobre a soma."
+      },
+      9: {
+        id: 9, badgeNum: 9, x: 1180, y: 485, w: 190, h: 42, label: "I9",
+        sub: "r8: fator •", phase: "4. Fator", type: "reduce", color: "#f472b6",
+        from: "Atingido a partir de I6, I10 ou I14 após GOTO(fator).",
+        items: [
+          "termo → fator •"
+        ],
+        transitions: [],
+        slr: "Reduz por r8 (termo → fator) quando lookahead for FOLLOW(termo) = { ;, +, *, ) }."
+      },
+      11: {
+        id: 11, badgeNum: 11, x: 1180, y: 590, w: 190, h: 42, label: "I11",
+        sub: "r10: NUM •", phase: "4. Número", type: "reduce", color: "#f59e0b",
+        from: "Atingido a partir de I6, I10, I14 ou I15 via Shift s11 ao ler NUM.",
+        items: [
+          "fator → NUM •"
+        ],
+        transitions: [],
+        slr: "Reduz por r10 (fator → NUM) quando lookahead for FOLLOW(fator) = { ;, +, *, ) }."
+      },
+      12: {
+        id: 12, badgeNum: 12, x: 1180, y: 695, w: 190, h: 42, label: "I12",
+        sub: "r11: ID •", phase: "4. Variável", type: "reduce", color: "#f59e0b",
+        from: "Atingido a partir de I6, I10, I14 ou I15 via Shift s12 ao ler ID.",
+        items: [
+          "fator → ID •"
+        ],
+        transitions: [],
+        slr: "Reduz por r11 (fator → ID) quando lookahead for FOLLOW(fator) = { ;, +, *, ) }."
+      },
       14: {
-        id: 14, badgeNum: 14, x: 1380, y: 40, w: 260, h: 142, label: "I14",
+        id: 14, badgeNum: 14, x: 1540, y: 60, w: 260, h: 142, label: "I14",
         sub: "expr + •", phase: "3. Adição (+)", type: "shift", color: "#3b82f6",
         from: "Atingido a partir de I7 ou I16 via Shift s14 ao ler '+'.",
         items: [
@@ -2436,7 +2497,7 @@ TREM Incompleto {
         slr: "Lê o próximo termo para completar a adição expr + termo."
       },
       17: {
-        id: 17, badgeNum: 17, x: 1380, y: 220, w: 230, h: 68, label: "I17",
+        id: 17, badgeNum: 17, x: 1540, y: 250, w: 240, h: 68, label: "I17",
         sub: "r5: expr+termo", phase: "3. Redução Adição", type: "reduce", color: "#f59e0b",
         from: "Atingido a partir de I14 após GOTO(termo).",
         items: [
@@ -2448,39 +2509,8 @@ TREM Incompleto {
         ],
         slr: "Se ler '*', faz Shift s15 (* tem precedência). Se ler { ;, +, ) }, reduz por r5 (expr → expr + termo)."
       },
-      8: {
-        id: 8, badgeNum: 8, x: 1070, y: 220, w: 220, h: 68, label: "I8",
-        sub: "r6: termo •", phase: "3. Termo", type: "reduce", color: "#f59e0b",
-        from: "Atingido a partir de I6 ou I10 após GOTO(termo).",
-        items: [
-          "expr → termo •",
-          "termo → termo • * fator"
-        ],
-        transitions: [
-          { sym: "*", target: 15, type: "shift" }
-        ],
-        slr: "Se ler '*', faz Shift s15 (* tem maior precedência). Se ler { ;, +, ) }, reduz por r6 (expr → termo)."
-      },
-      15: {
-        id: 15, badgeNum: 15, x: 1070, y: 360, w: 240, h: 104, label: "I15",
-        sub: "termo * •", phase: "3. Mult (*)", type: "shift", color: "#3b82f6",
-        from: "Atingido a partir de I8 ou I17 via Shift s15 ao ler '*'.",
-        items: [
-          "termo → termo * • fator",
-          "fator → • ( expr )",
-          "fator → • NUM",
-          "fator → • ID"
-        ],
-        transitions: [
-          { sym: "fator", target: 18, type: "goto" },
-          { sym: "(", target: 10, type: "shift" },
-          { sym: "NUM", target: 11, type: "shift" },
-          { sym: "ID", target: 12, type: "shift" }
-        ],
-        slr: "Lê o fator da multiplicação termo * fator com precedência sobre a soma."
-      },
       18: {
-        id: 18, badgeNum: 18, x: 1380, y: 360, w: 230, h: 42, label: "I18",
+        id: 18, badgeNum: 18, x: 1540, y: 370, w: 230, h: 42, label: "I18",
         sub: "r7: termo*fator", phase: "3. Redução Mult", type: "reduce", color: "#f472b6",
         from: "Atingido a partir de I15 após GOTO(fator).",
         items: [
@@ -2489,38 +2519,8 @@ TREM Incompleto {
         transitions: [],
         slr: "Reduz por r7 (termo → termo * fator) quando lookahead for FOLLOW(termo) = { ;, +, *, ) }."
       },
-      9: {
-        id: 9, badgeNum: 9, x: 1070, y: 510, w: 180, h: 42, label: "I9",
-        sub: "r8: fator •", phase: "4. Fator", type: "reduce", color: "#f472b6",
-        from: "Atingido a partir de I6, I10 ou I14 após GOTO(fator).",
-        items: [
-          "termo → fator •"
-        ],
-        transitions: [],
-        slr: "Reduz por r8 (termo → fator) quando lookahead for FOLLOW(termo) = { ;, +, *, ) }."
-      },
-      11: {
-        id: 11, badgeNum: 11, x: 1070, y: 610, w: 180, h: 42, label: "I11",
-        sub: "r10: NUM •", phase: "4. Número", type: "reduce", color: "#f59e0b",
-        from: "Atingido a partir de I6, I10, I14 ou I15 via Shift s11 ao ler NUM.",
-        items: [
-          "fator → NUM •"
-        ],
-        transitions: [],
-        slr: "Reduz por r10 (fator → NUM) quando lookahead for FOLLOW(fator) = { ;, +, *, ) }."
-      },
-      12: {
-        id: 12, badgeNum: 12, x: 1070, y: 710, w: 180, h: 42, label: "I12",
-        sub: "r11: ID •", phase: "4. Variável", type: "reduce", color: "#f59e0b",
-        from: "Atingido a partir de I6, I10, I14 ou I15 via Shift s12 ao ler ID.",
-        items: [
-          "fator → ID •"
-        ],
-        transitions: [],
-        slr: "Reduz por r11 (fator → ID) quando lookahead for FOLLOW(fator) = { ;, +, *, ) }."
-      },
       10: {
-        id: 10, badgeNum: 10, x: 1380, y: 510, w: 270, h: 176, label: "I10",
+        id: 10, badgeNum: 10, x: 1540, y: 470, w: 270, h: 176, label: "I10",
         sub: "fator → ( •", phase: "4. Parênteses", type: "shift", color: "#8b5cf6",
         from: "Atingido a partir de I6, I10, I14 ou I15 via Shift s10 ao ler '('.",
         items: [
@@ -2544,7 +2544,7 @@ TREM Incompleto {
         slr: "Inicia subexpressão isolada entre parênteses com máxima prioridade."
       },
       16: {
-        id: 16, badgeNum: 16, x: 1380, y: 710, w: 230, h: 68, label: "I16",
+        id: 16, badgeNum: 16, x: 1540, y: 700, w: 230, h: 68, label: "I16",
         sub: "( expr • )", phase: "4. Parênteses", type: "shift", color: "#3b82f6",
         from: "Atingido a partir de I10 após GOTO(expr).",
         items: [
@@ -2558,7 +2558,7 @@ TREM Incompleto {
         slr: "Se ler ')' faz Shift s19 para fechar os parênteses. Se ler '+' faz Shift s14 para somar dentro dos parênteses."
       },
       19: {
-        id: 19, badgeNum: 19, x: 1380, y: 820, w: 200, h: 42, label: "I19",
+        id: 19, badgeNum: 19, x: 1540, y: 820, w: 200, h: 42, label: "I19",
         sub: "r9: (expr)•", phase: "4. Redução", type: "reduce", color: "#f472b6",
         from: "Atingido a partir de I16 via Shift s19 ao ler ')'.",
         items: [
@@ -2570,41 +2570,58 @@ TREM Incompleto {
     };
 
     const autoTransitionsData = [
-      { from: 0, to: 1, sym: "S", type: "goto" },
-      { from: 0, to: 2, sym: "lista", type: "goto" },
-      { from: 0, to: 3, sym: "comando", type: "goto" },
-      { from: 0, to: 4, sym: "ID", type: "shift" },
-      { from: 1, to: 'ACC', sym: "$ (EOF)", type: "acc" },
-      { from: 2, to: 5, sym: "comando", type: "goto" },
-      { from: 2, to: 4, sym: "ID", type: "shift" },
-      { from: 4, to: 6, sym: "receba", type: "shift" },
-      { from: 6, to: 7, sym: "expr", type: "goto" },
-      { from: 6, to: 8, sym: "termo", type: "goto" },
-      { from: 6, to: 9, sym: "fator", type: "goto" },
-      { from: 6, to: 10, sym: "(", type: "shift" },
-      { from: 6, to: 11, sym: "NUM", type: "shift" },
-      { from: 6, to: 12, sym: "ID", type: "shift" },
-      { from: 7, to: 13, sym: ";", type: "shift" },
-      { from: 7, to: 14, sym: "+", type: "shift" },
-      { from: 8, to: 15, sym: "*", type: "shift" },
-      { from: 10, to: 16, sym: "expr", type: "goto" },
-      { from: 10, to: 8, sym: "termo", type: "goto" },
-      { from: 10, to: 9, sym: "fator", type: "goto" },
-      { from: 10, to: 10, sym: "(", type: "shift", loop: true },
-      { from: 10, to: 11, sym: "NUM", type: "shift" },
-      { from: 10, to: 12, sym: "ID", type: "shift" },
-      { from: 14, to: 17, sym: "termo", type: "goto" },
-      { from: 14, to: 9, sym: "fator", type: "goto" },
-      { from: 14, to: 10, sym: "(", type: "shift" },
-      { from: 14, to: 11, sym: "NUM", type: "shift" },
-      { from: 14, to: 12, sym: "ID", type: "shift" },
-      { from: 15, to: 18, sym: "fator", type: "goto" },
-      { from: 15, to: 10, sym: "(", type: "shift" },
-      { from: 15, to: 11, sym: "NUM", type: "shift" },
-      { from: 15, to: 12, sym: "ID", type: "shift" },
-      { from: 16, to: 19, sym: ")", type: "shift" },
-      { from: 16, to: 14, sym: "+", type: "shift" },
-      { from: 17, to: 15, sym: "*", type: "shift" }
+      // Coluna 1: Raiz do Programa e Aceitação
+      { from: 0, to: 1, sym: "S", type: "goto", pathD: "M 140 190 L 140 102", lx: 120, ly: 146 },
+      { from: 1, to: 'ACC', sym: "$ (EOF)", type: "acc", pathD: "M 220 81 L 270 81", lx: 245, ly: 70 },
+      { from: 0, to: 2, sym: "lista", type: "goto", pathD: "M 140 316 L 140 470", lx: 115, ly: 393 },
+
+      // Coluna 1 -> Coluna 2: Desvios e Shifts de Comandos
+      { from: 0, to: 4, sym: "ID", type: "shift", pathD: "M 330 211 L 470 211", lx: 400, ly: 200 },
+      { from: 0, to: 3, sym: "comando", type: "goto", pathD: "M 330 280 C 380 280, 410 351, 470 351", lx: 400, ly: 325 },
+      { from: 2, to: 4, sym: "ID", type: "shift", pathD: "M 330 490 C 390 490, 430 310, 485 232", lx: 405, ly: 420 },
+      { from: 2, to: 5, sym: "comando", type: "goto", pathD: "M 330 525 C 380 525, 410 491, 470 491", lx: 400, ly: 512 },
+
+      // Coluna 2 -> Coluna 3: Atribuição 'receba'
+      { from: 4, to: 6, sym: "receba", type: "shift", pathD: "M 710 211 L 810 211", lx: 760, ly: 200 },
+
+      // Coluna 3 -> Coluna 4: Fan-out da Expressão
+      { from: 6, to: 7, sym: "expr", type: "goto", pathD: "M 1080 211 C 1120 211, 1140 94, 1180 94", lx: 1130, ly: 140 },
+      { from: 6, to: 8, sym: "termo", type: "goto", pathD: "M 1080 235 L 1180 224", lx: 1130, ly: 217 },
+      { from: 6, to: 9, sym: "fator", type: "goto", pathD: "M 1080 265 C 1115 265, 1145 506, 1180 506", lx: 1130, ly: 460 },
+      { from: 6, to: 10, sym: "(", type: "shift", pathD: "M 945 366 C 945 440, 1350 440, 1540 540", lx: 1200, ly: 430 },
+      { from: 6, to: 11, sym: "NUM", type: "shift", pathD: "M 1080 310 C 1115 310, 1145 611, 1180 611", lx: 1130, ly: 565 },
+      { from: 6, to: 12, sym: "ID", type: "shift", pathD: "M 1080 345 C 1115 345, 1145 716, 1180 716", lx: 1130, ly: 670 },
+
+      // Coluna 4 -> Coluna 3: Retorno do comando finalizado ';' para I13
+      { from: 7, to: 13, sym: ";", type: "shift", pathD: "M 1180 81 L 1070 81", lx: 1125, ly: 70 },
+
+      // Coluna 4 -> Coluna 5: Adição '+' e Multiplicação '*'
+      { from: 7, to: 14, sym: "+", type: "shift", pathD: "M 1420 94 L 1540 94", lx: 1480, ly: 83 },
+      { from: 8, to: 15, sym: "*", type: "shift", pathD: "M 1295 258 L 1295 320", lx: 1312, ly: 289 },
+
+      // Coluna 5: Ramificações de Soma (I14)
+      { from: 14, to: 17, sym: "termo", type: "goto", pathD: "M 1660 202 L 1660 250", lx: 1680, ly: 226 },
+      { from: 14, to: 9, sym: "fator", type: "goto", pathD: "M 1540 160 C 1460 160, 1440 500, 1370 500", lx: 1455, ly: 350 },
+      { from: 14, to: 10, sym: "(", type: "shift", pathD: "M 1800 131 C 1850 131, 1850 520, 1810 520", lx: 1855, ly: 325 },
+      { from: 14, to: 11, sym: "NUM", type: "shift", pathD: "M 1540 180 C 1450 180, 1440 605, 1370 605", lx: 1485, ly: 410 },
+      { from: 14, to: 12, sym: "ID", type: "shift", pathD: "M 1540 195 C 1440 195, 1430 710, 1370 710", lx: 1455, ly: 530 },
+
+      // Coluna 5: Precedência da Multiplicação (I17 e I15)
+      { from: 17, to: 15, sym: "*", type: "shift", pathD: "M 1540 284 C 1470 284, 1450 345, 1420 345", lx: 1480, ly: 300 },
+      { from: 15, to: 18, sym: "fator", type: "goto", pathD: "M 1420 372 L 1540 391", lx: 1480, ly: 372 },
+      { from: 15, to: 10, sym: "(", type: "shift", pathD: "M 1390 424 C 1430 450, 1480 500, 1540 500", lx: 1420, ly: 460 },
+      { from: 15, to: 11, sym: "NUM", type: "shift", pathD: "M 1300 424 L 1300 590", lx: 1315, ly: 530 },
+      { from: 15, to: 12, sym: "ID", type: "shift", pathD: "M 1260 424 L 1260 695", lx: 1275, ly: 640 },
+
+      // Coluna 5: Subexpressões entre Parênteses (I10, I16, I19)
+      { from: 10, to: 16, sym: "expr", type: "goto", pathD: "M 1655 646 L 1655 700", lx: 1675, ly: 673 },
+      { from: 10, to: 8, sym: "termo", type: "goto", pathD: "M 1540 480 C 1460 480, 1450 240, 1410 240", lx: 1455, ly: 255 },
+      { from: 10, to: 9, sym: "fator", type: "goto", pathD: "M 1540 506 L 1370 506", lx: 1455, ly: 496 },
+      { from: 10, to: 10, sym: "(", type: "shift", loop: true, pathD: "M 1810 540 C 1855 520, 1855 580, 1810 565", lx: 1860, ly: 550 },
+      { from: 10, to: 11, sym: "NUM", type: "shift", pathD: "M 1540 590 L 1370 605", lx: 1455, ly: 590 },
+      { from: 10, to: 12, sym: "ID", type: "shift", pathD: "M 1540 630 L 1370 710", lx: 1455, ly: 660 },
+      { from: 16, to: 19, sym: ")", type: "shift", pathD: "M 1655 768 L 1655 820", lx: 1675, ly: 794 },
+      { from: 16, to: 14, sym: "+", type: "shift", pathD: "M 1770 734 C 1870 734, 1870 100, 1800 100", lx: 1875, ly: 415 }
     ];
 
     // Etapas padrão para o simulador
@@ -2844,8 +2861,8 @@ TREM Incompleto {
       const activeTransitions = getActiveTransitionsData();
 
       const isAula = (currentAutomatonModel === 'aula');
-      const vbW = isAula ? 1120 : 1700;
-      const vbH = isAula ? 470 : 960;
+      const vbW = isAula ? 1120 : 1920;
+      const vbH = isAula ? 470 : 920;
 
       svg.setAttribute('viewBox', `0 0 ${vbW} ${vbH}`);
       svg.setAttribute('width', String(vbW));
