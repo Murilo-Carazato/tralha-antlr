@@ -318,7 +318,7 @@ class SlrModel {
         final from = statesStack.last;
         final target = goTo[from]?[p.lhs];
         if (target == null)
-          return _failure('Erro GOTO após a regra $rule.', tokens, steps);
+          return _failure('Erro de transição após a regra $rule.', tokens, steps);
         step.addAll({
           'transitionFromState': from,
           'targetState': target,

@@ -249,7 +249,7 @@ Map<String, dynamic> runBottomUp(String code) {
       if (nextState == null) {
         return {
           'success': false,
-          'error': 'Erro de transição GOTO após a regra $ruleIndex.',
+          'error': 'Erro de transição após a regra $ruleIndex.',
           'steps': steps,
         };
       }

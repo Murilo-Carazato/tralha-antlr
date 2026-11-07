@@ -459,7 +459,36 @@
     .cell-s { color: #60a5fa; font-weight: 700; background: rgba(59, 130, 246, 0.12); padding: 0.15rem 0.35rem; border-radius: 3px; }
     .cell-r { color: #f472b6; font-weight: 700; background: rgba(236, 72, 153, 0.12); padding: 0.15rem 0.35rem; border-radius: 3px; }
     .cell-acc { color: #34d399; font-weight: 800; background: rgba(16, 185, 129, 0.25); padding: 0.15rem 0.35rem; border-radius: 3px; }
-    .cell-goto { color: #f59e0b; font-weight: 700; }
+    .cell-transition { color: #f59e0b; font-weight: 700; }
+    .parsing-table-summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.65rem;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+    }
+    .parsing-table-title {
+      color: #e0e7ff;
+      font-weight: 700;
+    }
+    .parsing-table-legend {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 0.35rem;
+    }
+    .parsing-legend-item {
+      padding: 0.22rem 0.4rem;
+      border: 1px solid #2b3850;
+      border-radius: 5px;
+      background: #111a2a;
+      white-space: nowrap;
+    }
+    .slr-matrix tbody td:nth-child(11) {
+      border-left: 1px solid rgba(255, 255, 255, 0.05) !important;
+    }
 
     /* Cartões teóricos */
     .theory-grid {
@@ -1471,6 +1500,13 @@
       .auto-player-status {
         justify-content: flex-start;
       }
+      .parsing-table-summary {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .parsing-table-legend {
+        justify-content: flex-start;
+      }
       .canvas-help {
         display: none;
       }
@@ -1578,7 +1614,7 @@
         <!-- Sub-navegação Teórica -->
         <div class="bu-subtabs">
           <button class="bu-subtab-btn active" onclick="switchBuSubtab('bu-sub-pilha')"><i data-lucide="layers-3"></i>Execução da Pilha</button>
-          <button class="bu-subtab-btn" onclick="switchBuSubtab('bu-sub-tabela')"><i data-lucide="table-2"></i>Tabela ACTION & GOTO</button>
+          <button class="bu-subtab-btn" onclick="switchBuSubtab('bu-sub-tabela')"><i data-lucide="table-2"></i>Tabela Sintática</button>
           <button class="bu-subtab-btn" onclick="switchBuSubtab('bu-sub-firstfollow')"><i data-lucide="waypoints"></i>FIRST & FOLLOW</button>
           <button class="bu-subtab-btn" onclick="switchBuSubtab('bu-sub-itens')"><i data-lucide="network"></i>Autômato LR(0) (20 Estados)</button>
           <button class="bu-subtab-btn" onclick="switchBuSubtab('bu-sub-gramatica')"><i data-lucide="book-open"></i>Regras da Gramática</button>
@@ -1587,7 +1623,7 @@
         <!-- 1. Execução Passo a Passo -->
         <div id="bu-sub-pilha" class="bu-subtab-pane active">
           <div id="buStatus" class="status-banner success" style="margin-bottom: 0.75rem;">
-            Demonstração da Pilha de Estados e Ações Shift/Reduce (Tabela SLR 1 de 20 Estados).
+            Demonstração da pilha consultando a Tabela Sintática SLR(1) de 20 estados.
           </div>
           <table class="bu-table">
             <thead>
@@ -1604,19 +1640,27 @@
           </table>
         </div>
 
-        <!-- 2. Tabela ACTION & GOTO -->
+        <!-- 2. Tabela Sintática SLR(1) unificada -->
         <div id="bu-sub-tabela" class="bu-subtab-pane">
-          <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
-            <span>Matriz Canônica SLR(1) — 20 Estados (<span style="color:#60a5fa;">s: shift</span>, <span style="color:#f472b6;">r: reduce</span>, <span style="color:#34d399;">acc: aceito</span>, <span style="color:#f59e0b;">goto</span>)</span>
-            <span style="font-size: 0.75rem; color:#94a3b8;">Célula vazia = Erro Sintático</span>
+          <div class="parsing-table-summary">
+            <div>
+              <span class="parsing-table-title">Tabela Sintática SLR(1)</span>
+              <span> — uma única consulta por estado e símbolo</span>
+            </div>
+            <div class="parsing-table-legend" aria-label="Legenda da Tabela Sintática SLR(1)">
+              <span class="parsing-legend-item" style="color:#60a5fa;"><strong>sN</strong>: shift para N</span>
+              <span class="parsing-legend-item" style="color:#f472b6;"><strong>rN</strong>: reduz pela regra N</span>
+              <span class="parsing-legend-item" style="color:#34d399;"><strong>acc</strong>: aceita</span>
+              <span class="parsing-legend-item" style="color:#f59e0b;"><strong>N</strong>: próximo estado</span>
+              <span class="parsing-legend-item">vazia: erro sintático</span>
+            </div>
           </div>
           <div class="slr-matrix-container">
             <table class="slr-matrix">
               <thead>
                 <tr>
                   <th rowspan="2" style="background:#1e1b4b; color:#a5b4fc; border-right:2px solid #6366f1; width:50px;">Estado</th>
-                  <th colspan="9" style="background:rgba(59,130,246,0.15); color:#93c5fd; border-bottom:1px solid rgba(59,130,246,0.3);">TABELA ACTION (Terminais)</th>
-                  <th colspan="6" style="background:rgba(245,158,11,0.15); color:#fcd34d; border-bottom:1px solid rgba(245,158,11,0.3); border-left:2px solid #6366f1;">TABELA GOTO (Não-Terminais)</th>
+                  <th colspan="15" style="background:rgba(99,102,241,0.16); color:#c7d2fe; border-bottom:1px solid rgba(99,102,241,0.35);">TABELA SINTÁTICA SLR(1) — TERMINAIS E NÃO-TERMINAIS</th>
                 </tr>
                 <tr>
                   <th style="color:#93c5fd;">ID</th>
@@ -1628,7 +1672,7 @@
                   <th style="color:#93c5fd;">(</th>
                   <th style="color:#93c5fd;">)</th>
                   <th style="color:#93c5fd;">$</th>
-                  <th style="border-left:2px solid #6366f1; color:#fcd34d;">S</th>
+                  <th style="color:#fcd34d;">S</th>
                   <th style="color:#fcd34d;">lista</th>
                   <th style="color:#fcd34d;">comando</th>
                   <th style="color:#fcd34d;">expr</th>
@@ -1640,9 +1684,9 @@
                 <tr>
                   <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">0</td>
                   <td><span class="cell-s">s4</span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                  <td style="border-left:2px solid #6366f1;"><span class="cell-goto">1</span></td>
-                  <td><span class="cell-goto">2</span></td>
-                  <td><span class="cell-goto">3</span></td>
+                  <td style="border-left:2px solid #6366f1;"><span class="cell-transition">1</span></td>
+                  <td><span class="cell-transition">2</span></td>
+                  <td><span class="cell-transition">3</span></td>
                   <td></td><td></td><td></td>
                 </tr>
                 <tr>
@@ -1653,7 +1697,7 @@
                 <tr>
                   <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">2</td>
                   <td><span class="cell-s">s4</span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><span class="cell-r">r1</span></td>
-                  <td style="border-left:2px solid #6366f1;"></td><td></td><td><span class="cell-goto">5</span></td><td></td><td></td><td></td>
+                  <td style="border-left:2px solid #6366f1;"></td><td></td><td><span class="cell-transition">5</span></td><td></td><td></td><td></td>
                 </tr>
                 <tr>
                   <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">3</td>
@@ -1673,7 +1717,7 @@
                 <tr>
                   <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">6</td>
                   <td><span class="cell-s">s12</span></td><td><span class="cell-s">s11</span></td><td></td><td></td><td></td><td></td><td><span class="cell-s">s10</span></td><td></td><td></td>
-                  <td style="border-left:2px solid #6366f1;"></td><td></td><td></td><td><span class="cell-goto">7</span></td><td><span class="cell-goto">8</span></td><td><span class="cell-goto">9</span></td>
+                  <td style="border-left:2px solid #6366f1;"></td><td></td><td></td><td><span class="cell-transition">7</span></td><td><span class="cell-transition">8</span></td><td><span class="cell-transition">9</span></td>
                 </tr>
                 <tr>
                   <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">7</td>
@@ -1693,7 +1737,7 @@
                 <tr>
                   <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">10</td>
                   <td><span class="cell-s">s12</span></td><td><span class="cell-s">s11</span></td><td></td><td></td><td></td><td></td><td><span class="cell-s">s10</span></td><td></td><td></td>
-                  <td style="border-left:2px solid #6366f1;"></td><td></td><td></td><td><span class="cell-goto">16</span></td><td><span class="cell-goto">8</span></td><td><span class="cell-goto">9</span></td>
+                  <td style="border-left:2px solid #6366f1;"></td><td></td><td></td><td><span class="cell-transition">16</span></td><td><span class="cell-transition">8</span></td><td><span class="cell-transition">9</span></td>
                 </tr>
                 <tr>
                   <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">11</td>
@@ -1713,12 +1757,12 @@
                 <tr>
                   <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">14</td>
                   <td><span class="cell-s">s12</span></td><td><span class="cell-s">s11</span></td><td></td><td></td><td></td><td></td><td><span class="cell-s">s10</span></td><td></td><td></td>
-                  <td style="border-left:2px solid #6366f1;"></td><td></td><td></td><td></td><td><span class="cell-goto">17</span></td><td><span class="cell-goto">9</span></td>
+                  <td style="border-left:2px solid #6366f1;"></td><td></td><td></td><td></td><td><span class="cell-transition">17</span></td><td><span class="cell-transition">9</span></td>
                 </tr>
                 <tr>
                   <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">15</td>
                   <td><span class="cell-s">s12</span></td><td><span class="cell-s">s11</span></td><td></td><td></td><td></td><td></td><td><span class="cell-s">s10</span></td><td></td><td></td>
-                  <td style="border-left:2px solid #6366f1;"></td><td></td><td></td><td></td><td></td><td><span class="cell-goto">18</span></td>
+                  <td style="border-left:2px solid #6366f1;"></td><td></td><td></td><td></td><td></td><td><span class="cell-transition">18</span></td>
                 </tr>
                 <tr>
                   <td style="font-weight:700; color:#a5b4fc; border-right:2px solid #6366f1;">16</td>
@@ -1889,7 +1933,6 @@
           <!-- Barra do simulador: sincronização da pilha com o autômato (opção 4: autômato vivo) -->
           <div class="auto-player-bar">
             <div class="auto-player-controls">
-              <span class="auto-player-label"><i data-lucide="zap"></i>Simulador</span>
               <button class="auto-btn-sub ui-icon-button" aria-label="Primeiro passo" title="Primeiro passo" onclick="stepPlayerFirst()"><i data-lucide="skip-back"></i></button>
               <button class="auto-btn-sub ui-icon-button" aria-label="Passo anterior" title="Passo anterior" onclick="stepPlayerPrev()"><i data-lucide="step-back"></i></button>
               <button id="autoPlayBtn" class="auto-btn-play" onclick="toggleStepPlayerPlay()"><i data-lucide="play"></i><span>Reproduzir</span></button>
@@ -1953,7 +1996,7 @@
 
                 <!-- Coluna 3: Ação Teórica SLR(1) -->
                 <div>
-                  <div class="insp-col-title"><i data-lucide="table-properties"></i>Ação na Matriz Canônica SLR(1)</div>
+                  <div class="insp-col-title"><i data-lucide="table-properties"></i>Consulta à Tabela Sintática SLR(1)</div>
                   <div id="inspStateSlrBox" style="background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.25); border-radius: 6px; padding: 0.65rem; font-size: 0.76rem; line-height: 1.55; color: #cbd5e1;">
                     <!-- Explicação teórica SLR(1) -->
                   </div>
@@ -1979,14 +2022,14 @@
               </ul>
             </div>
             <div class="theory-card">
-              <div class="theory-card-header"><span>Estado I1 (Aceitação)</span><span style="font-size:0.7rem; color:#34d399;">Goto(I0, S)</span></div>
+              <div class="theory-card-header"><span>Estado I1 (Aceitação)</span><span style="font-size:0.7rem; color:#34d399;">Transição(I0, S)</span></div>
               <ul class="theory-list">
                 <li>S' → S <span class="item-dot">•</span></li>
                 <li style="color:#34d399; font-weight:600; margin-top:0.25rem;">Ação: acc com token $</li>
               </ul>
             </div>
             <div class="theory-card">
-              <div class="theory-card-header"><span>Estado I2</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(I0, lista)</span></div>
+              <div class="theory-card-header"><span>Estado I2</span><span style="font-size:0.7rem; color:#94a3b8;">Transição(I0, lista)</span></div>
               <ul class="theory-list">
                 <li>S → lista <span class="item-dot">•</span></li>
                 <li>lista → lista <span class="item-dot">•</span> comando</li>
@@ -1994,25 +2037,25 @@
               </ul>
             </div>
             <div class="theory-card">
-              <div class="theory-card-header"><span>Estado I3</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(I0, comando)</span></div>
+              <div class="theory-card-header"><span>Estado I3</span><span style="font-size:0.7rem; color:#94a3b8;">Transição(I0, comando)</span></div>
               <ul class="theory-list">
                 <li>lista → comando <span class="item-dot">•</span></li>
               </ul>
             </div>
             <div class="theory-card">
-              <div class="theory-card-header"><span>Estado I4</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(I0/I2, ID)</span></div>
+              <div class="theory-card-header"><span>Estado I4</span><span style="font-size:0.7rem; color:#94a3b8;">Transição(I0/I2, ID)</span></div>
               <ul class="theory-list">
                 <li>comando → ID <span class="item-dot">•</span> receba expr ;</li>
               </ul>
             </div>
             <div class="theory-card">
-              <div class="theory-card-header"><span>Estado I5</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(I2, comando)</span></div>
+              <div class="theory-card-header"><span>Estado I5</span><span style="font-size:0.7rem; color:#94a3b8;">Transição(I2, comando)</span></div>
               <ul class="theory-list">
                 <li>lista → lista comando <span class="item-dot">•</span></li>
               </ul>
             </div>
             <div class="theory-card">
-              <div class="theory-card-header"><span>Estado I6</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(I4, receba)</span></div>
+              <div class="theory-card-header"><span>Estado I6</span><span style="font-size:0.7rem; color:#94a3b8;">Transição(I4, receba)</span></div>
               <ul class="theory-list">
                 <li>comando → ID receba <span class="item-dot">•</span> expr ;</li>
                 <li>expr → <span class="item-dot">•</span> expr + termo</li>
@@ -2023,27 +2066,27 @@
               </ul>
             </div>
             <div class="theory-card">
-              <div class="theory-card-header"><span>Estado I7</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(I6, expr)</span></div>
+              <div class="theory-card-header"><span>Estado I7</span><span style="font-size:0.7rem; color:#94a3b8;">Transição(I6, expr)</span></div>
               <ul class="theory-list">
                 <li>comando → ID receba expr <span class="item-dot">•</span> ;</li>
                 <li>expr → expr <span class="item-dot">•</span> + termo</li>
               </ul>
             </div>
             <div class="theory-card">
-              <div class="theory-card-header"><span>Estado I8</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(I6/I10, termo)</span></div>
+              <div class="theory-card-header"><span>Estado I8</span><span style="font-size:0.7rem; color:#94a3b8;">Transição(I6/I10, termo)</span></div>
               <ul class="theory-list">
                 <li>expr → termo <span class="item-dot">•</span></li>
                 <li>termo → termo <span class="item-dot">•</span> * fator</li>
               </ul>
             </div>
             <div class="theory-card">
-              <div class="theory-card-header"><span>Estado I9</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(fator)</span></div>
+              <div class="theory-card-header"><span>Estado I9</span><span style="font-size:0.7rem; color:#94a3b8;">Transição(fator)</span></div>
               <ul class="theory-list">
                 <li>termo → fator <span class="item-dot">•</span></li>
               </ul>
             </div>
             <div class="theory-card">
-              <div class="theory-card-header"><span>Estado I10</span><span style="font-size:0.7rem; color:#94a3b8;">Goto('(')</span></div>
+              <div class="theory-card-header"><span>Estado I10</span><span style="font-size:0.7rem; color:#94a3b8;">Transição('(')</span></div>
               <ul class="theory-list">
                 <li>fator → ( <span class="item-dot">•</span> expr )</li>
                 <li>expr → <span class="item-dot">•</span> expr + termo | <span class="item-dot">•</span> termo</li>
@@ -2052,25 +2095,25 @@
               </ul>
             </div>
             <div class="theory-card">
-              <div class="theory-card-header"><span>Estado I11</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(NUM)</span></div>
+              <div class="theory-card-header"><span>Estado I11</span><span style="font-size:0.7rem; color:#94a3b8;">Transição(NUM)</span></div>
               <ul class="theory-list">
                 <li>fator → NUM <span class="item-dot">•</span></li>
               </ul>
             </div>
             <div class="theory-card">
-              <div class="theory-card-header"><span>Estado I12</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(ID)</span></div>
+              <div class="theory-card-header"><span>Estado I12</span><span style="font-size:0.7rem; color:#94a3b8;">Transição(ID)</span></div>
               <ul class="theory-list">
                 <li>fator → ID <span class="item-dot">•</span></li>
               </ul>
             </div>
             <div class="theory-card">
-              <div class="theory-card-header"><span>Estado I13</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(I7, ';')</span></div>
+              <div class="theory-card-header"><span>Estado I13</span><span style="font-size:0.7rem; color:#94a3b8;">Transição(I7, ';')</span></div>
               <ul class="theory-list">
                 <li>comando → ID receba expr ; <span class="item-dot">•</span></li>
               </ul>
             </div>
             <div class="theory-card">
-              <div class="theory-card-header"><span>Estado I14</span><span style="font-size:0.7rem; color:#94a3b8;">Goto('+')</span></div>
+              <div class="theory-card-header"><span>Estado I14</span><span style="font-size:0.7rem; color:#94a3b8;">Transição('+')</span></div>
               <ul class="theory-list">
                 <li>expr → expr + <span class="item-dot">•</span> termo</li>
                 <li>termo → <span class="item-dot">•</span> termo * fator | <span class="item-dot">•</span> fator</li>
@@ -2078,34 +2121,34 @@
               </ul>
             </div>
             <div class="theory-card">
-              <div class="theory-card-header"><span>Estado I15</span><span style="font-size:0.7rem; color:#94a3b8;">Goto('*')</span></div>
+              <div class="theory-card-header"><span>Estado I15</span><span style="font-size:0.7rem; color:#94a3b8;">Transição('*')</span></div>
               <ul class="theory-list">
                 <li>termo → termo * <span class="item-dot">•</span> fator</li>
                 <li>fator → <span class="item-dot">•</span> ( expr ) | <span class="item-dot">•</span> NUM | <span class="item-dot">•</span> ID</li>
               </ul>
             </div>
             <div class="theory-card">
-              <div class="theory-card-header"><span>Estado I16</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(I10, expr)</span></div>
+              <div class="theory-card-header"><span>Estado I16</span><span style="font-size:0.7rem; color:#94a3b8;">Transição(I10, expr)</span></div>
               <ul class="theory-list">
                 <li>fator → ( expr <span class="item-dot">•</span> )</li>
                 <li>expr → expr <span class="item-dot">•</span> + termo</li>
               </ul>
             </div>
             <div class="theory-card">
-              <div class="theory-card-header"><span>Estado I17</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(I14, termo)</span></div>
+              <div class="theory-card-header"><span>Estado I17</span><span style="font-size:0.7rem; color:#94a3b8;">Transição(I14, termo)</span></div>
               <ul class="theory-list">
                 <li>expr → expr + termo <span class="item-dot">•</span></li>
                 <li>termo → termo <span class="item-dot">•</span> * fator</li>
               </ul>
             </div>
             <div class="theory-card">
-              <div class="theory-card-header"><span>Estado I18</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(I15, fator)</span></div>
+              <div class="theory-card-header"><span>Estado I18</span><span style="font-size:0.7rem; color:#94a3b8;">Transição(I15, fator)</span></div>
               <ul class="theory-list">
                 <li>termo → termo * fator <span class="item-dot">•</span></li>
               </ul>
             </div>
             <div class="theory-card">
-              <div class="theory-card-header"><span>Estado I19</span><span style="font-size:0.7rem; color:#94a3b8;">Goto(I16, ')')</span></div>
+              <div class="theory-card-header"><span>Estado I19</span><span style="font-size:0.7rem; color:#94a3b8;">Transição(I16, ')')</span></div>
               <ul class="theory-list">
                 <li>fator → ( expr ) <span class="item-dot">•</span></li>
               </ul>
@@ -2520,12 +2563,12 @@ TREM Incompleto {
           { sym: "comando", target: 3, type: "goto" },
           { sym: "ID", target: 4, type: "shift" }
         ],
-        slr: "Empilha o estado inicial 0. Ao ler o token ID, faz Shift s4. Transições GOTO para S (1), lista (2) e comando (3). A transição GOTO(0, comando) = 3 é acionada após o 1º comando ser reduzido."
+        slr: "Empilha o estado inicial 0. Ao ler o token ID, faz Shift s4. As células de S, lista e comando indicam, respectivamente, os estados 1, 2 e 3. A célula (0, comando) = 3 é consultada após o 1º comando ser reduzido."
       },
       1: {
         id: 1, badgeNum: 1, x: 60, y: 60, w: 160, h: 42, label: "I1",
         sub: "S' → S•", phase: "1. Sucesso", type: "acc", color: "#10b981",
-        from: "Atingido a partir de I0 após GOTO(S).",
+        from: "Atingido a partir de I0 após a transição por S.",
         items: [
           "S' → S •"
         ],
@@ -2547,7 +2590,7 @@ TREM Incompleto {
       2: {
         id: 2, badgeNum: 2, x: 60, y: 470, w: 270, h: 86, label: "I2",
         sub: "lista •", phase: "1. Lista de Comandos", type: "shift", color: "#6366f1",
-        from: "Atingido a partir de I0 após GOTO(lista). Representa o programa após ter pelo menos 1 comando reconhecido.",
+        from: "Atingido a partir de I0 após a transição por lista. Representa o programa após ter pelo menos 1 comando reconhecido.",
         items: [
           "S → lista •",
           "lista → lista • comando",
@@ -2557,7 +2600,7 @@ TREM Incompleto {
           { sym: "comando", target: 5, type: "goto" },
           { sym: "ID", target: 4, type: "shift" }
         ],
-        slr: "Se o próximo token for $ (EOF), reduz r1 (S → lista) e aceita. Se for ID, faz Shift s4 para ler outro comando da sequência (que ao reduzir fará GOTO(2, comando) = 5)."
+        slr: "Se o próximo token for $ (EOF), reduz r1 (S → lista) e aceita. Se for ID, faz Shift s4 para ler outro comando da sequência; após a redução, a célula (2, comando) indica o estado 5."
       },
       4: {
         id: 4, badgeNum: 4, x: 470, y: 190, w: 240, h: 42, label: "I4",
@@ -2574,7 +2617,7 @@ TREM Incompleto {
       3: {
         id: 3, badgeNum: 3, x: 470, y: 330, w: 210, h: 42, label: "I3",
         sub: "r3: comando", phase: "1. Redução Inicial", type: "reduce", color: "#f472b6",
-        from: "Atingido a partir de I0 após GOTO(comando) logo após o 1º comando ser reduzido.",
+        from: "Atingido a partir de I0 após a transição por comando, logo após o 1º comando ser reduzido.",
         items: [
           "lista → comando •"
         ],
@@ -2584,7 +2627,7 @@ TREM Incompleto {
       5: {
         id: 5, badgeNum: 5, x: 470, y: 470, w: 240, h: 42, label: "I5",
         sub: "r2: lista cmd", phase: "1. Redução Sequencial", type: "reduce", color: "#f472b6",
-        from: "Atingido a partir de I2 após GOTO(comando) quando um 2º, 3º ou n-ésimo comando é concluído.",
+        from: "Atingido a partir de I2 após a transição por comando, quando um 2º, 3º ou n-ésimo comando é concluído.",
         items: [
           "lista → lista comando •"
         ],
@@ -2613,7 +2656,7 @@ TREM Incompleto {
           { sym: "NUM", target: 11, type: "shift" },
           { sym: "ID", target: 12, type: "shift" }
         ],
-        slr: "Estado de abertura de expressão. Lê operando (NUM/ID), parênteses '(', ou faz GOTO para expr/termo/fator."
+        slr: "Estado de abertura de expressão. Lê operando (NUM/ID), parênteses '(', ou consulta as transições para expr, termo e fator."
       },
       13: {
         id: 13, badgeNum: 13, x: 810, y: 60, w: 260, h: 42, label: "I13",
@@ -2628,7 +2671,7 @@ TREM Incompleto {
       7: {
         id: 7, badgeNum: 7, x: 1180, y: 60, w: 240, h: 68, label: "I7",
         sub: "expr • ;/+", phase: "3. Expressão", type: "shift", color: "#3b82f6",
-        from: "Atingido a partir de I6 após GOTO(expr).",
+        from: "Atingido a partir de I6 após a transição por expr.",
         items: [
           "comando → ID receba expr • ;",
           "expr → expr • + termo"
@@ -2642,7 +2685,7 @@ TREM Incompleto {
       8: {
         id: 8, badgeNum: 8, x: 1180, y: 190, w: 230, h: 68, label: "I8",
         sub: "r6: termo •", phase: "3. Termo", type: "reduce", color: "#f59e0b",
-        from: "Atingido a partir de I6 ou I10 após GOTO(termo).",
+        from: "Atingido a partir de I6 ou I10 após a transição por termo.",
         items: [
           "expr → termo •",
           "termo → termo • * fator"
@@ -2673,7 +2716,7 @@ TREM Incompleto {
       9: {
         id: 9, badgeNum: 9, x: 1180, y: 485, w: 190, h: 42, label: "I9",
         sub: "r8: fator •", phase: "4. Fator", type: "reduce", color: "#f472b6",
-        from: "Atingido a partir de I6, I10 ou I14 após GOTO(fator).",
+        from: "Atingido a partir de I6, I10 ou I14 após a transição por fator.",
         items: [
           "termo → fator •"
         ],
@@ -2724,7 +2767,7 @@ TREM Incompleto {
       17: {
         id: 17, badgeNum: 17, x: 1540, y: 250, w: 240, h: 68, label: "I17",
         sub: "r5: expr+termo", phase: "3. Redução Adição", type: "reduce", color: "#f59e0b",
-        from: "Atingido a partir de I14 após GOTO(termo).",
+        from: "Atingido a partir de I14 após a transição por termo.",
         items: [
           "expr → expr + termo •",
           "termo → termo • * fator"
@@ -2737,7 +2780,7 @@ TREM Incompleto {
       18: {
         id: 18, badgeNum: 18, x: 1540, y: 370, w: 230, h: 42, label: "I18",
         sub: "r7: termo*fator", phase: "3. Redução Mult", type: "reduce", color: "#f472b6",
-        from: "Atingido a partir de I15 após GOTO(fator).",
+        from: "Atingido a partir de I15 após a transição por fator.",
         items: [
           "termo → termo * fator •"
         ],
@@ -2771,7 +2814,7 @@ TREM Incompleto {
       16: {
         id: 16, badgeNum: 16, x: 1540, y: 700, w: 230, h: 68, label: "I16",
         sub: "( expr • )", phase: "4. Parênteses", type: "shift", color: "#3b82f6",
-        from: "Atingido a partir de I10 após GOTO(expr).",
+        from: "Atingido a partir de I10 após a transição por expr.",
         items: [
           "fator → ( expr • )",
           "expr → expr • + termo"
@@ -2904,11 +2947,11 @@ TREM Incompleto {
           { sym: "(", target: 2, type: "shift" },
           { sym: "a", target: 3, type: "shift" }
         ],
-        slr: "Estado inicial. Ao ler '(' ou 'a', executa Shift para I2 ou I3. Transição GOTO com E leva ao estado de aceitação I1."
+        slr: "Estado inicial. Ao ler '(' ou 'a', executa Shift para I2 ou I3. A transição por E leva ao estado de aceitação I1."
       },
       1: {
         id: 1, badgeNum: 1, x: 270, y: 50, w: 120, h: 44, label: "I1",
-        phase: "Aceitação (Lousa)", from: "I0 via GOTO(E)",
+        phase: "Aceitação (Lousa)", from: "I0 pela transição E",
         items: [
           "E' → E •"
         ],
@@ -2944,7 +2987,7 @@ TREM Incompleto {
       },
       4: {
         id: 4, badgeNum: 4, x: 490, y: 50, w: 140, h: 68, label: "I4",
-        phase: "Lista Reconhecida", from: "I2 via GOTO(L)",
+        phase: "Lista Reconhecida", from: "I2 pela transição L",
         items: [
           "E → ( L • )",
           "L → L • , E"
@@ -2957,7 +3000,7 @@ TREM Incompleto {
       },
       5: {
         id: 5, badgeNum: 5, x: 490, y: 185, w: 120, h: 44, label: "I5",
-        phase: "Redução de Item Base", from: "I2 via GOTO(E)",
+        phase: "Redução de Item Base", from: "I2 pela transição E",
         items: [
           "L → E •"
         ],
@@ -2990,7 +3033,7 @@ TREM Incompleto {
       },
       8: {
         id: 8, badgeNum: 8, x: 910, y: 182, w: 130, h: 44, label: "I8",
-        phase: "Redução da Lista", from: "I7 via GOTO(E)",
+        phase: "Redução da Lista", from: "I7 pela transição E",
         items: [
           "L → L , E •"
         ],
@@ -3365,7 +3408,7 @@ TREM Incompleto {
       const slrBox = document.getElementById('inspStateSlrBox');
       if (slrBox) {
         slrBox.innerHTML = `
-          <div style="font-weight:700; color:#a5b4fc; margin-bottom:0.25rem;">Comportamento na Tabela SLR(1):</div>
+          <div style="font-weight:700; color:#a5b4fc; margin-bottom:0.25rem;">Leitura da Tabela Sintática SLR(1):</div>
           <div>${data.slr}</div>
         `;
       }

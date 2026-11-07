@@ -89,7 +89,7 @@ final List<Rule> rules = [
   Rule('fator', 1),   // 11
 ];
 
-// Tabela Action e Goto (SLR(1))
+// Tabela Sintática SLR(1): terminais e não terminais
 final Map<int, Map<TokenType, String>> actionTable = {
   0: { TokenType.ID: 's4' },
   1: { TokenType.EOF: 'acc' },
@@ -168,7 +168,7 @@ bool parse(List<Token> tokens, {bool passoAPasso = false}) {
       
       int? nextState = gotoTable[topState]?[rule.lhs];
       if (nextState == null) {
-        print("\nErro de transição GOTO após a redução da regra $ruleIndex.");
+        print("\nErro de transição após a redução da regra $ruleIndex.");
         return false;
       }
       stateStack.add(nextState);
