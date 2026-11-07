@@ -1274,12 +1274,206 @@
       box-shadow: 0 24px 80px rgba(0, 0, 0, .72);
     }
     .bu-subtab-pane.is-expanded .automaton-canvas-wrapper {
-      height: calc(100vh - 220px);
-      min-height: 540px;
+      height: calc(100dvh - 288px);
+      min-height: 360px;
     }
-    @media (max-width: 1100px) {
-      .tabs-header { overflow-x: auto; }
-      .graph-toolbar { align-items: flex-start; }
+
+    /* Layout do dashboard: prioriza o conteudo e mantem os controles agrupados. */
+    html,
+    body {
+      height: 100%;
+    }
+    body {
+      height: 100dvh;
+      min-height: 680px;
+      overflow: hidden;
+    }
+    main {
+      min-height: 0;
+      max-width: 1920px;
+      grid-template-columns: minmax(380px, 0.78fr) minmax(720px, 1.22fr);
+      grid-template-rows: minmax(0, 1fr);
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+    }
+    .panel {
+      height: 100%;
+      min-height: 0;
+    }
+    .editor-container {
+      min-height: 0;
+    }
+    textarea#codeEditor {
+      height: 100%;
+      min-height: 0;
+      resize: none;
+    }
+    .tabs-header {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      flex: 0 0 auto;
+    }
+    .tab-btn {
+      min-width: 0;
+      justify-content: center;
+      line-height: 1.2;
+      text-align: center;
+    }
+    .tab-content {
+      flex: 1;
+      max-height: none;
+      min-height: 0;
+    }
+    #tab-bottomup.active {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .bu-subtabs {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      flex: 0 0 auto;
+      overflow: visible;
+    }
+    .bu-subtab-btn {
+      min-width: 0;
+      padding-inline: 0.55rem;
+      line-height: 1.2;
+      white-space: normal;
+    }
+    #bu-sub-itens.active {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      min-height: 0;
+      overflow: auto;
+      padding-right: 0.15rem;
+      scrollbar-gutter: stable;
+    }
+    .graph-toolbar {
+      display: grid;
+      grid-template-columns: minmax(250px, 0.85fr) minmax(390px, 1.15fr);
+      align-items: center;
+      justify-content: stretch;
+      flex: 0 0 auto;
+      gap: 0.5rem 0.75rem;
+    }
+    .graph-toolbar > .graph-toolbar-group {
+      min-width: 0;
+    }
+    .graph-toolbar > .graph-toolbar-group:nth-child(2) {
+      justify-content: flex-end;
+    }
+    #graphZoomControls {
+      grid-column: 1 / -1;
+      justify-content: flex-start;
+      padding-top: 0.5rem;
+      border-top: 1px solid #243047;
+    }
+    .auto-player-bar {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      flex: 0 0 auto;
+      padding: 0.55rem;
+    }
+    .auto-player-status {
+      justify-content: flex-end;
+      gap: 0.35rem;
+    }
+    #automatonGraphView {
+      flex: 1 1 0;
+      min-height: 0;
+    }
+    .automaton-canvas-wrapper {
+      height: 100%;
+      min-height: 220px;
+    }
+    .auto-pills-bar {
+      margin-top: 0.7rem;
+    }
+
+    @media (max-width: 1320px) {
+      main {
+        grid-template-columns: minmax(340px, 0.7fr) minmax(650px, 1.3fr);
+      }
+      .graph-toolbar {
+        grid-template-columns: 1fr;
+      }
+      .graph-toolbar > .graph-toolbar-group:nth-child(2),
+      #graphZoomControls {
+        grid-column: 1;
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 1120px) {
+      body {
+        height: auto;
+        min-height: 100vh;
+        overflow: auto;
+      }
+      main {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto auto;
+      }
+      .panel {
+        height: auto;
+        min-height: 620px;
+      }
+      .panel:last-child {
+        min-height: 760px;
+      }
+      textarea#codeEditor {
+        min-height: 440px;
+      }
+      .graph-toolbar {
+        grid-template-columns: minmax(250px, 0.8fr) minmax(390px, 1.2fr);
+      }
+      .graph-toolbar > .graph-toolbar-group:nth-child(2) {
+        grid-column: auto;
+        justify-content: flex-end;
+      }
+      #graphZoomControls {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 760px) {
+      header {
+        padding-inline: 1rem;
+      }
+      main {
+        padding: 0.75rem;
+      }
+      .tabs-header {
+        grid-template-columns: 1fr;
+      }
+      .bu-subtabs {
+        display: flex;
+        overflow-x: auto;
+        scrollbar-width: thin;
+      }
+      .bu-subtab-btn {
+        flex: 0 0 auto;
+        white-space: nowrap;
+      }
+      .graph-toolbar {
+        grid-template-columns: 1fr;
+      }
+      .graph-toolbar > .graph-toolbar-group:nth-child(2),
+      #graphZoomControls {
+        grid-column: 1;
+        justify-content: flex-start;
+      }
+      .auto-player-bar {
+        grid-template-columns: 1fr;
+      }
+      .auto-player-status {
+        justify-content: flex-start;
+      }
+      .canvas-help {
+        display: none;
+      }
     }
   </style>
 </head>
@@ -2023,7 +2217,7 @@ TREM Incompleto {
             selectAutomatonState(0);
             automatonRendered = true;
           }
-          fitAutomatonGraph();
+          scheduleAutomatonFit();
         }, 50);
       }
     }
@@ -2036,6 +2230,8 @@ TREM Incompleto {
     let automatonCanvasInitialized = false;
     let automatonSpacePressed = false;
     let automatonTransformTimer = null;
+    let automatonFitFrame = null;
+    let automatonResizeObserver = null;
 
     function refreshIcons(root = document) {
       if (!window.lucide) return;
@@ -2100,9 +2296,19 @@ TREM Incompleto {
       setAutomatonZoom(automatonZoomLevel + delta, undefined, undefined, true);
     }
 
+    function scheduleAutomatonFit() {
+      if (automatonFitFrame) cancelAnimationFrame(automatonFitFrame);
+      automatonFitFrame = requestAnimationFrame(() => {
+        automatonFitFrame = requestAnimationFrame(() => {
+          automatonFitFrame = null;
+          fitAutomatonGraph();
+        });
+      });
+    }
+
     function fitAutomatonGraph() {
       const wrapper = document.getElementById('automatonCanvas');
-      if (!wrapper) return;
+      if (!wrapper || wrapper.clientWidth <= 0 || wrapper.clientHeight <= 0) return;
 
       const isAula = (typeof currentAutomatonModel !== 'undefined' && currentAutomatonModel === 'aula');
       const targetW = isAula ? 1120 : 1920;
@@ -2158,6 +2364,25 @@ TREM Incompleto {
       if (!wrapper) return;
 
       automatonCanvasInitialized = true;
+      if ('ResizeObserver' in window && !automatonResizeObserver) {
+        let previousWidth = wrapper.clientWidth;
+        let previousHeight = wrapper.clientHeight;
+        automatonResizeObserver = new ResizeObserver(entries => {
+          const bounds = entries[0]?.contentRect;
+          if (!bounds) return;
+
+          const sizeChanged = Math.abs(bounds.width - previousWidth) > 1
+            || Math.abs(bounds.height - previousHeight) > 1;
+          previousWidth = bounds.width;
+          previousHeight = bounds.height;
+
+          if (sizeChanged && automatonRendered && wrapper.offsetParent !== null) {
+            scheduleAutomatonFit();
+          }
+        });
+        automatonResizeObserver.observe(wrapper);
+      }
+
       let dragging = false;
       let pointerId = null;
       let lastX = 0;
@@ -3329,7 +3554,7 @@ TREM Incompleto {
       zoomControls.style.display = graphActive ? 'flex' : 'none';
       btnGraph.classList.toggle('active', graphActive);
       btnItems.classList.toggle('active', !graphActive);
-      if (graphActive) requestAnimationFrame(fitAutomatonGraph);
+      if (graphActive) scheduleAutomatonFit();
     }
 
     async function runAnalysis() {
