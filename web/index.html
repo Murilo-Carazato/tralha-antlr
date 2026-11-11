@@ -2459,6 +2459,128 @@
       background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.35), transparent);
       margin: 1.75rem 0 1.5rem 0;
     }
+
+    /* Modal de Roteiro e Gabarito da Banca */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(6px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      animation: fadeIn 0.2s ease;
+    }
+    .modal-box {
+      background: #0b1329;
+      border: 1.5px solid #334155;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 820px;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 25px rgba(56, 189, 248, 0.2);
+      overflow: hidden;
+    }
+    .modal-header {
+      padding: 1rem 1.4rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.8);
+    }
+    .modal-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .modal-close-btn {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      font-size: 1.35rem;
+      cursor: pointer;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      line-height: 1;
+      transition: all 0.15s ease;
+    }
+    .modal-close-btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .modal-body {
+      padding: 1.4rem;
+      overflow-y: auto;
+      font-size: 0.83rem;
+      line-height: 1.6;
+      color: #cbd5e1;
+    }
+    .faq-card {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 0.85rem 1.1rem;
+      margin-bottom: 0.85rem;
+    }
+    .faq-q {
+      font-weight: 700;
+      color: #a5b4fc;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.88rem;
+    }
+    .faq-a {
+      color: #cbd5e1;
+      font-size: 0.82rem;
+    }
+
+    /* Hover e destaque no PRIM (FIRST) e cascata */
+    .prim-row-interactive {
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .prim-row-interactive:hover,
+    .prim-row-interactive.is-highlighted {
+      background: rgba(59, 130, 246, 0.22) !important;
+      box-shadow: inset 3px 0 0 #3b82f6;
+    }
+    .grammar-rule-item.is-prim-origin {
+      background: rgba(59, 130, 246, 0.28) !important;
+      border-left-color: #3b82f6 !important;
+      color: #bfdbfe !important;
+      transform: translateX(3px);
+    }
+    .grammar-rule-item.is-prim-cascade {
+      background: rgba(14, 165, 233, 0.22) !important;
+      border-left-color: #0ea5e9 !important;
+      color: #bae6fd !important;
+      transform: translateX(5px);
+    }
+    .grammar-rule-item.is-prim-terminal {
+      background: rgba(16, 185, 129, 0.25) !important;
+      border-left-color: #10b981 !important;
+      color: #a7f3d0 !important;
+      transform: translateX(7px);
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
+    }
+    .grammar-rule-item.is-seq-rhs-occurrence {
+      background: rgba(16, 185, 129, 0.25) !important;
+      border-left-color: #10b981 !important;
+      color: #a7f3d0 !important;
+      transform: translateX(4px);
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
+    }
+
   </style>
 </head>
 
@@ -2473,6 +2595,9 @@
       </div>
     </div>
     <div style="display: flex; gap: 0.75rem; align-items: center;">
+      <button class="btn-preset" onclick="openGuideModal()" style="font-size: 0.76rem; border-color: rgba(99, 102, 241, 0.4); color: #a5b4fc; background: rgba(99, 102, 241, 0.15);">
+        <i data-lucide="book-open"></i><span>Roteiro de Apresentação &amp; FAQ</span>
+      </button>
       <span class="badge badge-primary">FEMA — Compiladores</span>
     </div>
   </header>
@@ -2832,14 +2957,14 @@
 
           <!-- Grid dos 3 Cards: Gramática + PRIM + SEQ -->
           <div class="firstfollow-grid" id="slrFirstFollowGrid">
-            <!-- Card 1: Regras da Gramática -->
+            <!-- Card 1: Regras da Gramática (BNF Compacta com Pipe |) -->
             <div
               style="background: rgba(0, 0, 0, 0.25); border: 1px solid var(--card-border); border-radius: 8px; overflow: hidden;">
               <div
                 style="background: rgba(99, 102, 241, 0.12); border-bottom: 1px solid var(--card-border); padding: 0.6rem 0.85rem; font-weight: 700; color: #a5b4fc; font-size: 0.85rem; display: flex; align-items: center; justify-content: space-between;">
                 <span style="display: flex; align-items: center; gap: 0.4rem;"><i data-lucide="book-open"></i><span
                     id="slrGrammarCardTitle">Regras da Gramática</span></span>
-                <span style="font-size: 0.7rem; color: #818cf8; font-weight: 400;">Interativo</span>
+                <span class="tok-badge" style="background: rgba(99, 102, 241, 0.18); color: #c7d2fe; font-size: 0.7rem; font-weight: 600;">Sintaxe BNF (Pipe |)</span>
               </div>
               <div id="slrGrammarList"
                 style="padding: 0.6rem 0.75rem; font-family: 'Fira Code', monospace; font-size: 0.76rem; line-height: 1.6; color: #e2e8f0; max-height: 290px; overflow-y: auto;">
@@ -2860,7 +2985,7 @@
                     <tr>
                       <th style="width: 85px; color: #93c5fd;">Não-Terminal</th>
                       <th style="width: 120px; color: #60a5fa;">Conjunto PRIM</th>
-                      <th style="color: #cbd5e1;">Derivação / Significado</th>
+                      <th style="color: #cbd5e1;">Cadeia de Derivação até o Terminal</th>
                     </tr>
                   </thead>
                   <tbody id="slrPrimTableBody">
@@ -2877,7 +3002,6 @@
                 style="background: rgba(16, 185, 129, 0.12); border-bottom: 1px solid var(--card-border); padding: 0.6rem 0.85rem; font-weight: 700; color: #6ee7b7; font-size: 0.85rem; display: flex; align-items: center; justify-content: space-between;">
                 <span style="display: flex; align-items: center; gap: 0.4rem;"><i
                     data-lucide="corner-right-down"></i><span>Tabela SEQ (FOLLOW) — Chave SLR(1)</span></span>
-                <span style="font-size: 0.7rem; color: #34d399; font-weight: 600;">Interativo ⚡</span>
               </div>
               <div style="max-height: 290px; overflow-y: auto;">
                 <table class="bu-table" style="font-size: 0.78rem;">
@@ -2885,7 +3009,7 @@
                     <tr>
                       <th style="width: 85px; color: #6ee7b7;">Não-Terminal</th>
                       <th style="width: 125px; color: #34d399;">Conjunto SEQ</th>
-                      <th style="color: #cbd5e1;">Impacto nas Reduções SLR(1)</th>
+                      <th style="color: #cbd5e1;">Como Calcula (Ocorrências no Lado Direito)</th>
                     </tr>
                   </thead>
                   <tbody id="slrSeqTableBody">
@@ -2957,6 +3081,118 @@
       </div>
     </div>
   </main>
+
+  <!-- Modal de Roteiro de Apresentação e FAQ da Banca -->
+  <div id="guideModal" class="modal-overlay" style="display: none;" onclick="if(event.target === this) closeGuideModal()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i data-lucide="graduation-cap" style="color: #38bdf8;"></i>
+          <span>Roteiro de Apresentação &amp; Gabarito da Banca (Profa. Diomara)</span>
+        </div>
+        <button class="modal-close-btn" onclick="closeGuideModal()" title="Fechar (Esc)">&times;</button>
+      </div>
+      <div class="modal-body">
+        <!-- SEÇÃO 1: ROTEIRO DE APRESENTAÇÃO EM 3 MINUTOS -->
+        <div style="margin-bottom: 1.5rem;">
+          <h3 style="color: #38bdf8; font-size: 0.95rem; font-weight: 700; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+            <i data-lucide="compass" style="width: 18px; height: 18px;"></i> Roteiro de Apresentação (3 a 5 Minutos)
+          </h3>
+          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <div class="faq-card" style="border-left: 3px solid #38bdf8;">
+              <div class="faq-q">
+                <span class="step-num" style="width: 22px; height: 22px; font-size: 0.75rem;">1</span>
+                Aba 1: Análise Léxica — Scanner e Classificação de Tokens
+              </div>
+              <div class="faq-a">
+                <strong>O que mostrar:</strong> Digite ou selecione um preset no editor à esquerda e mostre a tabela de tokens gerada à direita.<br>
+                <strong>O que falar:</strong> <em>"O scanner lê o fluxo linear de caracteres do código fonte e agrupa em tokens formais. Cada token recebe sua classe (ex: IDENTIFICADOR, PALAVRA_CHAVE, LIT_INTEIRO), seu lexema real e suas coordenadas (linha:coluna). Espaços e comentários são direcionados ao canal oculto (skip) do ANTLR."</em>
+              </div>
+            </div>
+
+            <div class="faq-card" style="border-left: 3px solid #10b981;">
+              <div class="faq-q">
+                <span class="step-num" style="width: 22px; height: 22px; font-size: 0.75rem; background: rgba(16, 185, 129, 0.2); border-color: #10b981; color: #10b981;">2</span>
+                Aba 2: Análise Sintática Top-Down — Parser Descendente ANTLR4
+              </div>
+              <div class="faq-a">
+                <strong>O que mostrar:</strong> A Parse Tree hierárquica à direita e passe o mouse sobre os nós da árvore.<br>
+                <strong>O que falar:</strong> <em>"Aqui temos a abordagem Top-Down (Descendente / LL(*)) implementada pelo ANTLR4. A derivação começa no símbolo inicial da gramática (raiz &apos;programa&apos;) e vai se expandindo recursivamente até chegar às folhas (os tokens). Passar o mouse em qualquer nó da árvore destaca em tempo real o trecho exato de código no editor."</em>
+              </div>
+            </div>
+
+            <div class="faq-card" style="border-left: 3px solid #f59e0b;">
+              <div class="faq-q">
+                <span class="step-num" style="width: 22px; height: 22px; font-size: 0.75rem; background: rgba(245, 158, 11, 0.2); border-color: #f59e0b; color: #f59e0b;">3</span>
+                Aba 3: Análise Sintática Ascendente SLR(1) &amp; Autômato LR(0)
+              </div>
+              <div class="faq-a">
+                <strong>O que mostrar:</strong> Execute a sentença passo a passo com o botão &quot;Passo &gt;&quot;, mostre o autômato na lousa verde e a matriz à direita.<br>
+                <strong>O que falar:</strong> <em>"Esta é a abordagem Bottom-Up (Ascendente) ensinada em sala de aula. Mostramos o funcionamento do autômato de itens LR(0), a tabela preditiva SLR(1) e o rastreamento em 3 vias: cada passo ilumina a fita/pilha, o estado do autômato na lousa e a célula correspondente na tabela. Ao passar o mouse sobre qualquer célula (como s4, r2 ou GOTO 3), o banner explica matematicamente sua origem."</em>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SEÇÃO 2: GABARITO DAS PERGUNTAS DA BANCA -->
+        <div>
+          <h3 style="color: #a5b4fc; font-size: 0.95rem; font-weight: 700; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+            <i data-lucide="help-circle" style="width: 18px; height: 18px;"></i> Gabarito para as 5 Perguntas Clássicas da Profa. Diomara
+          </h3>
+          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <div class="faq-card">
+              <div class="faq-q"><i data-lucide="check-circle-2" style="width: 16px; height: 16px; color: #38bdf8;"></i> P1: De onde vêm os valores de Shift, Reduce, GOTO e Aceita na tabela?</div>
+              <div class="faq-a">
+                <ul style="margin: 0.25rem 0 0.25rem 1.2rem; padding: 0;">
+                  <li><strong>Shift (sk):</strong> Ocorre quando o estado contém o item <code>[A &rarr; &alpha; &middot; a &beta;]</code> e há uma transição com o terminal <code>a</code> para o estado <code>Ik</code>. Ação: empilha o símbolo e o estado <code>k</code>.</li>
+                  <li><strong>Reduce (rm):</strong> Ocorre quando o estado contém o item completo <code>[A &rarr; &gamma; &middot;]</code>. A redução <code>rm</code> é colocada <em>exclusivamente</em> nas colunas dos terminais pertencentes a <code>SEQ(A)</code>.</li>
+                  <li><strong>GOTO (k):</strong> É a transição de estados que ocorre sobre um símbolo <em>Não-Terminal</em> após uma redução ser desempilhada.</li>
+                  <li><strong>Aceita (acc):</strong> Ocorre no item inicial estendido <code>[S&apos; &rarr; S &middot;]</code> quando o próximo token é o marcador de fim de cadeia <code>$</code>.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="faq-card">
+              <div class="faq-q"><i data-lucide="check-circle-2" style="width: 16px; height: 16px; color: #10b981;"></i> P2: Por que a gramática é SLR(1) e qual a diferença em relação ao LR(0) puro?</div>
+              <div class="faq-a">
+                No analisador <strong>LR(0) puro</strong>, ao atingir um item de redução <code>[A &rarr; &gamma; &middot;]</code>, a ação de reduzir é inserida em <strong>todas</strong> as colunas de terminais do estado indiscriminadamente, o que causa graves conflitos Shift/Reduce.<br>
+                Já o <strong>SLR(1) (Simple LR com 1 símbolo de lookahead)</strong> consulta o conjunto <code>SEQ(A)</code>: a redução <code>rm</code> só é permitida nas colunas dos símbolos que legitimamente podem suceder <code>A</code> em derivações válidas da gramática, eliminando os conflitos.
+              </div>
+            </div>
+
+            <div class="faq-card">
+              <div class="faq-q"><i data-lucide="check-circle-2" style="width: 16px; height: 16px; color: #ef4444;"></i> P3: O que acontece exatamente quando ocorre um erro sintático?</div>
+              <div class="faq-a">
+                O analisador consulta a tabela na coordenada <code>(estado_topo_pilha, token_atual_fita)</code> e encontra uma <strong>célula vazia (&mdash;)</strong>.<br>
+                Isso significa duas coisas simultâneas:
+                <ol style="margin: 0.25rem 0 0.25rem 1.2rem; padding: 0;">
+                  <li>Não existe nenhuma transição de Shift no autômato a partir daquele estado para esse token;</li>
+                  <li>Nenhum item completo presente naquele estado possui esse token em seu conjunto <code>SEQ</code>.</li>
+                </ol>
+                Visualmente na ferramenta: a execução da pilha interrompe imediatamente, o estado no autômato passa a pulsar em vermelho vivo de erro, e a matriz destaca a célula vazia informando exatamente por que o token era inesperado.
+              </div>
+            </div>
+
+            <div class="faq-card">
+              <div class="faq-q"><i data-lucide="check-circle-2" style="width: 16px; height: 16px; color: #a5b4fc;"></i> P4: Qual a diferença conceitual e operacional entre Shift e GOTO?</div>
+              <div class="faq-a">
+                <strong>Shift:</strong> É uma transição disparada por um <em>terminal</em> da fita de entrada. Consome o token, avança o cursor e empilha o novo estado.<br>
+                <strong>GOTO:</strong> É uma transição disparada por um <em>não-terminal</em> gerado internamente. Não consome nada da fita de entrada! Ocorre logo após uma operação de Reduce: desempilham-se os símbolos da regra, expõe-se o estado anterior na pilha, e consulta-se <code>GOTO[estado_exposto, NãoTerminal]</code> para decidir qual estado empilhar em seguida.
+              </div>
+            </div>
+
+            <div class="faq-card">
+              <div class="faq-q"><i data-lucide="check-circle-2" style="width: 16px; height: 16px; color: #f59e0b;"></i> P5: Como vocês provam que essa gramática não tem ambiguidades nem conflitos?</div>
+              <div class="faq-a">
+                Apresente o selo <strong>✓ 0 Conflitos SLR(1)</strong> exibido no cabeçalho da matriz. Cada célula da tabela <code>ACTION</code> e <code>GOTO</code> possui no máximo <strong>uma única ação</strong> determinística definida. Não há nenhuma célula com conflito <em>Shift/Reduce</em> (onde o parser hesitaria entre empilhar ou reduzir) nem com conflito <em>Reduce/Reduce</em> (onde haveria dúvida entre duas reduções concorrentes).
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
   <script>
     const presets = {
@@ -3284,39 +3520,247 @@ TREM Incompleto {
     }
 
     // Modelo de Dados Didático e Unificado para Construção do Analisador SLR(1)
+    function openGuideModal() {
+      const modal = document.getElementById("guideModal");
+      if (modal) {
+        modal.style.display = "flex";
+        document.body.style.overflow = "hidden";
+        if (typeof refreshIcons === 'function') refreshIcons(modal);
+      }
+    }
+
+    function closeGuideModal() {
+      const modal = document.getElementById("guideModal");
+      if (modal) {
+        modal.style.display = "none";
+        document.body.style.overflow = "";
+      }
+    }
+
+    // Modelo de Dados Didático e Unificado para Construção do Analisador SLR(1)
     const slrModelsData = {
       tralha: {
         title: "Tabela de Análise Sintática Completa (Parsing Table) — 20 Estados da Linguagem TRALHA",
         grammarTitle: "Regras da Gramática (TRALHA)",
+        groupedRules: [
+          { nt: "S'", rhs: "S", note: "Aumentada (delimita fim de arquivo $)" },
+          { nt: "S", rhs: "lista", note: "Regra Inicial do Programa" },
+          { nt: "lista", rhs: "lista comando | comando", note: "Recursão à esq. [r2] e Caso Base [r3]" },
+          { nt: "comando", rhs: "ID receba expr ;", note: "Atribuição: 'receba' é o '=' da TRALHA [r4]" },
+          { nt: "expr", rhs: "expr + termo | termo", note: "Adição [r5] e Passagem [r6] (menor precedência)" },
+          { nt: "termo", rhs: "termo * fator | fator", note: "Multiplicação [r7] e Passagem [r8] (maior precedência)" },
+          { nt: "fator", rhs: "( expr ) | NUM | ID", note: "Parênteses [r9], Número [r10] e Variável [r11]" }
+        ],
         rules: [
-          { num: 0, text: "S' → S", lhs: "S'", note: "Aumentada" },
-          { num: 1, text: "S → lista", lhs: "S", note: "Regra Inicial" },
-          { num: 2, text: "lista → lista comando", lhs: "lista", note: "Recursão esq." },
-          { num: 3, text: "lista → comando", lhs: "lista", note: "Caso Base" },
-          { num: 4, text: "comando → ID receba expr ;", lhs: "comando", note: "Atribuição" },
-          { num: 5, text: "expr → expr + termo", lhs: "expr", note: "Adição" },
-          { num: 6, text: "expr → termo", lhs: "expr", note: "Termo simples" },
-          { num: 7, text: "termo → termo * fator", lhs: "termo", note: "Multiplicação" },
-          { num: 8, text: "termo → fator", lhs: "termo", note: "Fator simples" },
-          { num: 9, text: "fator → ( expr )", lhs: "fator", note: "Expressão entre parênteses" },
-          { num: 10, text: "fator → NUM", lhs: "fator", note: "Constante numérica" },
-          { num: 11, text: "fator → ID", lhs: "fator", note: "Identificador/Variável" }
+          { num: 0, text: "S' → S", lhs: "S'", note: "Aumentada: parada única com $" },
+          { num: 1, text: "S → lista", lhs: "S", note: "Regra Inicial do Programa" },
+          { num: 2, text: "lista → lista comando", lhs: "lista", note: "Recursão à esq. (N comandos)" },
+          { num: 3, text: "lista → comando", lhs: "lista", note: "Caso Base (1 comando isolado)" },
+          { num: 4, text: "comando → ID receba expr ;", lhs: "comando", note: "Atribuição (receba = =) [ex: x receba expr;]" },
+          { num: 5, text: "expr → expr + termo", lhs: "expr", note: "Adição (menor precedência: avaliada por último)" },
+          { num: 6, text: "expr → termo", lhs: "expr", note: "Passagem (termo isolado sem soma)" },
+          { num: 7, text: "termo → termo * fator", lhs: "termo", note: "Multiplicação (maior precedência que soma)" },
+          { num: 8, text: "termo → fator", lhs: "termo", note: "Passagem (fator isolado sem multiplicação)" },
+          { num: 9, text: "fator → ( expr )", lhs: "fator", note: "Parênteses (força prioridade máxima na subexpressão)" },
+          { num: 10, text: "fator → NUM", lhs: "fator", note: "Constante numérica (folha terminal da árvore)" },
+          { num: 11, text: "fator → ID", lhs: "fator", note: "Identificador/Variável (folha terminal da árvore)" }
         ],
         prim: [
-          { nt: "S", set: ["ID"], desc: "Inicia com identificador do primeiro comando." },
-          { nt: "lista", set: ["ID"], desc: "Inicia com ID do primeiro comando." },
-          { nt: "comando", set: ["ID"], desc: "Sempre inicia com variável (ID)." },
-          { nt: "expr", set: ["(", "NUM", "ID"], desc: "Pode iniciar com '(', número ou ID." },
-          { nt: "termo", set: ["(", "NUM", "ID"], desc: "Deriva em fator: '(', número ou ID." },
-          { nt: "fator", set: ["(", "NUM", "ID"], desc: "Operando base: parênteses, NUM ou ID." }
+          {
+            nt: "S",
+            set: ["ID"],
+            cascade: ["S → lista", "lista → comando", "comando → ID receba expr ;"],
+            terminals: ["ID"],
+            ruleNums: [1, 3, 4],
+            desc: "S deriva em lista, que deriva em comando, que começa com o terminal ID."
+          },
+          {
+            nt: "lista",
+            set: ["ID"],
+            cascade: ["lista → comando", "comando → ID receba expr ;"],
+            terminals: ["ID"],
+            ruleNums: [2, 3, 4],
+            desc: "lista deriva no caso base comando, iniciando com o terminal ID."
+          },
+          {
+            nt: "comando",
+            set: ["ID"],
+            cascade: ["comando → ID receba expr ;"],
+            terminals: ["ID"],
+            ruleNums: [4],
+            desc: "comando inicia diretamente com o terminal ID (variável à esquerda de receba)."
+          },
+          {
+            nt: "expr",
+            set: ["(", "NUM", "ID"],
+            cascade: ["expr → termo", "termo → fator", "fator → ( expr ) | NUM | ID"],
+            terminals: ["(", "NUM", "ID"],
+            ruleNums: [5, 6, 7, 8, 9, 10, 11],
+            desc: "expr deriva em termo, que deriva em fator, atingindo '(', NUM e ID."
+          },
+          {
+            nt: "termo",
+            set: ["(", "NUM", "ID"],
+            cascade: ["termo → fator", "fator → ( expr ) | NUM | ID"],
+            terminals: ["(", "NUM", "ID"],
+            ruleNums: [7, 8, 9, 10, 11],
+            desc: "termo deriva em fator, atingindo diretamente os operandos base '(', NUM e ID."
+          },
+          {
+            nt: "fator",
+            set: ["(", "NUM", "ID"],
+            cascade: ["fator → ( expr )", "fator → NUM", "fator → ID"],
+            terminals: ["(", "NUM", "ID"],
+            ruleNums: [9, 10, 11],
+            desc: "fator produz diretamente os terminais base '(', NUM e ID."
+          }
         ],
         seq: [
-          { nt: "S", set: ["$"], desc: "Aceita (acc) apenas no fim da entrada ($).", rules: ["r1"] },
-          { nt: "lista", set: ["ID", "$"], desc: "Reduções r2 e r3 inseridas exclusivamente em ID e $.", rules: ["r2", "r3"] },
-          { nt: "comando", set: ["ID", "$"], desc: "Redução r4 inserida exclusivamente em ID e $.", rules: ["r4"] },
-          { nt: "expr", set: [";", "+", ")"], desc: "Reduções r5 e r6 inseridas exclusivamente em ;, + e ).", rules: ["r5", "r6"] },
-          { nt: "termo", set: [";", "+", "*", ")"], desc: "Reduções r7 e r8 inseridas em ;, +, *, e ).", rules: ["r7", "r8"] },
-          { nt: "fator", set: [";", "+", "*", ")"], desc: "Reduções r9, r10 e r11 em ;, +, *, e ).", rules: ["r9", "r10", "r11"] }
+          {
+            nt: "S",
+            set: ["$"],
+            rules: ["r1"],
+            formula: "SEQ(S') = { $ }",
+            occurrences: [
+              {
+                rule: "S' → S",
+                pos: "fim da produção",
+                detail: "S é o símbolo inicial estendido: herda o delimitador de fim de arquivo $ de S'",
+                yields: "$",
+                svgDesc: "Fim da regra: herda delimitador {$}"
+              }
+            ],
+            calcStep: "1. Em S' → S (fim da regra) ⇒ herda SEQ(S') = { $ }."
+          },
+          {
+            nt: "lista",
+            set: ["ID", "$"],
+            rules: ["r2", "r3"],
+            formula: "SEQ(S) ∪ PRIM(comando) = { $ } ∪ { ID }",
+            occurrences: [
+              {
+                rule: "S → lista",
+                pos: "fim da produção",
+                detail: "Está no fim da regra: não há nada depois, logo herda SEQ(S) = { $ }",
+                yields: "$",
+                svgDesc: "Fim da regra: herda SEQ(S) = {$}"
+              },
+              {
+                rule: "lista → lista comando",
+                pos: "seguida por 'comando'",
+                detail: "O próximo símbolo é 'comando' (Não-Terminal): consulta PRIM(comando) = { ID }",
+                yields: "ID",
+                svgDesc: "Próximo é 'comando': consulta PRIM(comando) = {ID}"
+              }
+            ],
+            calcStep: "1. Em S → lista (fim) ⇒ herda SEQ(S)={$}. 2. Em lista → lista comando ⇒ seguida por 'comando', entra em PRIM(comando)={ID}. Total: { ID, $ }."
+          },
+          {
+            nt: "comando",
+            set: ["ID", "$"],
+            rules: ["r4"],
+            formula: "Herança direta de SEQ(lista) = { ID, $ }",
+            occurrences: [
+              {
+                rule: "lista → lista comando",
+                pos: "fim da produção",
+                detail: "Está no fim da regra: não há nada depois, logo herda SEQ(lista) = { ID, $ }",
+                yields: "ID, $",
+                svgDesc: "Fim da regra: herda SEQ(lista) = {ID, $}"
+              },
+              {
+                rule: "lista → comando",
+                pos: "fim da produção",
+                detail: "Está no fim da regra: não há nada depois, logo herda SEQ(lista) = { ID, $ }",
+                yields: "ID, $",
+                svgDesc: "Fim da regra: herda SEQ(lista) = {ID, $}"
+              }
+            ],
+            calcStep: "1. Em lista → lista comando e lista → comando (ambos no fim) ⇒ herdam SEQ(lista) = { ID, $ }."
+          },
+          {
+            nt: "expr",
+            set: [";", "+", ")"],
+            rules: ["r5", "r6"],
+            formula: "{ ; } ∪ { + } ∪ { ) }",
+            occurrences: [
+              {
+                rule: "comando → ID receba expr ;",
+                pos: "seguida por ';'",
+                detail: "O próximo símbolo é o terminal ';': adiciona ';' diretamente",
+                yields: ";",
+                svgDesc: "Próximo é terminal ';': adiciona ';'"
+              },
+              {
+                rule: "expr → expr + termo",
+                pos: "seguida por '+'",
+                detail: "O próximo símbolo é o terminal '+': adiciona '+' diretamente",
+                yields: "+",
+                svgDesc: "Próximo é terminal '+': adiciona '+'"
+              },
+              {
+                rule: "fator → ( expr )",
+                pos: "seguida por ')'",
+                detail: "O próximo símbolo é o terminal ')': adiciona ')' diretamente",
+                yields: ")",
+                svgDesc: "Próximo é terminal ')': adiciona ')'"
+              }
+            ],
+            calcStep: "1. Em 'ID receba expr ;' ⇒ seguida por ';'. 2. Em 'expr + termo' ⇒ seguida por '+'. 3. Em '( expr )' ⇒ seguida por ')'. Total: { ;, +, ) }."
+          },
+          {
+            nt: "termo",
+            set: [";", "+", "*", ")"],
+            rules: ["r7", "r8"],
+            formula: "SEQ(expr) ∪ { * } = { ;, +, ) } ∪ { * }",
+            occurrences: [
+              {
+                rule: "expr → expr + termo",
+                pos: "fim da produção",
+                detail: "Está no fim da regra: herda SEQ(expr) = { ;, +, ) }",
+                yields: ";, +, )",
+                svgDesc: "Fim da regra: herda SEQ(expr) = {;, +, )}"
+              },
+              {
+                rule: "expr → termo",
+                pos: "fim da produção",
+                detail: "Está no fim da regra: herda SEQ(expr) = { ;, +, ) }",
+                yields: ";, +, )",
+                svgDesc: "Fim da regra: herda SEQ(expr) = {;, +, )}"
+              },
+              {
+                rule: "termo → termo * fator",
+                pos: "seguida por '*'",
+                detail: "O próximo símbolo é o terminal '*': adiciona '*' diretamente",
+                yields: "*",
+                svgDesc: "Próximo é terminal '*': adiciona '*'"
+              }
+            ],
+            calcStep: "1. Em expr + termo e expr → termo (fim) ⇒ herda SEQ(expr)={;,+,)}. 2. Em termo * fator ⇒ seguida por '*'. Total: { ;, +, *, ) }."
+          },
+          {
+            nt: "fator",
+            set: [";", "+", "*", ")"],
+            rules: ["r9", "r10", "r11"],
+            formula: "Herança direta de SEQ(termo) = { ;, +, *, ) }",
+            occurrences: [
+              {
+                rule: "termo → termo * fator",
+                pos: "fim da produção",
+                detail: "Está no fim da regra: herda tudo de SEQ(termo) = { ;, +, *, ) }",
+                yields: ";, +, *, )",
+                svgDesc: "Fim da regra: herda SEQ(termo) = {;, +, *, )}"
+              },
+              {
+                rule: "termo → fator",
+                pos: "fim da produção",
+                detail: "Está no fim da regra: herda tudo de SEQ(termo) = { ;, +, *, ) }",
+                yields: ";, +, *, )",
+                svgDesc: "Fim da regra: herda SEQ(termo) = {;, +, *, )}"
+              }
+            ],
+            calcStep: "1. Em termo * fator e termo → fator (ambos no fim) ⇒ herdam tudo de SEQ(termo) = { ;, +, *, ) }."
+          }
         ],
         actionCols: ["ID", "NUM", "receba/=", ";", "+", "*", "(", ")", "$"],
         gotoCols: ["S", "lista", "comando", "expr", "termo", "fator"],
@@ -3346,20 +3790,90 @@ TREM Incompleto {
       aula: {
         title: "Tabela de Análise Sintática Combinada (Parsing Table) — 9 Estados da Lousa",
         grammarTitle: "Regras da Gramática (Lousa da Aula)",
+        groupedRules: [
+          { nt: "E'", rhs: "E", note: "Aumentada (delimita $)" },
+          { nt: "E", rhs: "( L ) | a", note: "Parênteses [r1] ou terminal 'a' [r2]" },
+          { nt: "L", rhs: "L , E | E", note: "Recursão com vírgula [r3] e caso base [r4]" }
+        ],
         rules: [
-          { num: 0, text: "E' → E", lhs: "E'", note: "Aumentada" },
-          { num: 1, text: "E → ( L )", lhs: "E", note: "Expressão entre parênteses" },
-          { num: 2, text: "E → a", lhs: "E", note: "Símbolo terminal a" },
-          { num: 3, text: "L → L , E", lhs: "L", note: "Lista recursiva com vírgula" },
-          { num: 4, text: "L → E", lhs: "L", note: "Elemento inicial da lista" }
+          { num: 0, text: "E' → E", lhs: "E'", note: "Aumentada: parada única com $" },
+          { num: 1, text: "E → ( L )", lhs: "E", note: "Expressão entre parênteses: ( L )" },
+          { num: 2, text: "E → a", lhs: "E", note: "Símbolo terminal 'a' (folha)" },
+          { num: 3, text: "L → L , E", lhs: "L", note: "Lista recursiva com vírgula (ex: a, a, a)" },
+          { num: 4, text: "L → E", lhs: "L", note: "Caso base da lista (1 elemento isolado)" }
         ],
         prim: [
-          { nt: "E", set: ["(", "a"], desc: "Inicia com parêntese '(' ou terminal 'a'." },
-          { nt: "L", set: ["(", "a"], desc: "Deriva em E: inicia com '(' ou terminal 'a'." }
+          {
+            nt: "E",
+            set: ["(", "a"],
+            cascade: ["E → ( L )", "E → a"],
+            terminals: ["(", "a"],
+            ruleNums: [1, 2],
+            desc: "E produz diretamente os terminais '(' (regra 1) e 'a' (regra 2)."
+          },
+          {
+            nt: "L",
+            set: ["(", "a"],
+            cascade: ["L → E", "E → ( L ) | a"],
+            terminals: ["(", "a"],
+            ruleNums: [3, 4, 1, 2],
+            desc: "L começa com E, portanto herda PRIM(E) = { '(', 'a' }."
+          }
         ],
         seq: [
-          { nt: "E", set: [")", ",", "$"], desc: "Reduções r1 e r2 inseridas apenas sob ), , e $.", rules: ["r1", "r2"] },
-          { nt: "L", set: [")", ","], desc: "Reduções r3 e r4 inseridas apenas sob ) e ,.", rules: ["r3", "r4"] }
+          {
+            nt: "E",
+            set: [")", ",", "$"],
+            rules: ["r1", "r2"],
+            formula: "SEQ(E') ∪ SEQ(L) = { $ } ∪ { ), , }",
+            occurrences: [
+              {
+                rule: "E' → E",
+                pos: "fim da regra",
+                detail: "E é inicial: herda delimitador $ de E'",
+                yields: "$",
+                svgDesc: "Fim de E': herda {$}"
+              },
+              {
+                rule: "L → L , E",
+                pos: "fim da regra",
+                detail: "Está no fim da regra: herda SEQ(L) = { ), , }",
+                yields: "), ,",
+                svgDesc: "Fim de L , E: herda SEQ(L) = {), ,}"
+              },
+              {
+                rule: "L → E",
+                pos: "fim da regra",
+                detail: "Está no fim da regra: herda SEQ(L) = { ), , }",
+                yields: "), ,",
+                svgDesc: "Fim de L → E: herda SEQ(L) = {), ,}"
+              }
+            ],
+            calcStep: "1. Em E' → E (fim) ⇒ herda SEQ(E')={$}. 2. Em L , E e L → E (fim) ⇒ herda SEQ(L)={),,}. Total: { ), ,, $ }."
+          },
+          {
+            nt: "L",
+            set: [")", ","],
+            rules: ["r3", "r4"],
+            formula: "{ ) } ∪ { , }",
+            occurrences: [
+              {
+                rule: "E → ( L )",
+                pos: "seguida por ')'",
+                detail: "O próximo símbolo é o terminal ')': adiciona ')' diretamente",
+                yields: ")",
+                svgDesc: "Próximo é terminal ')': adiciona ')'"
+              },
+              {
+                rule: "L → L , E",
+                pos: "seguida por ','",
+                detail: "O próximo símbolo é o terminal ',': adiciona ',' diretamente",
+                yields: ",",
+                svgDesc: "Próximo é terminal ',': adiciona ','"
+              }
+            ],
+            calcStep: "1. Em ( L ) ⇒ seguida por ')'. 2. Em L , E ⇒ seguida por ','. Total: { ), , }."
+          }
         ],
         actionCols: ["(", "a", ")", ",", "$"],
         gotoCols: ["E", "L"],
@@ -3395,35 +3909,38 @@ TREM Incompleto {
         }
       }
 
-      // Card 1: Gramática
+      // Card 1: Gramática (Sintaxe BNF com Pipe | direto, sem repetições)
       const grammarTitle = document.getElementById('slrGrammarCardTitle');
       if (grammarTitle) grammarTitle.innerText = data.grammarTitle;
       const grammarList = document.getElementById('slrGrammarList');
       if (grammarList) {
-        grammarList.innerHTML = data.rules.map(r => `
-          <div class="grammar-rule-item" data-rule="${r.num}" data-lhs="${r.lhs}"
-               onmouseenter="onGrammarRuleHover(${r.num}, '${r.lhs}')"
+        grammarList.innerHTML = (data.groupedRules || []).map(g => `
+          <div class="grammar-rule-item" data-lhs="${g.nt}"
+               onmouseenter="onGrammarGroupHover('${g.nt}')"
                onmouseleave="onSlrItemLeave()"
-               onclick="toggleLockSlrItem('rule', ${r.num}, '${r.lhs}')">
-            <strong style="color: #818cf8;">${r.num}.</strong> ${escapeHtml(r.text)}
-            <span style="color: #64748b; font-size: 0.7rem; margin-left: 0.35rem;">// ${escapeHtml(r.note)}</span>
+               onclick="toggleLockSlrItem('group', '${g.nt}')">
+            <strong style="color: #a5b4fc;">${escapeHtml(g.nt)} &rarr;</strong> ${escapeHtml(g.rhs)}
+            <span style="color: #64748b; font-size: 0.7rem; margin-left: 0.35rem;">// ${escapeHtml(g.note)}</span>
           </div>
         `).join('');
       }
 
-      // Card 2: PRIM
+      // Card 2: PRIM (Interativo com hover e cascata)
       const primBody = document.getElementById('slrPrimTableBody');
       if (primBody) {
         primBody.innerHTML = data.prim.map(p => `
-          <tr>
-            <td><strong style="color: #a5b4fc;">${escapeHtml(p.nt)}</strong></td>
-            <td><span class="tok-badge" style="background: rgba(59,130,246,0.15); color: #93c5fd;">{ ${p.set.join(', ')} }</span></td>
+          <tr class="prim-row-interactive" data-nt="${p.nt}"
+              onmouseenter="onPrimRowHover('${p.nt}')"
+              onmouseleave="onSlrItemLeave()"
+              onclick="toggleLockSlrItem('prim', '${p.nt}')">
+            <td><strong style="color: #93c5fd;">${escapeHtml(p.nt)}</strong></td>
+            <td><span class="tok-badge" style="background: rgba(59,130,246,0.15); color: #93c5fd; font-weight:700;">{ ${p.set.join(', ')} }</span></td>
             <td style="color: var(--text-muted); font-size: 0.74rem;">${escapeHtml(p.desc)}</td>
           </tr>
         `).join('');
       }
 
-      // Card 3: SEQ
+      // Card 3: SEQ (Passo a passo canônico da professora)
       const seqBody = document.getElementById('slrSeqTableBody');
       if (seqBody) {
         seqBody.innerHTML = data.seq.map(s => `
@@ -3433,7 +3950,7 @@ TREM Incompleto {
               onclick="toggleLockSlrItem('seq', '${s.nt}')">
             <td><strong style="color: #a5b4fc;">${escapeHtml(s.nt)}</strong></td>
             <td><span class="tok-badge" style="background: rgba(16,185,129,0.15); color: #6ee7b7; font-weight: 700;">{ ${s.set.join(', ')} }</span></td>
-            <td style="color: var(--text-muted); font-size: 0.74rem;">${escapeHtml(s.desc)}</td>
+            <td style="color: var(--text-muted); font-size: 0.74rem;">${escapeHtml(s.calcStep || s.desc)}</td>
           </tr>
         `).join('');
       }
@@ -3601,7 +4118,7 @@ TREM Incompleto {
       }
       if (coords) coords.innerText = "Passe o mouse na tabela";
       if (text) {
-        text.innerHTML = "Passe o mouse sobre qualquer célula da tabela para ver o autômato LR(0) correspondente, os itens com ponto (•) e a transição desenhados em tempo real na lousa ao lado!";
+        text.innerHTML = "Passe o mouse sobre qualquer célula da tabela ou linha de PRIM/SEQ para ver o passo a passo exato da derivação desenhado em tempo real!";
       }
       if (focusBtn) focusBtn.style.display = 'none';
 
@@ -3613,12 +4130,88 @@ TREM Incompleto {
     function clearSlrHighlights() {
       if (slrLockedItem) return;
       document.querySelectorAll('.seq-row-interactive').forEach(el => el.classList.remove('is-highlighted'));
-      document.querySelectorAll('.grammar-rule-item').forEach(el => el.classList.remove('is-highlighted'));
+      document.querySelectorAll('.prim-row-interactive').forEach(el => el.classList.remove('is-highlighted'));
+      document.querySelectorAll('.grammar-rule-item').forEach(el => el.classList.remove('is-highlighted', 'is-prim-origin', 'is-prim-cascade', 'is-prim-terminal', 'is-seq-rhs-occurrence'));
       document.querySelectorAll('.slr-th-col').forEach(el => el.classList.remove('slr-th-highlight', 'slr-th-highlight-err'));
       document.querySelectorAll('#slrMatrixTable td').forEach(el => el.classList.remove('slr-col-highlight', 'slr-row-highlight', 'slr-col-highlight-err', 'slr-row-highlight-err'));
       document.querySelectorAll('.cell-r, .cell-s, .cell-goto, .cell-acc, .cell-empty, .cell-empty-goto').forEach(el => el.classList.remove('slr-cell-highlight', 'slr-cell-highlight-err'));
       const banner = document.getElementById('slrInteractiveExplainer');
       if (banner) banner.classList.remove('is-error');
+    }
+
+    function onPrimRowHover(nt) {
+      if (slrLockedItem) return;
+      applyPrimHighlight(nt);
+    }
+
+    function applyPrimHighlight(nt) {
+      clearSlrHighlights();
+      const model = currentAutomatonModel || 'tralha';
+      const data = slrModelsData[model];
+      if (!data) return;
+      const p = data.prim.find(x => x.nt === nt);
+      if (!p) return;
+
+      // Highlight PRIM row
+      const primRow = document.querySelector(`.prim-row-interactive[data-nt="${nt}"]`);
+      if (primRow) primRow.classList.add('is-highlighted');
+
+      // Highlight rules cascading into terminals
+      const ruleNums = p.ruleNums || [];
+      document.querySelectorAll('.grammar-rule-item').forEach(el => {
+        const lhs = el.dataset.lhs;
+        if (lhs === nt) {
+          el.classList.add('is-prim-origin');
+        } else if (p.cascade.some(c => c.startsWith(lhs + ' '))) {
+          el.classList.add('is-prim-cascade');
+        }
+      });
+
+      // Highlight terminal columns in PRIM(nt)
+      p.set.forEach(token => {
+        document.querySelectorAll(`.slr-th-col[data-col="${token}"]`).forEach(th => th.classList.add('slr-th-highlight'));
+        document.querySelectorAll(`#slrMatrixTable td[data-col="${token}"]`).forEach(td => td.classList.add('slr-col-highlight'));
+      });
+
+      // Update banner
+      const banner = document.getElementById('slrInteractiveExplainer');
+      const badge = document.getElementById('slrBadgeType');
+      const coords = document.getElementById('slrCellCoords');
+      const text = document.getElementById('slrExplainerText');
+      const focusBtn = document.getElementById('slrBtnFocusFullBoard');
+
+      if (banner) banner.classList.add('is-active');
+      if (badge) {
+        badge.className = 'slr-act-badge shift';
+        badge.style = 'background: rgba(59, 130, 246, 0.2); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.4);';
+        badge.innerHTML = `<i data-lucide="corner-down-right"></i> Conjunto PRIM (${escapeHtml(nt)})`;
+      }
+      if (coords) coords.innerText = `PRIM(${escapeHtml(nt)}) = { ${p.set.join(', ')} }`;
+      if (text) {
+        text.innerHTML = `
+          <div style="font-size:0.82rem; line-height: 1.55;">
+            <div style="font-weight: 700; color: #93c5fd; margin-bottom: 3px;">
+              Passo a Passo: Como calculamos PRIM(${escapeHtml(nt)})?
+            </div>
+            <div style="background: rgba(0,0,0,0.35); border-left: 3px solid #3b82f6; padding: 0.35rem 0.6rem; border-radius: 4px; margin-bottom: 4px;">
+              <div>&bull; <strong>Cadeia de derivação:</strong> <code>${escapeHtml(p.cascade.join(' &rarr; '))}</code></div>
+              <div style="color: #cbd5e1; font-size: 0.77rem; margin-top: 2px;">&bull; <strong>Regra:</strong> <em>${escapeHtml(p.desc)}</em></div>
+            </div>
+            <div style="color: #60a5fa; font-weight: 800; font-size: 0.83rem;">
+              &rArr; Terminais Iniciais: PRIM(${escapeHtml(nt)}) = <span style="background: rgba(59,130,246,0.2); padding: 1px 6px; border-radius: 3px;">{ ${p.set.join(', ')} }</span>
+            </div>
+          </div>
+        `;
+      }
+      if (focusBtn) focusBtn.style.display = 'none';
+
+      renderMiniAutomatonPreview({
+        type: 'prim_info',
+        lhs: nt,
+        cascade: p.cascade,
+        terminals: p.set
+      });
+      if (typeof refreshIcons === 'function') refreshIcons(banner);
     }
 
     function onSeqRowHover(nt) {
@@ -3638,8 +4231,22 @@ TREM Incompleto {
       const seqRow = document.querySelector(`.seq-row-interactive[data-nt="${nt}"]`);
       if (seqRow) seqRow.classList.add('is-highlighted');
 
-      // Highlight rules for this LHS
-      document.querySelectorAll(`.grammar-rule-item[data-lhs="${nt}"]`).forEach(el => el.classList.add('is-highlighted'));
+      // Highlight PRIM row
+      const primRow = document.querySelector(`.prim-row-interactive[data-nt="${nt}"]`);
+      if (primRow) primRow.classList.add('is-highlighted');
+
+      // Highlight regra no Card 1
+      const gItem = document.querySelector(`.grammar-rule-item[data-lhs="${nt}"]`);
+      if (gItem) gItem.classList.add('is-highlighted');
+
+      // Highlight rules where nt appears on the RIGHT-HAND SIDE (lado direito)
+      document.querySelectorAll('.grammar-rule-item').forEach(el => {
+        const lhs = el.dataset.lhs;
+        const g = data.groupedRules ? data.groupedRules.find(x => x.nt === lhs) : null;
+        if (g && g.rhs && g.rhs.includes(nt)) {
+          el.classList.add('is-seq-rhs-occurrence');
+        }
+      });
 
       // Highlight terminal columns in SEQ(nt)
       s.set.forEach(token => {
@@ -3660,11 +4267,30 @@ TREM Incompleto {
       if (banner) banner.classList.add('is-active');
       if (badge) {
         badge.className = 'slr-act-badge reduce';
-        badge.innerHTML = `<i data-lucide="corner-right-down"></i> Conjunto SEQ (${escapeHtml(nt)})`;
+        badge.style = 'background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.4);';
+        badge.innerHTML = `<i data-lucide="corner-right-down"></i> Cálculo de SEQ (${escapeHtml(nt)})`;
       }
       if (coords) coords.innerText = `SEQ(${escapeHtml(nt)}) = { ${s.set.join(', ')} }`;
       if (text) {
-        text.innerHTML = `O não-terminal <strong>${escapeHtml(nt)}</strong> só pode ser sucedido na entrada por <strong>{ ${s.set.join(', ')} }</strong>.<br>Veja que todas as reduções <strong>${s.rules.join(', ')}</strong> caem exclusivamente sob estas colunas na matriz!`;
+        text.innerHTML = `
+          <div style="font-size:0.82rem; line-height: 1.55;">
+            <div style="font-weight: 700; color: #6ee7b7; margin-bottom: 3px;">
+              Passo a Passo Canônico: Como chegamos em SEQ(${escapeHtml(nt)}) = { ${s.set.join(', ')} }?
+            </div>
+            <div style="background: rgba(0,0,0,0.35); border-left: 3px solid #10b981; padding: 0.35rem 0.6rem; border-radius: 4px; margin-bottom: 4px;">
+              ${s.occurrences.map(o => `
+                <div style="margin-bottom: 3px;">
+                  &bull; Em <code>${escapeHtml(o.rule)}</code> (${escapeHtml(o.pos)}):
+                  <span style="color: #cbd5e1; font-size: 0.77rem;">${escapeHtml(o.detail)}</span>
+                  <strong style="color: #6ee7b7; font-size: 0.77rem;"> &rarr; [adiciona { ${escapeHtml(o.yields)} }]</strong>
+                </div>
+              `).join('')}
+            </div>
+            <div style="color: #34d399; font-weight: 800; font-size: 0.83rem;">
+              &rArr; Equação Final: SEQ(${escapeHtml(nt)}) = ${escapeHtml(s.formula)} = <span style="background: rgba(16,185,129,0.2); padding: 1px 6px; border-radius: 3px;">{ ${s.set.join(', ')} }</span>
+            </div>
+          </div>
+        `;
       }
       if (focusBtn) focusBtn.style.display = 'none';
 
@@ -3672,9 +4298,15 @@ TREM Incompleto {
         type: 'seq_info',
         lhs: nt,
         seqSet: s.set,
-        rules: s.rules
+        occurrences: s.occurrences,
+        formula: s.formula
       });
       if (typeof refreshIcons === 'function') refreshIcons(banner);
+    }
+
+    function onGrammarGroupHover(lhs) {
+      if (slrLockedItem) return;
+      applySeqHighlight(lhs);
     }
 
     function onGrammarRuleHover(ruleNum, lhs) {
@@ -3762,138 +4394,154 @@ TREM Incompleto {
         document.querySelectorAll(`.slr-th-col[data-col="${col}"]`).forEach(th => th.classList.add('slr-th-highlight-err'));
         document.querySelectorAll(`#slrMatrixTable td[data-col="${col}"]`).forEach(td => td.classList.add('slr-col-highlight-err'));
         document.querySelectorAll(`#slrMatrixTable tr[data-row-state="${state}"] td`).forEach(td => td.classList.add('slr-row-highlight-err'));
-        if (banner) banner.classList.add('is-active', 'is-error');
+        el.classList.add('slr-cell-highlight-err');
       } else {
         document.querySelectorAll(`.slr-th-col[data-col="${col}"]`).forEach(th => th.classList.add('slr-th-highlight'));
         document.querySelectorAll(`#slrMatrixTable td[data-col="${col}"]`).forEach(td => td.classList.add('slr-col-highlight'));
         document.querySelectorAll(`#slrMatrixTable tr[data-row-state="${state}"] td`).forEach(td => td.classList.add('slr-row-highlight'));
-        if (banner) banner.classList.add('is-active');
+        el.classList.add('slr-cell-highlight');
       }
 
+      // Cross-highlightings adicionais
+      if (type === 'r' && !isNaN(ruleNum)) {
+        const rItem = document.querySelector(`.grammar-rule-item[data-rule="${ruleNum}"]`);
+        if (rItem) rItem.classList.add('is-highlighted');
+
+        const gItem = document.querySelector(`.grammar-rule-item[data-lhs="${lhs}"]`);
+        if (gItem) gItem.classList.add('is-highlighted');
+
+        const seqRow = document.querySelector(`.seq-row-interactive[data-nt="${lhs}"]`);
+        if (seqRow) seqRow.classList.add('is-highlighted');
+      } else if (type === 'goto') {
+        const seqRow = document.querySelector(`.seq-row-interactive[data-nt="${col}"]`);
+        if (seqRow) seqRow.classList.add('is-highlighted');
+        const primRow = document.querySelector(`.prim-row-interactive[data-nt="${col}"]`);
+        if (primRow) primRow.classList.add('is-highlighted');
+      }
+
+      // Atualiza banner explicador didático
       const banner = document.getElementById('slrInteractiveExplainer');
       const badge = document.getElementById('slrBadgeType');
       const coords = document.getElementById('slrCellCoords');
       const text = document.getElementById('slrExplainerText');
       const focusBtn = document.getElementById('slrBtnFocusFullBoard');
 
+      if (banner) banner.classList.add('is-active');
+
       let targetState = null;
-      let ruleText = '';
-      let seqStr = '—';
+      let originCtx = null;
 
-      if (type === 'r') {
-        el.classList.add('slr-cell-highlight');
-        if (lhs) {
-          const seqRow = document.querySelector(`.seq-row-interactive[data-nt="${lhs}"]`);
-          if (seqRow) seqRow.classList.add('is-highlighted');
+      if (type === 's') {
+        targetState = parseInt(val.replace(/^s/i, '').replace(/^C/i, ''), 10);
+        if (badge) {
+          badge.className = 'slr-act-badge shift';
+          badge.style = '';
+          badge.innerHTML = `<i data-lucide="arrow-right-circle"></i> Ação Shift (Empilhar)`;
         }
-        if (!isNaN(ruleNum)) {
-          const rItem = document.querySelector(`.grammar-rule-item[data-rule="${ruleNum}"]`);
-          if (rItem) rItem.classList.add('is-highlighted');
+        if (coords) coords.innerText = `Célula [Estado ${state}, Token '${col}'] = ${val}`;
+        if (text) {
+          text.innerHTML = `Estando no <strong>Estado ${state}</strong>, ao ler o terminal <strong>'${escapeHtml(col)}'</strong> na fita de entrada, o analisador <strong>empilha</strong> o símbolo e caminha para o <strong>Estado ${targetState}</strong> no autômato LR(0).`;
         }
+        if (focusBtn) focusBtn.style.display = 'inline-flex';
 
-        const rule = data ? data.rules.find(r => r.num === ruleNum) : null;
-        const s = data ? data.seq.find(x => x.nt === lhs) : null;
-        ruleText = rule ? rule.text : '';
-        seqStr = s ? `{ ${s.set.join(', ')} }` : '—';
+        originCtx = {
+          type: 's',
+          fromState: parseInt(state, 10),
+          col: col,
+          targetState: targetState
+        };
+      } else if (type === 'r') {
+        const rule = data.rules.find(r => r.num === ruleNum);
+        const ruleText = rule ? rule.text : '';
+        const s = data.seq.find(x => x.nt === lhs);
+        const seqStr = s ? `{ ${s.set.join(', ')} }` : '—';
 
         if (badge) {
           badge.className = 'slr-act-badge reduce';
-          badge.innerHTML = `<i data-lucide="rotate-ccw"></i> Redução SLR(1) (${escapeHtml(val)})`;
+          badge.style = '';
+          badge.innerHTML = `<i data-lucide="rotate-ccw"></i> Ação Reduce (Reduzir)`;
         }
-        if (coords) coords.innerText = `Estado ${state} · Coluna '${col}' = ${val}`;
+        if (coords) coords.innerText = `Célula [Estado ${state}, Lookahead '${col}'] = ${val}`;
         if (text) {
-          text.innerHTML = `No Estado <strong>${state}</strong> temos o item concluído <code>[${escapeHtml(ruleText)} •]</code>.<br>Como o token lido <strong>'${escapeHtml(col)}'</strong> pertence a <strong>SEQ(${escapeHtml(lhs)}) = ${seqStr}</strong>, executa a redução <strong>R: ${escapeHtml(ruleText)}</strong>!`;
+          text.innerHTML = `No <strong>Estado ${state}</strong>, o autômato completou o item <code>[${escapeHtml(ruleText)} •]</code>. Como o próximo token <strong>'${escapeHtml(col)}' &in; SEQ(${escapeHtml(lhs)}) = ${seqStr}</strong>, o analisador <strong>reduz</strong> pela Regra #${ruleNum}.`;
         }
-      } else if (type === 's') {
-        el.classList.add('slr-cell-highlight');
-        targetState = val.replace(/^[Cs]/i, '');
-        if (badge) {
-          badge.className = 'slr-act-badge shift';
-          badge.innerHTML = `<i data-lucide="arrow-right"></i> Deslocamento / Shift (${escapeHtml(val)})`;
-        }
-        if (coords) coords.innerText = `Estado ${state} · Coluna '${col}' = ${val}`;
-        if (text) {
-          text.innerHTML = `No Estado <strong>${state}</strong>, ao ler o terminal <strong>'${escapeHtml(col)}'</strong>, o analisador empilha o token e <strong>Caminha (C)</strong> para o <strong>Estado ${targetState}</strong> do autômato LR(0).`;
-        }
+        if (focusBtn) focusBtn.style.display = 'inline-flex';
+
+        originCtx = {
+          type: 'r',
+          fromState: parseInt(state, 10),
+          col: col,
+          ruleNum: ruleNum,
+          ruleText: ruleText,
+          lhs: lhs,
+          seqStr: seqStr
+        };
       } else if (type === 'goto') {
-        el.classList.add('slr-cell-highlight');
-        targetState = String(val).replace(/^[Cs]/i, '');
+        targetState = parseInt(String(val).replace(/^C/i, ''), 10);
         if (badge) {
           badge.className = 'slr-act-badge goto';
-          badge.innerHTML = `<i data-lucide="git-branch"></i> Desvio GOTO (${escapeHtml(val)})`;
+          badge.style = '';
+          badge.innerHTML = `<i data-lucide="compass"></i> Transição GOTO (Desvio)`;
         }
-        if (coords) coords.innerText = `Estado ${state} · Coluna '${col}' = ${val}`;
+        if (coords) coords.innerText = `Transição GOTO [Estado ${state}, Não-Terminal ${col}] = ${val}`;
         if (text) {
-          text.innerHTML = `Após desempilhar os símbolos de uma regra que produziu o não-terminal <strong>${escapeHtml(col)}</strong>, o analisador consulta esta célula e desvia para o <strong>Estado ${targetState}</strong>.`;
+          text.innerHTML = `Após reduzir um não-terminal <strong>${escapeHtml(col)}</strong>, a pilha desempilha os símbolos do lado direito, expõe o <strong>Estado ${state}</strong> e consulta a tabela GOTO, desviando diretamente para o <strong>Estado ${targetState}</strong>.`;
         }
+        if (focusBtn) focusBtn.style.display = 'inline-flex';
+
+        originCtx = {
+          type: 'goto',
+          fromState: parseInt(state, 10),
+          col: col,
+          targetState: targetState
+        };
       } else if (type === 'acc') {
-        el.classList.add('slr-cell-highlight');
         if (badge) {
           badge.className = 'slr-act-badge acc';
-          badge.innerHTML = `<i data-lucide="check-circle-2"></i> Aceitação (acc)`;
+          badge.style = '';
+          badge.innerHTML = `<i data-lucide="check-circle-2"></i> Estado de Aceitação`;
         }
-        if (coords) coords.innerText = `Estado ${state} · Coluna '$' = ${val}`;
+        if (coords) coords.innerText = `Célula [Estado ${state}, '$'] = ${val}`;
         if (text) {
-          text.innerHTML = `A cadeia foi consumida e a regra aumentada inicial foi completada com sucesso no símbolo de fim de arquivo (<strong>$</strong>)! Análise concluída.`;
+          text.innerHTML = `Parabéns! No <strong>Estado ${state}</strong>, o autômato atingiu o item <code>[S' &rarr; S •]</code> e encontrou o fim de cadeia <strong>'$'</strong>. A sentença foi <strong>aceita com sucesso</strong>!`;
         }
-      } else if (type === 'empty') {
-        el.classList.add('slr-cell-highlight-err');
-        const rowData = data ? data.rows.find(r => String(r.state) === String(state)) : null;
-        const validTokens = rowData ? Object.keys(rowData.actions) : [];
-        const validTokensFormatted = validTokens.length > 0 ? validTokens.map(t => `'${t}'`).join(', ') : 'Nenhum';
+        if (focusBtn) focusBtn.style.display = 'none';
 
+        originCtx = {
+          type: 'acc',
+          fromState: parseInt(state, 10),
+          col: '$'
+        };
+      } else if (type === 'empty') {
+        if (banner) banner.classList.add('is-error');
         if (badge) {
           badge.className = 'slr-act-badge err';
-          badge.innerHTML = `<i data-lucide="alert-octagon"></i> Erro Sintático (Célula Vazia)`;
+          badge.style = '';
+          badge.innerHTML = `<i data-lucide="alert-octagon"></i> Célula Vazia — Erro Sintático`;
         }
-        if (coords) coords.innerText = `Estado ${state} · Coluna '${col}' = [Célula Vazia / Erro]`;
+        if (coords) coords.innerText = `Coordenada [Estado ${state}, Token '${col}'] = Vazio (—)`;
         if (text) {
-          text.innerHTML = `No <strong>Estado ${state}</strong>, a chegada do token <strong>'${escapeHtml(col)}'</strong> resulta em <strong>ERRO SINTÁTICO</strong>.<br>` +
-            `<div style="margin-top: 0.35rem; font-size: 0.74rem; color: #fca5a5; line-height: 1.5;">` +
-            `• <strong>Sem Transição no Autômato:</strong> Não há aresta saindo de I${state} com o símbolo '${escapeHtml(col)}'.<br>` +
-            `• <strong>Sem Redução no SEQ:</strong> Nenhuma regra concluída em I${state} possui '${escapeHtml(col)}' em seu conjunto SEQ.<br>` +
-            `• <strong>O que o compilador esperava:</strong> Tokens válidos neste estado: <strong style="color:#34d399;">${escapeHtml(validTokensFormatted)}</strong>.` +
-            `</div>`;
+          text.innerHTML = `<strong style="color:#f87171;">ERRO SINTÁTICO:</strong> Estando no <strong>Estado ${state}</strong>, o token <strong>'${escapeHtml(col)}'</strong> é <strong>inesperado</strong>.<br>Não existe nenhuma transição de Shift no autômato a partir do Estado ${state} com este símbolo, e nenhum item completo presente no estado possui '${escapeHtml(col)}' em seu conjunto SEQ.`;
         }
-      } else if (type === 'empty-goto') {
-        el.classList.add('slr-cell-highlight-err');
-        if (badge) {
-          badge.className = 'slr-act-badge goto';
-          badge.style.background = 'rgba(239, 68, 68, 0.2)';
-          badge.style.color = '#fca5a5';
-          badge.innerHTML = `<i data-lucide="info"></i> Desvio Inexistente (GOTO Vazio)`;
-        }
-        if (coords) coords.innerText = `Estado ${state} · Variável '${col}' = [Sem Desvio]`;
-        if (text) {
-          text.innerHTML = `No <strong>Estado ${state}</strong>, nenhuma regra que reduza para o não-terminal <strong>${escapeHtml(col)}</strong> é esperada ou ativada diretamente a partir deste ponto.`;
-        }
+        if (focusBtn) focusBtn.style.display = 'inline-flex';
+
+        originCtx = {
+          type: 'empty',
+          fromState: parseInt(state, 10),
+          col: col
+        };
       }
 
-      if (focusBtn) {
-        focusBtn.style.display = 'inline-flex';
-      }
-
-      const ctx = {
-        type: type,
-        fromState: String(state),
-        col: String(col),
-        targetState: targetState ? String(targetState) : null,
-        val: val,
-        ruleNum: ruleNum,
-        lhs: lhs,
-        ruleText: ruleText,
-        seqStr: seqStr,
-        model: currentAutomatonModel
-      };
-
-      lastOriginContext = ctx;
-
-      // Renderiza a mini-lousa SVG em tempo real
-      renderMiniAutomatonPreview(ctx);
-
-      // Sincroniza em tempo real com o autômato completo se visível
-      updateFullAutomatonLiveSync(state, col, targetState, type, ruleNum, lhs);
-
+      lastOriginContext = originCtx;
+      renderMiniAutomatonPreview(originCtx);
+      updateFullAutomatonLiveSync(
+        originCtx ? originCtx.fromState : null,
+        col,
+        targetState,
+        type,
+        ruleNum,
+        lhs
+      );
       if (typeof refreshIcons === 'function') refreshIcons(banner);
     }
 
@@ -3931,14 +4579,79 @@ TREM Incompleto {
         `;
       }
 
-      if (ctx.type === 'seq_info') {
+      if (ctx.type === 'prim_info') {
         const cleanLhs = escapeHtml(ctx.lhs);
+        const steps = ctx.cascade || [];
+        const terminals = ctx.terminals || [];
         return `
           <svg viewBox="0 0 460 150" width="100%" height="100%" style="font-family:'Fira Code',monospace;">
-            <rect x="20" y="20" width="420" height="110" rx="6" fill="#0d1f17" stroke="#34d399" stroke-width="1.8" />
-            <text x="40" y="48" fill="#6ee7b7" font-size="13" font-weight="800">Conjunto SEQ(${cleanLhs}) = { ${ctx.seqSet.join(', ')} }</text>
-            <text x="40" y="74" fill="#cbd5e1" font-size="10.5" font-family="system-ui, sans-serif">Regra Canônica SLR(1): O não-terminal ${cleanLhs} só é sucedido por estes símbolos.</text>
-            <text x="40" y="98" fill="#cbd5e1" font-size="10.5" font-family="system-ui, sans-serif">As produções ${ctx.rules.join(', ')} terão suas reduções inseridas <tspan fill="#34d399" font-weight="700">apenas nestas colunas</tspan>.</text>
+            <defs>
+              <marker id="m-arr-prim" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 9 5 L 0 9 z" fill="#60a5fa" />
+              </marker>
+            </defs>
+            <rect x="12" y="10" width="436" height="130" rx="6" fill="#0d1f17" stroke="#3b82f6" stroke-width="1.8" />
+            <text x="25" y="28" fill="#93c5fd" font-size="11" font-weight="800">Cadeia de Derivação PRIM(${cleanLhs}) &rarr; Terminais</text>
+            
+            <g transform="translate(20, 46)">
+              ${steps.map((st, i) => {
+                const x = i * 135;
+                const arrow = (i < steps.length - 1) ? `
+                  <path d="M ${x + 105} 15 L ${x + 125} 15" stroke="#60a5fa" stroke-width="2" marker-end="url(#m-arr-prim)" />
+                ` : '';
+                return `
+                  <rect x="${x}" y="0" width="105" height="30" rx="4" fill="#1e293b" stroke="#3b82f6" stroke-width="1.2" />
+                  <text x="${x + 52}" y="19" fill="#f8fafc" font-size="8.5" font-weight="700" text-anchor="middle">${escapeHtml(st)}</text>
+                  ${arrow}
+                `;
+              }).join('')}
+            </g>
+            
+            <rect x="20" y="104" width="420" height="26" rx="4" fill="rgba(59,130,246,0.18)" stroke="#60a5fa" stroke-width="1.2" />
+            <text x="30" y="121" fill="#f8fafc" font-size="9.5" font-family="system-ui, sans-serif">
+              Terminais Folha Iniciais: <tspan fill="#34d399" font-weight="800">{ ${terminals.join(', ')} }</tspan>
+            </text>
+          </svg>
+        `;
+      }
+
+      if (ctx.type === 'seq_info') {
+        const cleanLhs = escapeHtml(ctx.lhs);
+        const occs = ctx.occurrences || [];
+        const cleanSet = (ctx.seqSet || []).join(', ');
+        const formula = escapeHtml(ctx.formula || '');
+
+        let occSvg = '';
+        occs.slice(0, 3).forEach((oc, idx) => {
+          const y = 48 + idx * 23;
+          const ruleText = escapeHtml(oc.rule || '');
+          const detailText = escapeHtml(oc.svgDesc || oc.detail || '');
+          occSvg += `
+            <g>
+              <circle cx="28" cy="${y - 4}" r="3" fill="#34d399" />
+              <text x="38" y="${y}" fill="#ffffff" font-size="9.5" font-weight="700">${ruleText}</text>
+              <path d="M 215 ${y - 4} L 235 ${y - 4}" stroke="#10b981" stroke-width="1.6" marker-end="url(#m-arr-seq)" />
+              <text x="242" y="${y}" fill="#a7f3d0" font-size="8.8">${detailText}</text>
+            </g>
+          `;
+        });
+
+        return `
+          <svg viewBox="0 0 460 150" width="100%" height="100%" style="font-family:'Fira Code',monospace;">
+            <defs>
+              <marker id="m-arr-seq" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 9 5 L 0 9 z" fill="#10b981" />
+              </marker>
+            </defs>
+            <rect x="12" y="10" width="436" height="130" rx="6" fill="#0d1f17" stroke="#10b981" stroke-width="1.8" />
+            <text x="25" y="28" fill="#6ee7b7" font-size="11" font-weight="800">Passo a Passo: Como calculamos SEQ(${cleanLhs})?</text>
+            
+            ${occSvg}
+            
+            <rect x="20" y="106" width="420" height="26" rx="4" fill="rgba(16,185,129,0.2)" stroke="#10b981" stroke-width="1.2" />
+            <text x="30" y="123" fill="#ffffff" font-size="9.5" font-family="system-ui, sans-serif">
+              União Canônica: <tspan fill="#6ee7b7" font-weight="600">${formula}</tspan> = <tspan fill="#34d399" font-weight="900">{ ${cleanSet} }</tspan>
+            </text>
           </svg>
         `;
       }
@@ -4029,23 +4742,32 @@ TREM Incompleto {
               <text x="163" y="20" fill="#ffffff" font-size="10" font-weight="800" text-anchor="middle" dominant-baseline="central">${fromState}</text>
             </g>
 
-            <!-- Transição -->
             ${edgeSvg}
 
             <!-- Estado de Destino -->
-            ${!isLoop ? `
             <g>
-              <rect x="280" y="20" width="150" height="110" rx="4" fill="#0d1f17" stroke="#34d399" stroke-width="2" filter="drop-shadow(0 0 8px rgba(52, 211, 153, 0.4))" />
-              ${vHasDivider ? '<line x1="280" y1="50" x2="430" y2="50" stroke="#f1f5f9" stroke-width="1.2" opacity="0.8" />' : ''}
+              <rect x="280" y="20" width="145" height="110" rx="4" fill="#0d1f17" stroke="${strokeColor}" stroke-width="2" filter="drop-shadow(0 0 8px rgba(99, 102, 241, 0.4))" />
+              ${vHasDivider ? '<line x1="280" y1="50" x2="425" y2="50" stroke="#f1f5f9" stroke-width="1.2" opacity="0.8" />' : ''}
               ${vLinesSvg}
-              <circle cx="430" cy="20" r="11" fill="#059669" stroke="#6ee7b7" stroke-width="1.8" />
-              <text x="430" y="20" fill="#ffffff" font-size="10" font-weight="800" text-anchor="middle" dominant-baseline="central">${targetState}</text>
+              <circle cx="425" cy="20" r="11" fill="${isGoto ? '#d97706' : '#2563eb'}" stroke="${isGoto ? '#fde68a' : '#93c5fd'}" stroke-width="1.8" />
+              <text x="425" y="20" fill="#ffffff" font-size="10" font-weight="800" text-anchor="middle" dominant-baseline="central">${targetState}</text>
             </g>
-            ` : ''}
           </svg>
         `;
       } else if (type === 'r') {
-        const cleanRuleText = escapeHtml(ruleText || '');
+        const uItems = (u && u.items) ? u.items.slice(0, 4) : [];
+        let uLinesSvg = '';
+        const uHasDivider = uItems.length > 1;
+        uItems.forEach((it, idx) => {
+          const y = (idx === 0) ? 44 : (44 + 8 + idx * 19);
+          let html = escapeHtml(it);
+          const isCompleted = it.includes(`${ruleText} •`) || it.includes(`${ruleText}•`) || it.includes(`${ruleText}.`);
+          const color = isCompleted ? '#f472b6' : (idx === 0 && uHasDivider ? '#ffffff' : '#cbd5e1');
+          const fw = isCompleted ? '800' : (idx === 0 && uHasDivider ? '700' : '400');
+          html = html.replace(/[•.]/g, '<tspan fill="#34d399" font-weight="900">•</tspan>');
+          uLinesSvg += `<text x="28" y="${y}" fill="${color}" font-size="10" font-weight="${fw}">${html}</text>`;
+        });
+
         return `
           <svg viewBox="0 0 460 150" width="100%" height="100%" style="font-family:'Fira Code',monospace;">
             <defs>
@@ -4054,26 +4776,26 @@ TREM Incompleto {
               </marker>
             </defs>
 
-            <!-- Estado com Item Concluído -->
+            <!-- Estado de Redução -->
             <g>
-              <rect x="20" y="26" width="165" height="75" rx="4" fill="#0d1f17" stroke="#f472b6" stroke-width="2" filter="drop-shadow(0 0 8px rgba(244, 114, 182, 0.4))" />
-              <text x="32" y="55" fill="#fbcfe8" font-size="11" font-weight="800">${cleanRuleText} <tspan fill="#34d399" font-weight="900">•</tspan></text>
-              <text x="32" y="82" fill="#94a3b8" font-size="9" font-family="system-ui, sans-serif">Ponto no final ➔ Redução!</text>
-              <circle cx="185" cy="26" r="11" fill="#be185d" stroke="#fbcfe8" stroke-width="1.8" />
-              <text x="185" y="26" fill="#ffffff" font-size="10" font-weight="800" text-anchor="middle" dominant-baseline="central">${fromState}</text>
+              <rect x="18" y="20" width="155" height="110" rx="4" fill="#0d1f17" stroke="#f472b6" stroke-width="2" filter="drop-shadow(0 0 10px rgba(244, 114, 182, 0.4))" />
+              ${uHasDivider ? '<line x1="18" y1="50" x2="173" y2="50" stroke="#f1f5f9" stroke-width="1.2" opacity="0.8" />' : ''}
+              ${uLinesSvg}
+              <circle cx="173" cy="20" r="11" fill="#db2777" stroke="#fbcfe8" stroke-width="1.8" />
+              <text x="173" y="20" fill="#ffffff" font-size="10" font-weight="800" text-anchor="middle" dominant-baseline="central">${fromState}</text>
             </g>
 
-            <!-- Seta conectando ao teste canônico SLR -->
-            <path d="M 185 64 L 235 64" stroke="#f472b6" stroke-width="2" fill="none" marker-end="url(#m-arr-red)" />
+            <path d="M 175 75 L 255 75" stroke="#f472b6" stroke-width="2.2" stroke-dasharray="4 3" fill="none" marker-end="url(#m-arr-red)" />
+            <rect x="196" y="58" width="38" height="20" rx="4" fill="#1f1124" stroke="#f472b6" stroke-width="1.2" />
+            <text x="215" y="72" fill="#f472b6" font-size="10" font-weight="800" text-anchor="middle">r${ruleNum}</text>
 
-            <!-- Card da Regra Canônica SEQ -->
+            <!-- Card de Redução e SEQ -->
             <g>
-              <rect x="240" y="20" width="205" height="110" rx="4" fill="#1e1b4b" stroke="#818cf8" stroke-width="1.5" />
-              <text x="252" y="42" fill="#c7d2fe" font-size="10.5" font-weight="800" font-family="system-ui, sans-serif">Regra Canônica SLR(1):</text>
-              <text x="252" y="66" fill="#e2e8f0" font-size="9.5">Cabeça: <tspan fill="#a5b4fc" font-weight="700">${escapeHtml(lhs)}</tspan></text>
-              <text x="252" y="88" fill="#34d399" font-size="9.5" font-weight="700">SEQ(${escapeHtml(lhs)}) = ${escapeHtml(seqStr)}</text>
-              <rect x="252" y="98" width="180" height="22" rx="3" fill="rgba(244, 114, 182, 0.15)" stroke="rgba(244, 114, 182, 0.4)" stroke-width="1" />
-              <text x="258" y="113" fill="#f472b6" font-size="9.5" font-weight="800">Token '${escapeHtml(col)}' ∈ SEQ ➔ Reduz!</text>
+              <rect x="260" y="25" width="185" height="100" rx="6" fill="#180e1c" stroke="#f472b6" stroke-width="1.6" />
+              <text x="272" y="48" fill="#fbcfe8" font-size="11" font-weight="800">Redução: #${ruleNum}</text>
+              <text x="272" y="68" fill="#ffffff" font-size="10.5" font-weight="700">${escapeHtml(ruleText)}</text>
+              <text x="272" y="88" fill="#cbd5e1" font-size="9" font-family="system-ui, sans-serif">Cabeça: <tspan fill="#6ee7b7" font-weight="700">${escapeHtml(lhs)}</tspan></text>
+              <text x="272" y="106" fill="#a5b4fc" font-size="8.8" font-family="system-ui, sans-serif">SEQ(${escapeHtml(lhs)}) = ${escapeHtml(seqStr)}</text>
             </g>
           </svg>
         `;
@@ -6102,8 +6824,11 @@ TREM Incompleto {
 
     document.addEventListener('keydown', event => {
       const pane = document.getElementById('bu-sub-itens');
-      if (event.key === 'Escape' && pane && pane.classList.contains('is-expanded')) {
-        toggleExpandedGraph();
+      if (event.key === 'Escape') {
+        closeGuideModal();
+        if (pane && pane.classList.contains('is-expanded')) {
+          toggleExpandedGraph();
+        }
       }
 
       const target = event.target;
